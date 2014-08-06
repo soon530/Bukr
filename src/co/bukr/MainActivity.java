@@ -74,6 +74,10 @@ public class MainActivity extends Activity implements
 			fragment = ShoppingCarFragment.newInstance(number);
 			break;
 
+		case 5:
+			fragment = SettingFragment.newInstance(number);
+			break;
+
 		default:
 			fragment = PlaceholderFragment.newInstance(number);
 			break;
