@@ -53,27 +53,27 @@ public class MainActivity extends Activity implements
 	private Fragment getFragment(int number) {
 		Fragment fragment;
 		switch (number) {
-		case 1:
+		case 2:
 			fragment = ReadingFragment.newInstance(number);
 			break;
 
-		case 2:
+		case 3:
 			fragment = WritingFragment.newInstance(number);
 			break;
 
-		case 3:
+		case 4:
 			fragment = BookcaseFragment.newInstance(number);
 			break;
 
-		case 4:
+		case 5:
 			fragment = ShoppingCarFragment.newInstance(number);
 			break;
 
-		case 5:
+		case 6:
 			fragment = SettingFragment.newInstance(number);
 			break;
 
-		case 6:
+		case 7:
 			fragment = AboutMeFragment.newInstance(number);
 			break;
 
@@ -87,23 +87,26 @@ public class MainActivity extends Activity implements
 
 	public void onSectionAttached(int number) {
 		switch (number) {
-		case 1:
+		case 2:
 			mTitle = getString(R.string.title_reading);
 			break;
-		case 2:
+		case 3:
 			mTitle = getString(R.string.title_writing);
 			break;
-		case 3:
+		case 4:
 			mTitle = getString(R.string.title_bookcase);
 			break;
-		case 4:
+		case 5:
 			mTitle = getString(R.string.title_shopping_car);
 			break;
-		case 5:
+		case 6:
 			mTitle = getString(R.string.title_setting);
 			break;
-		case 6:
+		case 7:
 			mTitle = getString(R.string.title_about_me);
+			break;
+		default:
+			mTitle = "Bukr";
 			break;
 		}
 	}

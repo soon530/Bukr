@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -95,6 +96,7 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
+    	
         mDrawerListView = (ListView) inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -104,7 +106,10 @@ public class NavigationDrawerFragment extends Fragment {
             }
         });
         
-        
+		//header view
+    	LinearLayout headerView = (LinearLayout) inflater.inflate(R.layout.drawer_header, container, false);  
+        mDrawerListView.addHeaderView(headerView);
+
 		dataList = new ArrayList<DrawerItem>();
 		dataList.add(new DrawerItem(getString(R.string.title_reading), R.drawable.ic_launcher));
 		dataList.add(new DrawerItem(getString(R.string.title_writing), R.drawable.ic_launcher));
@@ -112,7 +117,6 @@ public class NavigationDrawerFragment extends Fragment {
 		dataList.add(new DrawerItem(getString(R.string.title_shopping_car), R.drawable.ic_launcher));
 		dataList.add(new DrawerItem(getString(R.string.title_setting), R.drawable.ic_launcher));
 		dataList.add(new DrawerItem(getString(R.string.title_about_me), R.drawable.ic_launcher));
-
 		adapter = new DrawerAdapter(getActivity(), R.layout.drawer_item, dataList);
 		
         mDrawerListView.setAdapter(adapter);
