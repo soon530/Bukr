@@ -78,6 +78,10 @@ public class MainActivity extends Activity implements
 			fragment = SettingFragment.newInstance(number);
 			break;
 
+		case 6:
+			fragment = AboutMeFragment.newInstance(number);
+			break;
+
 		default:
 			fragment = PlaceholderFragment.newInstance(number);
 			break;
