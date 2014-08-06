@@ -62,6 +62,10 @@ public class MainActivity extends Activity implements
 			fragment = ReadingFragment.newInstance(number);
 			break;
 
+		case 2:
+			fragment = WritingFragment.newInstance(number);
+			break;
+
 		default:
 			fragment = PlaceholderFragment.newInstance(number);
 			break;
