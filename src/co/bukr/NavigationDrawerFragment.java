@@ -1,15 +1,18 @@
 package co.bukr;
 
-import android.app.Activity;
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -57,6 +60,10 @@ public class NavigationDrawerFragment extends Fragment {
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
 
+    // icon
+	DrawerAdapter adapter;
+    List<DrawerItem> dataList;
+
     public NavigationDrawerFragment() {
     }
 
@@ -96,20 +103,22 @@ public class NavigationDrawerFragment extends Fragment {
                 selectItem(position);
             }
         });
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(
-                getActionBar().getThemedContext(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                new String[]{
-                        getString(R.string.title_reading),
-                        getString(R.string.title_writing),
-                        getString(R.string.title_bookcase),
-                        getString(R.string.title_shopping_car),
-                        getString(R.string.title_setting),
-                        getString(R.string.title_about_me),
-                        
-                }));
+        
+        
+		dataList = new ArrayList<DrawerItem>();
+		dataList.add(new DrawerItem(getString(R.string.title_reading), R.drawable.ic_launcher));
+		dataList.add(new DrawerItem(getString(R.string.title_writing), R.drawable.ic_launcher));
+		dataList.add(new DrawerItem(getString(R.string.title_bookcase), R.drawable.ic_launcher));
+		dataList.add(new DrawerItem(getString(R.string.title_shopping_car), R.drawable.ic_launcher));
+		dataList.add(new DrawerItem(getString(R.string.title_setting), R.drawable.ic_launcher));
+		dataList.add(new DrawerItem(getString(R.string.title_about_me), R.drawable.ic_launcher));
+
+		adapter = new DrawerAdapter(getActivity(), R.layout.drawer_item, dataList);
+		
+        mDrawerListView.setAdapter(adapter);
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+        //mDrawerListView.setDividerHeight(1);
+        
         return mDrawerListView;
     }
 
