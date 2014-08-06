@@ -2,9 +2,13 @@
 <resources>
 
     <string name="app_name">Bukr</string>
-    <string name="title_section1">Section 1</string>
-    <string name="title_section2">Section 2</string>
-    <string name="title_section3">Section 3</string>
+    <string name="title_reading">大家正在讀</string>
+    <string name="title_writing">大家正在評</string>
+    <string name="title_bookcase">我的書櫃</string>
+    <string name="title_shopping_car">購物車</string>
+    <string name="title_setting">設定</string>
+    <string name="title_about_me">關於</string>
+    
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
