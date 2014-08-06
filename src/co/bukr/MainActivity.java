@@ -120,7 +120,7 @@ public class MainActivity extends Activity implements
 		actionBar.setTitle(mTitle);
 	}
 
-	@Override
+/*	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		if (!mNavigationDrawerFragment.isDrawerOpen()) {
 			// Only show items in the action bar relevant to this screen
@@ -132,8 +132,8 @@ public class MainActivity extends Activity implements
 		}
 		return super.onCreateOptionsMenu(menu);
 	}
-
-	@Override
+*/
+/*	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
@@ -144,7 +144,7 @@ public class MainActivity extends Activity implements
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
+*/
 	/**
 	 * A placeholder fragment containing a simple view.
 	 */
