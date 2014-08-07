@@ -24,7 +24,7 @@ public class DrawerAdapter extends ArrayAdapter<DrawerItem> {
 		this.layoutResID = layoutResourceID;
 
 	}
-
+	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
@@ -53,6 +53,7 @@ public class DrawerAdapter extends ArrayAdapter<DrawerItem> {
 		drawerHolder.icon.setImageDrawable(view.getResources().getDrawable(
 				dItem.getImgResID()));
 		drawerHolder.ItemName.setText(dItem.getItemName());
+		drawerHolder.ItemName.setAlpha(0.56f);
 		
 		if (position == 4 || position == 5)
 			drawerHolder.icon.setVisibility(View.GONE);
@@ -60,7 +61,7 @@ public class DrawerAdapter extends ArrayAdapter<DrawerItem> {
 		return view;
 	}
 
-	private static class DrawerItemHolder {
+	public static class DrawerItemHolder {
 		TextView ItemName;
 		ImageView icon;
 	}
