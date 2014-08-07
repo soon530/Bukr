@@ -59,11 +59,11 @@ public class DrawerAdapter extends ArrayAdapter<DrawerItem> {
 		drawerHolder.iconColor.setVisibility(View.GONE);
 		
 		// don't count header view position
-		if (position == 0) {
-			drawerHolder.icon.setVisibility(View.GONE);
-			drawerHolder.iconColor.setVisibility(View.VISIBLE);
-			drawerHolder.ItemName.setTextColor(getContext().getResources().getColor(R.color.Bukr));
-    	}
+		// if (position == 0) {
+		// drawerHolder.icon.setVisibility(View.GONE);
+		// drawerHolder.iconColor.setVisibility(View.VISIBLE);
+		// drawerHolder.ItemName.setTextColor(getContext().getResources().getColor(R.color.Bukr));
+		// }
 
 		if (position == 4 || position == 5)
 			drawerHolder.icon.setVisibility(View.GONE);
