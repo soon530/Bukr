@@ -20,8 +20,8 @@
 
             <ImageView
                 android:id="@+id/drawer_icon"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_marginLeft="16dp"
                 android:layout_gravity="center_vertical" />
 
@@ -31,9 +31,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_gravity="center_vertical"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="16.5sp"
                 android:text="測試" />
-
+<!--                 android:textAppearance="?android:attr/textAppearanceMedium"
+ -->            
         </LinearLayout>
 
 <!--         <View
