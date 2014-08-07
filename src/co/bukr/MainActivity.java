@@ -106,7 +106,7 @@ public class MainActivity extends Activity implements
 			mTitle = getString(R.string.title_about_me);
 			break;
 		default:
-			mTitle = "Bukr";
+			mTitle = "";
 			break;
 		}
 	}
@@ -116,6 +116,7 @@ public class MainActivity extends Activity implements
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setTitle(mTitle);
+		actionBar.setIcon(R.drawable.ic_launcher);
 	}
 
 	@Override
