@@ -109,6 +109,9 @@ public class NavigationDrawerFragment extends Fragment {
 			@Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 
+				if (position == 0)
+					return;
+				
             	DrawerItemHolder holder = (DrawerItemHolder) view.getTag(); 
             	
             	// now
@@ -135,7 +138,7 @@ public class NavigationDrawerFragment extends Fragment {
         
 		//header view
     	LinearLayout headerView = (LinearLayout) inflater.inflate(R.layout.drawer_header, container, false);  
-        mDrawerListView.addHeaderView(headerView);
+    	mDrawerListView.addHeaderView(headerView);
 
 		dataList = new ArrayList<DrawerItem>();
 		dataList.add(new DrawerItem(getString(R.string.title_reading), R.drawable.reading, R.drawable.reading_color));
