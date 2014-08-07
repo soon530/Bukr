@@ -2,9 +2,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#cccc"
-    android:choiceMode="singleChoice"
+    android:background="@android:color/white"
     android:divider="@android:color/white"
     android:dividerHeight="0dp"
     tools:context="co.bukr.NavigationDrawerFragment" />
 
+<!--     android:choiceMode="singleChoice"
+ -->
