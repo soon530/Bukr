@@ -66,9 +66,8 @@ public class NavigationDrawerFragment extends Fragment {
     // icon
 	DrawerAdapter mAdapter;
     List<DrawerItem> dataList;
-	private DrawerItemHolder mOldHolder;
-
-	private int mOldPosition;
+	public static DrawerItemHolder mOldHolder;
+	private int mOldPosition = 1;
 
     public NavigationDrawerFragment() {
     }
