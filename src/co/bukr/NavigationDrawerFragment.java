@@ -8,11 +8,13 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -64,7 +66,9 @@ public class NavigationDrawerFragment extends Fragment {
     // icon
 	DrawerAdapter mAdapter;
     List<DrawerItem> dataList;
-    private int mOldPosition;
+	private DrawerItemHolder mOldHolder;
+
+	private int mOldPosition;
 
     public NavigationDrawerFragment() {
     }
@@ -102,17 +106,30 @@ public class NavigationDrawerFragment extends Fragment {
                 R.layout.fragment_navigation_drawer, container, false);
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
+
 			@Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 
-/*            	DrawerItemHolder holder = (DrawerItemHolder) view.getTag(); 
+            	DrawerItemHolder holder = (DrawerItemHolder) view.getTag(); 
             	
-            	if (position == 1) {
-            		holder.icon.setImageDrawable(view.getResources().getDrawable(R.drawable.reading_color));
-            		holder.ItemName.setTextColor(getResources().getColor(R.color.Bukr));
-            		mOldPosition = position;
+            	// now
+            	if (position >= 1 && position <= 4) {
+            		holder.icon.setVisibility(View.GONE);
+            		holder.iconColor.setVisibility(View.VISIBLE);
             	}
-*/            	
+            	holder.ItemName.setTextColor(getResources().getColor(R.color.Bukr));
+
+            	// old
+            	if (mOldHolder != null && position != mOldPosition) {
+            		if (mOldPosition >= 1 && mOldPosition <= 4) {
+            			mOldHolder.icon.setVisibility(View.VISIBLE);
+            			mOldHolder.iconColor.setVisibility(View.GONE);
+            		}
+            		mOldHolder.ItemName.setTextColor(Color.BLACK);
+            	}
+            	
+            	mOldHolder = holder;
+            	mOldPosition = position;
             	selectItem(position);
             }
         });
@@ -122,12 +139,12 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerListView.addHeaderView(headerView);
 
 		dataList = new ArrayList<DrawerItem>();
-		dataList.add(new DrawerItem(getString(R.string.title_reading), R.drawable.reading));
-		dataList.add(new DrawerItem(getString(R.string.title_writing), R.drawable.writing));
-		dataList.add(new DrawerItem(getString(R.string.title_bookcase), R.drawable.bookcase));
-		dataList.add(new DrawerItem(getString(R.string.title_shopping_car), R.drawable.shapping_car));
-		dataList.add(new DrawerItem(getString(R.string.title_setting), R.drawable.ic_launcher));
-		dataList.add(new DrawerItem(getString(R.string.title_about_me), R.drawable.ic_launcher));
+		dataList.add(new DrawerItem(getString(R.string.title_reading), R.drawable.reading, R.drawable.reading_color));
+		dataList.add(new DrawerItem(getString(R.string.title_writing), R.drawable.writing, R.drawable.writing_color));
+		dataList.add(new DrawerItem(getString(R.string.title_bookcase), R.drawable.bookcase, R.drawable.bookcase_color));
+		dataList.add(new DrawerItem(getString(R.string.title_shopping_car), R.drawable.shapping_car, R.drawable.shapping_car_color));
+		dataList.add(new DrawerItem(getString(R.string.title_setting), R.drawable.ic_launcher, R.drawable.ic_launcher));
+		dataList.add(new DrawerItem(getString(R.string.title_about_me), R.drawable.ic_launcher, R.drawable.ic_launcher));
 		mAdapter = new DrawerAdapter(getActivity(), R.layout.drawer_item, dataList);
 		
         mDrawerListView.setAdapter(mAdapter);

@@ -40,7 +40,8 @@ public class DrawerAdapter extends ArrayAdapter<DrawerItem> {
 			drawerHolder.ItemName = (TextView) view
 					.findViewById(R.id.drawer_itemName);
 			drawerHolder.icon = (ImageView) view.findViewById(R.id.drawer_icon);
-
+			drawerHolder.iconColor = (ImageView) view.findViewById(R.id.drawer_icon_color);
+			
 			view.setTag(drawerHolder);
 
 		} else {
@@ -52,11 +53,21 @@ public class DrawerAdapter extends ArrayAdapter<DrawerItem> {
 
 		drawerHolder.icon.setImageDrawable(view.getResources().getDrawable(
 				dItem.getImgResID()));
+		drawerHolder.iconColor.setImageDrawable(view.getResources().getDrawable(dItem.getImgResIDColor()));
 		drawerHolder.ItemName.setText(dItem.getItemName());
 		drawerHolder.ItemName.setAlpha(0.56f);
+		drawerHolder.iconColor.setVisibility(View.GONE);
 		
+		// don't count header view position
+		if (position == 0) {
+			drawerHolder.icon.setVisibility(View.GONE);
+			drawerHolder.iconColor.setVisibility(View.VISIBLE);
+			drawerHolder.ItemName.setTextColor(getContext().getResources().getColor(R.color.Bukr));
+    	}
+
 		if (position == 4 || position == 5)
 			drawerHolder.icon.setVisibility(View.GONE);
+		
 		
 		return view;
 	}
@@ -64,5 +75,6 @@ public class DrawerAdapter extends ArrayAdapter<DrawerItem> {
 	public static class DrawerItemHolder {
 		TextView ItemName;
 		ImageView icon;
+		ImageView iconColor;
 	}
 }

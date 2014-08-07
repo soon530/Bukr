@@ -25,6 +25,13 @@
                 android:layout_marginLeft="16dp"
                 android:layout_gravity="center_vertical" />
 
+            <ImageView
+                android:id="@+id/drawer_icon_color"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginLeft="16dp"
+                android:layout_gravity="center_vertical" />
+            
             <TextView
                 android:id="@+id/drawer_itemName"
                 android:layout_width="wrap_content"
