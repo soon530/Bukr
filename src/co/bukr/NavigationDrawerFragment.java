@@ -20,10 +20,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
+import co.bukr.DrawerAdapter.DrawerItemHolder;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -62,8 +62,9 @@ public class NavigationDrawerFragment extends Fragment {
     private boolean mUserLearnedDrawer;
 
     // icon
-	DrawerAdapter adapter;
+	DrawerAdapter mAdapter;
     List<DrawerItem> dataList;
+    private int mOldPosition;
 
     public NavigationDrawerFragment() {
     }
@@ -100,9 +101,19 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerListView = (ListView) inflater.inflate(
                 R.layout.fragment_navigation_drawer, container, false);
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
+
+			@Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectItem(position);
+                
+/*            	DrawerItemHolder holder = (DrawerItemHolder) view.getTag(); 
+            	
+            	if (position == 1) {
+            		holder.icon.setImageDrawable(view.getResources().getDrawable(R.drawable.reading_color));
+            		holder.ItemName.setTextColor(getResources().getColor(R.color.Bukr));
+            		mOldPosition = position;
+            	}
+*/            	
+            	selectItem(position);
             }
         });
         
@@ -111,16 +122,16 @@ public class NavigationDrawerFragment extends Fragment {
         mDrawerListView.addHeaderView(headerView);
 
 		dataList = new ArrayList<DrawerItem>();
-		dataList.add(new DrawerItem(getString(R.string.title_reading), R.drawable.ic_launcher));
-		dataList.add(new DrawerItem(getString(R.string.title_writing), R.drawable.ic_launcher));
-		dataList.add(new DrawerItem(getString(R.string.title_bookcase), R.drawable.ic_launcher));
-		dataList.add(new DrawerItem(getString(R.string.title_shopping_car), R.drawable.ic_launcher));
+		dataList.add(new DrawerItem(getString(R.string.title_reading), R.drawable.reading));
+		dataList.add(new DrawerItem(getString(R.string.title_writing), R.drawable.writing));
+		dataList.add(new DrawerItem(getString(R.string.title_bookcase), R.drawable.bookcase));
+		dataList.add(new DrawerItem(getString(R.string.title_shopping_car), R.drawable.shapping_car));
 		dataList.add(new DrawerItem(getString(R.string.title_setting), R.drawable.ic_launcher));
 		dataList.add(new DrawerItem(getString(R.string.title_about_me), R.drawable.ic_launcher));
-		adapter = new DrawerAdapter(getActivity(), R.layout.drawer_item, dataList);
+		mAdapter = new DrawerAdapter(getActivity(), R.layout.drawer_item, dataList);
 		
-        mDrawerListView.setAdapter(adapter);
-        mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+        mDrawerListView.setAdapter(mAdapter);
+        //mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         //mDrawerListView.setDividerHeight(1);
         
         return mDrawerListView;
@@ -207,7 +218,8 @@ public class NavigationDrawerFragment extends Fragment {
     private void selectItem(int position) {
         mCurrentSelectedPosition = position;
         if (mDrawerListView != null) {
-            mDrawerListView.setItemChecked(position, true);
+            //mDrawerListView.setItemChecked(position, true);
+        	
         }
         if (mDrawerLayout != null) {
             mDrawerLayout.closeDrawer(mFragmentContainerView);
