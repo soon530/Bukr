@@ -24,6 +24,9 @@
         <meta-data
             android:name="coim_debug"
             android:value="true" />
+        <meta-data
+            android:name="coim_fb_app_id"
+            android:value="\ 1459466694315536" />
 
         <activity
             android:name="co.bukr.MainActivity"
