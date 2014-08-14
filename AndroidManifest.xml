@@ -8,14 +8,32 @@
         android:minSdkVersion="14"
         android:targetSdkVersion="19" />
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="coim_app_key"
+            android:value="3b36b7c7-b177-8744-3f7f-bb660738e9b5" />
+        <meta-data
+            android:name="coim_app_code"
+            android:value="BukrTW" />
+        <meta-data
+            android:name="coim_debug"
+            android:value="true" />
+
         <activity
             android:name="co.bukr.MainActivity"
             android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="co.bukr.LoginActivity"
+            android:launchMode="singleTop"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:windowSoftInputMode="adjustResize|stateVisible" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
