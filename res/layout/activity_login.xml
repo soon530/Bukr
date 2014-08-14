@@ -63,6 +63,17 @@
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:text="登入" />
 
+        <Button
+        android:id="@+id/go"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/abc_dropdownitem_icon_width"
+        android:layout_marginRight="@dimen/abc_dropdownitem_icon_width"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:text="先玩玩看" />
+    
+    
     <RadioGroup
         android:id="@+id/radioGroup1"
         android:layout_width="match_parent"

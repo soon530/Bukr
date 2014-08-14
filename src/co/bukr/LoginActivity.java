@@ -37,6 +37,8 @@ public class LoginActivity extends Activity {
 						regRadio;
 	private RadioGroup radioGroup;
 	private ProgressDialog pDialog;
+
+	private Button mGo;
 	
 	@Override
 	public void onBackPressed() {
@@ -108,17 +110,15 @@ public class LoginActivity extends Activity {
 								//JSONArray list = Assist.getList(result);
 								//Log.i(LOG_TAG, "success\n" + result);
 
-								Intent intent = new Intent();
-								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-								intent.setClass(LoginActivity.this, MainActivity.class);
-								startActivity(intent);
-								finish();							
+								goToHome();
+								
 							}
 							else {
 								Assist.showAlert(LoginActivity.this, Assist.getMessage(result));
 							}
 							
 						}
+
 					});
 				}
 				if(regRadio.isChecked()){
@@ -145,30 +145,13 @@ public class LoginActivity extends Activity {
 							Log.i(LOG_TAG, "fail\n" + ex.getLocalizedMessage());
 						}
 
-/*						@Override
-						public void onSuccess(Map<String, Object> result) {
-							Log.i(LOG_TAG, "success\n" + result);
-							pDialog.dismiss();
-							Intent intent = new Intent();
-							intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-							intent.setClass(LoginActivity.this, MainActivity.class);
-							startActivity(intent);
-							finish();
-							
-						}
-*/
 						@Override
 						public void onSuccess(JSONObject result) {
 							Log.i(LOG_TAG, "success\n" + result);
 							pDialog.dismiss();
 							
 							if(Assist.getErrCode(result) == 0) {
-
-								Intent intent = new Intent();
-								intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-								intent.setClass(LoginActivity.this, MainActivity.class);
-								startActivity(intent);
-								finish();
+								goToHome();
 							}else{
 								Assist.showAlert(LoginActivity.this, Assist.getMessage(result));
 							}
@@ -195,5 +178,25 @@ public class LoginActivity extends Activity {
 				}
 			}
 		});
+		
+		
+		mGo = (Button) findViewById(R.id.go);
+		mGo.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				goToHome();
+			}
+		});
+		
 	}
+	
+	private void goToHome() {
+		Intent intent = new Intent();
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		intent.setClass(LoginActivity.this, MainActivity.class);
+		startActivity(intent);
+		finish();									
+	}
+
 }
