@@ -12,6 +12,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -183,6 +185,7 @@ public class LoginActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
+				//logoutBukr();
 				goToHome();
 			}
 		});
@@ -255,5 +258,46 @@ public class LoginActivity extends Activity {
 		startActivity(intent);
 		finish();
 	}
+	
+	private void logoutBukr() {
+		ReqUtil.logout(new COIMCallListener() {
+			
+			@Override
+			public void onSuccess(JSONObject result) {
+				Log.i(LOG_TAG, "result: " + result);
+				//goToHome();
+			}
+			
+			@Override
+			public void onFail(HttpResponse arg0, Exception arg1) {
+				Log.i(LOG_TAG, "err: " + arg1.getLocalizedMessage());
+			}
+		});	
+	}
+	
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.main, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+
+		switch (id) {
+		case R.id.action_logout:
+				logoutBukr();
+			break;
+
+		default:
+			break;
+		}
+
+		
+		//return super.onOptionsItemSelected(item);
+		return true;
+	}
+	
 }
