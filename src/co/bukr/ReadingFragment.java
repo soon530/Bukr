@@ -9,22 +9,26 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.coimotion.csdk.common.COIMCallListener;
-import com.coimotion.csdk.common.COIMException;
-import com.coimotion.csdk.util.Assist;
-import com.coimotion.csdk.util.ReqUtil;
-import com.coimotion.csdk.util.sws;
-
 import android.app.Activity;
+import android.app.Fragment;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
-import android.widget.SimpleAdapter;
+
+import com.coimotion.csdk.common.COIMCallListener;
+import com.coimotion.csdk.common.COIMException;
+import com.coimotion.csdk.util.Assist;
+import com.coimotion.csdk.util.ReqUtil;
+import com.coimotion.csdk.util.sws;
+import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 /**
  * A simple {@link Fragment} subclass. Activities that contain this fragment
@@ -89,8 +93,22 @@ public class ReadingFragment extends Fragment {
 		} catch (Exception e) {
 		}
 
+		initImageLoader(getActivity());
 		
 	}
+	
+	public static void initImageLoader(Context context) {
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
+        .memoryCache(new LruMemoryCache(2 * 1024 * 1024))
+        .defaultDisplayImageOptions(DisplayImageOptions.createSimple())
+        //.writeDebugLogs()
+        .denyCacheImageMultipleSizesInMemory()
+        .build();
+		
+		// Initialize ImageLoader with configuration.
+		ImageLoader.getInstance().init(config);
+	}
+
 	
 
 	private void showReadingPeople() {
@@ -120,10 +138,7 @@ public class ReadingFragment extends Fragment {
 						String iconURI = jsonBook.getString("iconURI");
 						String title = jsonBook.getString("title");
 						mBooks.add(new BookItem(iconURI, title));						
-						
-						
-						
-						
+
 						adapter = new BooksAdapter(
 								getActivity(), 
 								R.layout.row_books, 
