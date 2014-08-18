@@ -18,6 +18,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 
 import com.coimotion.csdk.common.COIMCallListener;
@@ -132,12 +134,14 @@ public class ReadingFragment extends Fragment {
 						jsonBook = (JSONObject) jsonBooks.get(i);
 						//Log.i(LOG_TAG, "book: " + jsonBook);
 
+						Log.i(LOG_TAG, "bkID: " + jsonBook.getString("bkID"));
 						Log.i(LOG_TAG, "iconURI: " + jsonBook.getString("iconURI"));
 						Log.i(LOG_TAG, "title: " + jsonBook.getString("title"));
 						
 						String iconURI = jsonBook.getString("iconURI");
 						String title = jsonBook.getString("title");
-						mBooks.add(new BookItem(iconURI, title));						
+						String bkID = jsonBook.getString("bkID");
+						mBooks.add(new BookItem(bkID, iconURI, title));						
 
 						adapter = new BooksAdapter(
 								getActivity(), 
@@ -171,6 +175,17 @@ public class ReadingFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.fragment_reading, container, false); 
 		mGirdView = (GridView) rootView.findViewById(R.id.gridView1);
+		mGirdView.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				BookItem bookItem = mBooks.get(position); 
+				Config.bkID = bookItem.getBkID();
+				Log.i(LOG_TAG, "bkID: " + Config.bkID);
+				
+			}
+		});
 		
 		return rootView;
 	}

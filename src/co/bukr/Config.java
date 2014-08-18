@@ -13,5 +13,6 @@ public class Config {
 	//.showImageOnLoading(R.drawable.photo_mother_loading)
 	.build();
 
-
+	public static String bkID = ""; 
+	
 }
