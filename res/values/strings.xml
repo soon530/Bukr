@@ -12,5 +12,4 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
     <string name="action_settings">logout</string>
-	<color name="Bukr">#52abaf</color>
 </resources>
