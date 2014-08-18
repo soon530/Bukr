@@ -1,9 +1,25 @@
 package co.bukr;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.http.HttpResponse;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.coimotion.csdk.common.COIMCallListener;
+import com.coimotion.csdk.common.COIMException;
+import com.coimotion.csdk.util.Assist;
+import com.coimotion.csdk.util.ReqUtil;
+import com.coimotion.csdk.util.sws;
+
 import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +35,7 @@ import android.view.ViewGroup;
 public class ReadingFragment extends Fragment {
 	// TODO: Rename parameter arguments, choose names that match
 	// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+	private final static String LOG_TAG = "Reading";
 	private static final String ARG_PARAM1 = "param1";
 	private static final String ARG_PARAM2 = "param2";
 
@@ -27,6 +44,7 @@ public class ReadingFragment extends Fragment {
 	private String mParam2;
 
 	private OnFragmentInteractionListener mListener;
+	private ArrayList<HashMap<String,String>> books = new ArrayList<HashMap<String,String>>();
 
 	/**
 	 * Use this factory method to create a new instance of this fragment using
@@ -49,23 +67,81 @@ public class ReadingFragment extends Fragment {
 
 	public ReadingFragment() {
 		// Required empty public constructor
+		
+		
 	}
 
-/*	@Override
+	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (getArguments() != null) {
-			mParam1 = getArguments().getString(ARG_PARAM1);
-			mParam2 = getArguments().getString(ARG_PARAM2);
+//		if (getArguments() != null) {
+//			mParam1 = getArguments().getString(ARG_PARAM1);
+//			mParam2 = getArguments().getString(ARG_PARAM2);
+//		}
+
+		try {
+			ReqUtil.initSDK(getActivity().getApplication());
+			sws.initSws(getActivity().getApplication());
+		} catch (COIMException e) {
+		} catch (Exception e) {
 		}
+
+		showReadingPeople();
+		
 	}
-*/
+	
+
+	private void showReadingPeople() {
+		
+		Map<String, Object> mapParam = new HashMap<String, Object>();
+		mapParam.put("cycle", "week");
+
+		ReqUtil.send("twBook/book/whatsHot", mapParam, new COIMCallListener() {
+			
+			@Override
+			public void onSuccess(JSONObject result) {
+				Log.i(LOG_TAG, "success: "+result);
+				JSONArray jsonBooks  = Assist.getList(result);
+				
+				for(int i = 0; i < jsonBooks.length(); i++)  {
+					
+					JSONObject jsonBook;
+					
+					try {
+						jsonBook = (JSONObject) jsonBooks.get(i);
+						//Log.i(LOG_TAG, "book: " + jsonBook);
+
+						Log.i(LOG_TAG, "iconURI: " + jsonBook.getString("iconURI"));
+						Log.i(LOG_TAG, "title: " + jsonBook.getString("title"));
+
+						
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+					
+				}
+				
+				
+			}
+			
+			@Override
+			public void onFail(HttpResponse response, Exception exception) {
+				Log.i(LOG_TAG, "fail: "+ exception.getLocalizedMessage());
+				
+			}
+		});
+		
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// Inflate the layout for this fragment
 		return inflater.inflate(R.layout.fragment_reading, container, false);
 	}
+	
+	
+	
 
 	// TODO: Rename method, update argument and hook method into UI event
 /*	public void onButtonPressed(Uri uri) {
