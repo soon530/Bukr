@@ -8,16 +8,21 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
@@ -26,8 +31,9 @@ import com.coimotion.csdk.common.COIMCallListener;
 import com.coimotion.csdk.common.COIMException;
 import com.coimotion.csdk.util.Assist;
 import com.coimotion.csdk.util.ReqUtil;
+import com.coimotion.csdk.util.sws;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends Activity implements OnClickListener{
 	private static final String LOG_TAG = "loginActivity";
 	private final static String checkTokenURL = "core/user/profile";
 
@@ -41,6 +47,10 @@ public class LoginActivity extends Activity {
 
 	private Button mFB;
 
+	// for new layout
+	private ImageView mLogin;
+	private Dialog mLoginDialog;
+
 	@Override
 	public void onBackPressed() {
 		// TODO Auto-generated method stub
@@ -48,19 +58,48 @@ public class LoginActivity extends Activity {
 		getApplication().getSharedPreferences("artMania", 0).edit()
 				.putBoolean("closeApp", true).commit();
 	}
+	
+	@Override
+	public void onClick(View v) {
+		int id = v.getId();
+		switch (id) {
+		case R.id.login_login:
+			mLoginDialog.show();
+			//mBuilder.show();
+			break;
 
+		default:
+			break;
+		}
+		
+	}
+
+	private Dialog getLoginDialog() {
+		final Dialog dialog = new Dialog(this);
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		dialog.setContentView(R.layout.activity_login_dialog);
+		return dialog;
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		try {
+/*		try {
 			ReqUtil.initSDK(getApplication());
+			sws.initSws(getApplication());
 		} catch (COIMException e) {
 		} catch (Exception e) {
 		}
+*/
+		setContentView(R.layout.activity_login2);
+		
+		mLogin = (ImageView) findViewById(R.id.login_login);
+		mLoginDialog = getLoginDialog();
+		mLogin.setOnClickListener(this);
+		
+		
 
-		setContentView(R.layout.activity_login);
-
-		accNameText = (EditText) findViewById(R.id.accName);
+/*		accNameText = (EditText) findViewById(R.id.accName);
 		passwdText = (EditText) findViewById(R.id.passwd);
 		passwd2Text = (EditText) findViewById(R.id.passwd2);
 		submitBut = (Button) findViewById(R.id.submitBut);
@@ -91,7 +130,7 @@ public class LoginActivity extends Activity {
 											"fail\n" + ex.getLocalizedMessage());
 								}
 
-								/*
+								
 								 * @Override public void onSuccess(Map<String,
 								 * Object> result) { Log.i(LOG_TAG, "success\n"
 								 * + result); pDialog.dismiss(); Intent intent =
@@ -102,7 +141,7 @@ public class LoginActivity extends Activity {
 								 * finish();
 								 * 
 								 * }
-								 */
+								 
 								@Override
 								public void onSuccess(JSONObject result) {
 
@@ -201,14 +240,16 @@ public class LoginActivity extends Activity {
 				//checkBukrFB();
 			}
 		});
+*/	
 	}
+
 	private void loginBukrFB() {
-		ReqUtil.showDialoag(LoginActivity.this, new COIMCallListener() {
+		sws.loginFB(LoginActivity.this, new COIMCallListener() {
 			
 			@Override
 			public void onSuccess(JSONObject result) {
 				Log.i(LOG_TAG, "result: " + result);
-				goToHome();
+				//goToHome();
 			}
 			
 			@Override
@@ -237,7 +278,7 @@ public class LoginActivity extends Activity {
 	}
 	
 	private void checkBukrFB() {
-		ReqUtil.checkFB(LoginActivity.this, new COIMCallListener() {
+		sws.checkFB(LoginActivity.this, new COIMCallListener() {
 			
 			@Override
 			public void onSuccess(JSONObject result) {
@@ -299,5 +340,6 @@ public class LoginActivity extends Activity {
 		//return super.onOptionsItemSelected(item);
 		return true;
 	}
+
 	
 }
