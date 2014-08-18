@@ -38,10 +38,6 @@ public class LoginActivity extends Activity implements OnClickListener {
 	private static final String LOG_TAG = "loginActivity";
 	private final static String checkTokenURL = "core/user/profile";
 
-	// private EditText accNameText, passwdText, passwd2Text;
-	// private Button submitBut;
-	// private RadioButton loginRadio, regRadio;
-	// private RadioGroup radioGroup;
 	private ProgressDialog pDialog;
 
 	// Login or Singup 
@@ -192,6 +188,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 
 				if (Assist.getErrCode(result) == 0) {
 					Log.i(LOG_TAG, "success\n" + result);
+					mLoginDialog.dismiss();
 					goToHome();
 
 				} else {
@@ -226,6 +223,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 
 				if (Assist.getErrCode(result) == 0) {
 					Log.i(LOG_TAG, "success\n" + result);
+					mSignupDialog.dismiss();
 					goToHome();
 
 				} else {
