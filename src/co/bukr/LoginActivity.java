@@ -44,7 +44,7 @@ public class LoginActivity extends Activity implements OnClickListener{
 	private RadioGroup radioGroup;
 	private ProgressDialog pDialog;
 
-	private Button mGo;
+	private TextView mGo;
 
 	private Button mFB;
 
@@ -72,6 +72,8 @@ public class LoginActivity extends Activity implements OnClickListener{
 		case R.id.login_singup:
 			mSignupDialog.show();
 			break;
+		case R.id.login_go:
+			goToHome();
 		default:
 			break;
 		}
@@ -112,6 +114,10 @@ public class LoginActivity extends Activity implements OnClickListener{
 		mSignup = (TextView) findViewById(R.id.login_singup);
 		mSignupDialog = getSignupDialog();
 		mSignup.setOnClickListener(this);
+		
+		mGo = (TextView) findViewById(R.id.login_go);
+		mGo.setOnClickListener(this);
+
 		
 
 /*		accNameText = (EditText) findViewById(R.id.accName);
@@ -231,16 +237,6 @@ public class LoginActivity extends Activity implements OnClickListener{
 					passwd2Text.setVisibility(View.VISIBLE);
 					submitBut.setText("註冊");
 				}
-			}
-		});
-
-		mGo = (Button) findViewById(R.id.go);
-		mGo.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				//logoutBukr();
-				goToHome();
 			}
 		});
 
