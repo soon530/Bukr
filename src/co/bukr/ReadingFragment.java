@@ -23,6 +23,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
+import android.widget.SimpleAdapter;
 
 /**
  * A simple {@link Fragment} subclass. Activities that contain this fragment
@@ -44,7 +46,8 @@ public class ReadingFragment extends Fragment {
 	private String mParam2;
 
 	private OnFragmentInteractionListener mListener;
-	private ArrayList<HashMap<String,String>> books = new ArrayList<HashMap<String,String>>();
+	private ArrayList<HashMap<String,String>> mBooks = new ArrayList<HashMap<String,String>>();
+	private GridView mGirdView;
 
 	/**
 	 * Use this factory method to create a new instance of this fragment using
@@ -86,7 +89,6 @@ public class ReadingFragment extends Fragment {
 		} catch (Exception e) {
 		}
 
-		showReadingPeople();
 		
 	}
 	
@@ -98,13 +100,15 @@ public class ReadingFragment extends Fragment {
 
 		ReqUtil.send("twBook/book/whatsHot", mapParam, new COIMCallListener() {
 			
+			private SimpleAdapter adapter;
+
 			@Override
 			public void onSuccess(JSONObject result) {
 				Log.i(LOG_TAG, "success: "+result);
 				JSONArray jsonBooks  = Assist.getList(result);
 				
 				for(int i = 0; i < jsonBooks.length(); i++)  {
-					
+					HashMap<String, String> book = new HashMap<String, String>();
 					JSONObject jsonBook;
 					
 					try {
@@ -113,6 +117,17 @@ public class ReadingFragment extends Fragment {
 
 						Log.i(LOG_TAG, "iconURI: " + jsonBook.getString("iconURI"));
 						Log.i(LOG_TAG, "title: " + jsonBook.getString("title"));
+						book.put("iconURI", jsonBook.getString("iconURI"));
+						book.put("title", jsonBook.getString("title"));
+						mBooks.add(book);						
+						
+						adapter = new SimpleAdapter(
+								getActivity().getApplicationContext(), 
+								mBooks, R.layout.row_books, 
+								new String[]{"iconURI", "title"}, 
+								new int[]{R.id.item_text, R.id.item_text});
+						
+						mGirdView.setAdapter(adapter);
 
 						
 					} catch (JSONException e) {
@@ -136,12 +151,19 @@ public class ReadingFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// Inflate the layout for this fragment
-		return inflater.inflate(R.layout.fragment_reading, container, false);
+		View rootView = inflater.inflate(R.layout.fragment_reading, container, false); 
+		mGirdView = (GridView) rootView.findViewById(R.id.gridView1);
+		
+		return rootView;
 	}
 	
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		showReadingPeople();
+		super.onViewCreated(view, savedInstanceState);
+	}
 	
-	
+
 
 	// TODO: Rename method, update argument and hook method into UI event
 /*	public void onButtonPressed(Uri uri) {
