@@ -36,7 +36,7 @@
             android:name=".LoginActivity"
             android:launchMode="singleTop"
             android:theme="@android:style/Theme.NoTitleBar"
-            android:windowSoftInputMode="adjustResize|stateVisible" >
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
