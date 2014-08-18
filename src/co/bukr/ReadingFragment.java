@@ -46,7 +46,7 @@ public class ReadingFragment extends Fragment {
 	private String mParam2;
 
 	private OnFragmentInteractionListener mListener;
-	private ArrayList<HashMap<String,String>> mBooks = new ArrayList<HashMap<String,String>>();
+	private ArrayList<BookItem> mBooks = new ArrayList<BookItem>();
 	private GridView mGirdView;
 
 	/**
@@ -100,7 +100,7 @@ public class ReadingFragment extends Fragment {
 
 		ReqUtil.send("twBook/book/whatsHot", mapParam, new COIMCallListener() {
 			
-			private SimpleAdapter adapter;
+			private BooksAdapter adapter;
 
 			@Override
 			public void onSuccess(JSONObject result) {
@@ -108,7 +108,6 @@ public class ReadingFragment extends Fragment {
 				JSONArray jsonBooks  = Assist.getList(result);
 				
 				for(int i = 0; i < jsonBooks.length(); i++)  {
-					HashMap<String, String> book = new HashMap<String, String>();
 					JSONObject jsonBook;
 					
 					try {
@@ -117,15 +116,19 @@ public class ReadingFragment extends Fragment {
 
 						Log.i(LOG_TAG, "iconURI: " + jsonBook.getString("iconURI"));
 						Log.i(LOG_TAG, "title: " + jsonBook.getString("title"));
-						book.put("iconURI", jsonBook.getString("iconURI"));
-						book.put("title", jsonBook.getString("title"));
-						mBooks.add(book);						
 						
-						adapter = new SimpleAdapter(
-								getActivity().getApplicationContext(), 
-								mBooks, R.layout.row_books, 
-								new String[]{"iconURI", "title"}, 
-								new int[]{R.id.item_text, R.id.item_text});
+						String iconURI = jsonBook.getString("iconURI");
+						String title = jsonBook.getString("title");
+						mBooks.add(new BookItem(iconURI, title));						
+						
+						
+						
+						
+						adapter = new BooksAdapter(
+								getActivity(), 
+								R.layout.row_books, 
+								mBooks  
+								);
 						
 						mGirdView.setAdapter(adapter);
 
