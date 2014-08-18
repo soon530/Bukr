@@ -58,6 +58,10 @@ public class LoginActivity extends Activity implements OnClickListener {
 	
 	//Signup Dialog
 	private Dialog mSignupDialog;
+	private EditText mSignupDialogName;
+	private EditText mSignupDialogPassword;
+	private ImageView mSignupDialogLogin;
+	private EditText mSignupDialogAgain;
 
 	@Override
 	public void onBackPressed() {
@@ -115,6 +119,13 @@ public class LoginActivity extends Activity implements OnClickListener {
 		final Dialog dialog = new Dialog(this);
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.activity_singup_dialog);
+
+		mSignupDialogName = (EditText) dialog.findViewById(R.id.name);
+		mSignupDialogPassword = (EditText) dialog.findViewById(R.id.password);
+		mSignupDialogAgain = (EditText) dialog.findViewById(R.id.again);
+		mSignupDialogLogin = (ImageView) dialog.findViewById(R.id.signup);
+		mSignupDialogLogin.setOnClickListener(this);
+
 		return dialog;
 	}
 
@@ -134,7 +145,9 @@ public class LoginActivity extends Activity implements OnClickListener {
 		case R.id.login:
 			loginBukr();
 			break;
-
+		case R.id.signup:
+			signupBukr();
+			break;
 		case R.id.login_go:
 			goToHome();
 			break;
@@ -191,11 +204,47 @@ public class LoginActivity extends Activity implements OnClickListener {
 			public void onFail(HttpResponse response, Exception exception) {
 				pDialog.dismiss();
 				Log.i(LOG_TAG, "err: " + exception.getLocalizedMessage());
-
+				Assist.showAlert(LoginActivity.this, exception.getLocalizedMessage());
 			}
 		});
 	}
 
+	private void signupBukr() {
+		Map<String, Object> mapParam = new HashMap<String, Object>();
+		mapParam.put("accName", mSignupDialogName.getText().toString());
+		mapParam.put("passwd", mSignupDialogPassword.getText().toString());
+		mapParam.put("passwd2", mSignupDialogAgain.getText().toString());
+
+		
+		pDialog = ProgressDialog.show(LoginActivity.this, "", "註冊中…", true);
+
+		ReqUtil.registerUser(mapParam, new COIMCallListener() {
+
+			@Override
+			public void onSuccess(JSONObject result) {
+				pDialog.dismiss();
+
+				if (Assist.getErrCode(result) == 0) {
+					Log.i(LOG_TAG, "success\n" + result);
+					goToHome();
+
+				} else {
+					Assist.showAlert(LoginActivity.this, Assist.getMessage(result));
+				}
+
+			}
+
+			@Override
+			public void onFail(HttpResponse response, Exception exception) {
+				pDialog.dismiss();
+				Log.i(LOG_TAG, "err: " + exception.getLocalizedMessage());
+				Assist.showAlert(LoginActivity.this, exception.getLocalizedMessage());
+			}
+		});
+
+	}
+
+	
 	private void checkBukrFBID() {
 		ReqUtil.send(checkTokenURL, null, new COIMCallListener() {
 

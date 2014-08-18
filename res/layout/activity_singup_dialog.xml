@@ -21,7 +21,7 @@
             android:src="@drawable/login_dialog_logo" />
 
         <EditText
-            android:id="@+id/editText1"
+            android:id="@+id/name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -35,7 +35,7 @@
         </EditText>
 
         <EditText
-            android:id="@+id/editText2"
+            android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -46,7 +46,7 @@
             android:inputType="textPassword" />
 
         <EditText
-            android:id="@+id/editText3"
+            android:id="@+id/again"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -57,7 +57,7 @@
             android:inputType="textPassword" />
 
         <ImageView
-            android:id="@+id/imageView1"
+            android:id="@+id/signup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
