@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -184,6 +185,10 @@ public class ReadingFragment extends Fragment {
 				Config.bkID = bookItem.getBkID();
 				Log.i(LOG_TAG, "bkID: " + Config.bkID);
 				
+	            Intent intent = new Intent();
+				//intent.putExtra("spID", spID);
+				intent.setClass(getActivity(), BookActivity.class);
+				startActivity(intent);
 			}
 		});
 		
