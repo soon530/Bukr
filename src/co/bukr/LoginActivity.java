@@ -44,13 +44,19 @@ public class LoginActivity extends Activity implements OnClickListener {
 	// private RadioGroup radioGroup;
 	private ProgressDialog pDialog;
 
-	private TextView mGo;
+	// Login or Singup 
 	private ImageView mFB;
-
-	// for new layout
 	private ImageView mLogin;
-	private Dialog mLoginDialog;
 	private TextView mSignup;
+	private TextView mGo;
+
+	//Login Dialog
+	private Dialog mLoginDialog;
+	private EditText mLoginDialogName;
+	private EditText mLoginDialogPassword;
+	private ImageView mLoginDialogLogin;
+	
+	//Signup Dialog
 	private Dialog mSignupDialog;
 
 	@Override
@@ -61,41 +67,9 @@ public class LoginActivity extends Activity implements OnClickListener {
 				.putBoolean("closeApp", true).commit();
 	}
 
-	@Override
-	public void onClick(View v) {
-		int id = v.getId();
-		switch (id) {
-		case R.id.login_login:
-			mLoginDialog.show();
-			break;
-		case R.id.login_singup:
-			mSignupDialog.show();
-			break;
-		case R.id.login_go:
-			goToHome();
-			break;
-		case R.id.login_facebook:
-			loginBukrFB();
-			break;
-		default:
-			break;
-		}
 
-	}
 
-	private Dialog getLoginDialog() {
-		final Dialog dialog = new Dialog(this);
-		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		dialog.setContentView(R.layout.activity_login_dialog);
-		return dialog;
-	}
 
-	private Dialog getSignupDialog() {
-		final Dialog dialog = new Dialog(this);
-		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		dialog.setContentView(R.layout.activity_singup_dialog);
-		return dialog;
-	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -110,96 +84,65 @@ public class LoginActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.activity_login2);
 
 		mLogin = (ImageView) findViewById(R.id.login_login);
-		mLoginDialog = getLoginDialog();
 		mLogin.setOnClickListener(this);
+		mLoginDialog = getLoginDialog();
 
 		mSignup = (TextView) findViewById(R.id.login_singup);
-		mSignupDialog = getSignupDialog();
 		mSignup.setOnClickListener(this);
+		mSignupDialog = getSignupDialog();
 
 		mGo = (TextView) findViewById(R.id.login_go);
 		mGo.setOnClickListener(this);
 
 		mFB = (ImageView) findViewById(R.id.login_facebook);
 		mFB.setOnClickListener(this);
+	}
+	
+	private Dialog getLoginDialog() {
+		final Dialog dialog = new Dialog(this);
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		dialog.setContentView(R.layout.activity_login_dialog);
 
-		/*
-		 * accNameText = (EditText) findViewById(R.id.accName); passwdText =
-		 * (EditText) findViewById(R.id.passwd); passwd2Text = (EditText)
-		 * findViewById(R.id.passwd2); submitBut = (Button)
-		 * findViewById(R.id.submitBut); submitBut.setOnClickListener(new
-		 * OnClickListener() {
-		 * 
-		 * @Override public void onClick(View v) { if (loginRadio.isChecked()) {
-		 * Log.i(LOG_TAG, "login mode"); pDialog =
-		 * ProgressDialog.show(LoginActivity.this, "", "登入中…", true);
-		 * Map<String, Object> mapParam = new HashMap<String, Object>();
-		 * mapParam.put("accName", accNameText.getText().toString());
-		 * mapParam.put("passwd", passwdText.getText().toString());
-		 * ReqUtil.login("core/user/login", mapParam, new COIMCallListener() {
-		 * 
-		 * @Override public void onFail(HttpResponse response, Exception ex) {
-		 * pDialog.dismiss(); AlertDialog.Builder builder = new
-		 * AlertDialog.Builder( LoginActivity.this); builder.setTitle("Login");
-		 * builder.setMessage(ex.getLocalizedMessage()); builder.show();
-		 * Log.i(LOG_TAG, "fail\n" + ex.getLocalizedMessage()); }
-		 * 
-		 * 
-		 * @Override public void onSuccess(Map<String, Object> result) {
-		 * Log.i(LOG_TAG, "success\n" + result); pDialog.dismiss(); Intent
-		 * intent = new Intent(); intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-		 * ); intent.setClass(LoginActivity.this, MainActivity.class);
-		 * startActivity(intent); finish();
-		 * 
-		 * }
-		 * 
-		 * @Override public void onSuccess(JSONObject result) {
-		 * 
-		 * pDialog.dismiss();
-		 * 
-		 * if (Assist.getErrCode(result) == 0) { // JSONArray list = //
-		 * Assist.getList(result); // Log.i(LOG_TAG, "success\n" + result);
-		 * 
-		 * goToHome();
-		 * 
-		 * } else { Assist.showAlert(LoginActivity.this,
-		 * Assist.getMessage(result)); }
-		 * 
-		 * }
-		 * 
-		 * }); } if (regRadio.isChecked()) { Log.i(LOG_TAG, "reg mode"); pDialog
-		 * = ProgressDialog.show(LoginActivity.this, "", "註冊中…", true);
-		 * Map<String, Object> mapParam = new HashMap<String, Object>();
-		 * mapParam.put("accName", accNameText.getText().toString());
-		 * mapParam.put("passwd", passwdText.getText().toString());
-		 * mapParam.put("passwd2", passwd2Text.getText().toString());
-		 * ReqUtil.registerUser(mapParam, new COIMCallListener() {
-		 * 
-		 * @Override public void onFail(HttpResponse response, Exception ex) {
-		 * pDialog.dismiss(); AlertDialog.Builder builder = new
-		 * AlertDialog.Builder( LoginActivity.this); builder.setTitle("Login");
-		 * builder.setMessage(ex.getLocalizedMessage()); builder.show();
-		 * Log.i(LOG_TAG, "fail\n" + ex.getLocalizedMessage()); }
-		 * 
-		 * @Override public void onSuccess(JSONObject result) { Log.i(LOG_TAG,
-		 * "success\n" + result); pDialog.dismiss();
-		 * 
-		 * if (Assist.getErrCode(result) == 0) { goToHome(); } else {
-		 * Assist.showAlert(LoginActivity.this, Assist.getMessage(result)); } }
-		 * }); } } });
-		 * 
-		 * loginRadio = (RadioButton) findViewById(R.id.loginRadio); regRadio =
-		 * (RadioButton) findViewById(R.id.regRadio);
-		 * 
-		 * radioGroup = (RadioGroup) findViewById(R.id.radioGroup1);
-		 * radioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-		 * 
-		 * @Override public void onCheckedChanged(RadioGroup group, int
-		 * checkedId) { if (loginRadio.isChecked()) {
-		 * passwd2Text.setVisibility(View.INVISIBLE); submitBut.setText("登入"); }
-		 * if (regRadio.isChecked()) { passwd2Text.setVisibility(View.VISIBLE);
-		 * submitBut.setText("註冊"); } } });
-		 */
+		mLoginDialogName = (EditText) dialog.findViewById(R.id.name);
+		mLoginDialogPassword = (EditText) dialog.findViewById(R.id.password);
+		mLoginDialogLogin = (ImageView) dialog.findViewById(R.id.login);
+		mLoginDialogLogin.setOnClickListener(this);
+
+		return dialog;
+	}
+	
+	private Dialog getSignupDialog() {
+		final Dialog dialog = new Dialog(this);
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		dialog.setContentView(R.layout.activity_singup_dialog);
+		return dialog;
+	}
+
+	@Override
+	public void onClick(View v) {
+		int id = v.getId();
+		switch (id) {
+		case R.id.login_login:
+			mLoginDialog.show();
+			break;
+		case R.id.login_singup:
+			mSignupDialog.show();
+			break;
+		case R.id.login_facebook:
+			loginBukrFB();
+			break;
+		case R.id.login:
+			loginBukr();
+			break;
+
+		case R.id.login_go:
+			goToHome();
+			break;
+
+		default:
+			break;
+		}
+
 	}
 
 	private void loginBukrFB() {
@@ -218,6 +161,39 @@ public class LoginActivity extends Activity implements OnClickListener {
 			}
 		});
 
+	}
+
+	private void loginBukr() {
+		Map<String, Object> mapParam = new HashMap<String, Object>();
+		mapParam.put("accName", mLoginDialogName.getText().toString());
+		mapParam.put("passwd", mLoginDialogPassword.getText().toString());
+
+		
+		pDialog = ProgressDialog.show(LoginActivity.this, "", "登入中…", true);
+
+		ReqUtil.login("core/user/login", mapParam, new COIMCallListener() {
+
+			@Override
+			public void onSuccess(JSONObject result) {
+				pDialog.dismiss();
+
+				if (Assist.getErrCode(result) == 0) {
+					Log.i(LOG_TAG, "success\n" + result);
+					goToHome();
+
+				} else {
+					Assist.showAlert(LoginActivity.this, Assist.getMessage(result));
+				}
+
+			}
+
+			@Override
+			public void onFail(HttpResponse response, Exception exception) {
+				pDialog.dismiss();
+				Log.i(LOG_TAG, "err: " + exception.getLocalizedMessage());
+
+			}
+		});
 	}
 
 	private void checkBukrFBID() {
@@ -300,3 +276,82 @@ public class LoginActivity extends Activity implements OnClickListener {
 	}
 
 }
+
+/*
+ * accNameText = (EditText) findViewById(R.id.accName); passwdText =
+ * (EditText) findViewById(R.id.passwd); passwd2Text = (EditText)
+ * findViewById(R.id.passwd2); submitBut = (Button)
+ * findViewById(R.id.submitBut); submitBut.setOnClickListener(new
+ * OnClickListener() {
+ * 
+ * @Override public void onClick(View v) { if (loginRadio.isChecked()) {
+ * Log.i(LOG_TAG, "login mode"); pDialog =
+ * ProgressDialog.show(LoginActivity.this, "", "登入中…", true);
+ * Map<String, Object> mapParam = new HashMap<String, Object>();
+ * mapParam.put("accName", accNameText.getText().toString());
+ * mapParam.put("passwd", passwdText.getText().toString());
+ * ReqUtil.login("core/user/login", mapParam, new COIMCallListener() {
+ * 
+ * @Override public void onFail(HttpResponse response, Exception ex) {
+ * pDialog.dismiss(); AlertDialog.Builder builder = new
+ * AlertDialog.Builder( LoginActivity.this); builder.setTitle("Login");
+ * builder.setMessage(ex.getLocalizedMessage()); builder.show();
+ * Log.i(LOG_TAG, "fail\n" + ex.getLocalizedMessage()); }
+ * 
+ * 
+ * @Override public void onSuccess(Map<String, Object> result) {
+ * Log.i(LOG_TAG, "success\n" + result); pDialog.dismiss(); Intent
+ * intent = new Intent(); intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
+ * ); intent.setClass(LoginActivity.this, MainActivity.class);
+ * startActivity(intent); finish();
+ * 
+ * }
+ * 
+ * @Override public void onSuccess(JSONObject result) {
+ * 
+ * pDialog.dismiss();
+ * 
+ * if (Assist.getErrCode(result) == 0) { // JSONArray list = //
+ * Assist.getList(result); // Log.i(LOG_TAG, "success\n" + result);
+ * 
+ * goToHome();
+ * 
+ * } else { Assist.showAlert(LoginActivity.this,
+ * Assist.getMessage(result)); }
+ * 
+ * }
+ * 
+ * }); } if (regRadio.isChecked()) { Log.i(LOG_TAG, "reg mode"); pDialog
+ * = ProgressDialog.show(LoginActivity.this, "", "註冊中…", true);
+ * Map<String, Object> mapParam = new HashMap<String, Object>();
+ * mapParam.put("accName", accNameText.getText().toString());
+ * mapParam.put("passwd", passwdText.getText().toString());
+ * mapParam.put("passwd2", passwd2Text.getText().toString());
+ * ReqUtil.registerUser(mapParam, new COIMCallListener() {
+ * 
+ * @Override public void onFail(HttpResponse response, Exception ex) {
+ * pDialog.dismiss(); AlertDialog.Builder builder = new
+ * AlertDialog.Builder( LoginActivity.this); builder.setTitle("Login");
+ * builder.setMessage(ex.getLocalizedMessage()); builder.show();
+ * Log.i(LOG_TAG, "fail\n" + ex.getLocalizedMessage()); }
+ * 
+ * @Override public void onSuccess(JSONObject result) { Log.i(LOG_TAG,
+ * "success\n" + result); pDialog.dismiss();
+ * 
+ * if (Assist.getErrCode(result) == 0) { goToHome(); } else {
+ * Assist.showAlert(LoginActivity.this, Assist.getMessage(result)); } }
+ * }); } } });
+ * 
+ * loginRadio = (RadioButton) findViewById(R.id.loginRadio); regRadio =
+ * (RadioButton) findViewById(R.id.regRadio);
+ * 
+ * radioGroup = (RadioGroup) findViewById(R.id.radioGroup1);
+ * radioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+ * 
+ * @Override public void onCheckedChanged(RadioGroup group, int
+ * checkedId) { if (loginRadio.isChecked()) {
+ * passwd2Text.setVisibility(View.INVISIBLE); submitBut.setText("登入"); }
+ * if (regRadio.isChecked()) { passwd2Text.setVisibility(View.VISIBLE);
+ * submitBut.setText("註冊"); } } });
+ */
+
