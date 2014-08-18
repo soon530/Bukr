@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.TextView;
 
 import com.coimotion.csdk.common.COIMCallListener;
 import com.coimotion.csdk.common.COIMException;
@@ -50,6 +51,8 @@ public class LoginActivity extends Activity implements OnClickListener{
 	// for new layout
 	private ImageView mLogin;
 	private Dialog mLoginDialog;
+	private TextView mSignup;
+	private Dialog mSignupDialog;
 
 	@Override
 	public void onBackPressed() {
@@ -65,9 +68,10 @@ public class LoginActivity extends Activity implements OnClickListener{
 		switch (id) {
 		case R.id.login_login:
 			mLoginDialog.show();
-			//mBuilder.show();
 			break;
-
+		case R.id.login_singup:
+			mSignupDialog.show();
+			break;
 		default:
 			break;
 		}
@@ -78,6 +82,13 @@ public class LoginActivity extends Activity implements OnClickListener{
 		final Dialog dialog = new Dialog(this);
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		dialog.setContentView(R.layout.activity_login_dialog);
+		return dialog;
+	}
+
+	private Dialog getSignupDialog() {
+		final Dialog dialog = new Dialog(this);
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		dialog.setContentView(R.layout.activity_singup_dialog);
 		return dialog;
 	}
 	
@@ -97,6 +108,10 @@ public class LoginActivity extends Activity implements OnClickListener{
 		mLoginDialog = getLoginDialog();
 		mLogin.setOnClickListener(this);
 		
+		
+		mSignup = (TextView) findViewById(R.id.login_singup);
+		mSignupDialog = getSignupDialog();
+		mSignup.setOnClickListener(this);
 		
 
 /*		accNameText = (EditText) findViewById(R.id.accName);
