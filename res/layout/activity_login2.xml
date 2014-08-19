@@ -8,56 +8,23 @@
         android:id="@+id/imageView1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/login_reading_gril" 
-        android:scaleType="fitXY"/>
+        android:scaleType="fitXY"
+        android:src="@drawable/login_reading_gril" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:gravity="center" >
 
         <ImageView
             android:id="@+id/imageView2"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginLeft="125dp"
             android:layout_marginTop="85dp"
             android:src="@drawable/login_logo" />
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="60dp"
-            android:layout_marginTop="340dp"
-            android:text="記錄自己的心得與看書心情"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp" />
-
-        <ImageView
-            android:id="@+id/login_facebook"
-            android:layout_width="140dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/textView1"
-            android:layout_marginLeft="12dp"
-            android:layout_marginTop="40dp"
-            android:src="@drawable/login_facebook_button"
-            android:scaleType="fitXY" />
-
-        <ImageView
-            android:id="@+id/login_login"
-            android:layout_width="140dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/login_facebook"
-            android:layout_marginRight="12dp"
-            android:src="@drawable/login_login_button"
-            android:scaleType="fitXY" />
 
         <TextView
             android:id="@+id/textView3"
@@ -65,12 +32,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="18dp"
             android:layout_marginLeft="12dp"
             android:text="沒有帳號？現在"
-            android:textSize="16sp" 
             android:textColor="#FFFFFF"
-            />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/login_singup"
@@ -80,9 +46,8 @@
             android:layout_alignBottom="@+id/textView3"
             android:layout_toRightOf="@+id/textView3"
             android:text="註冊"
-            android:textSize="16sp" 
             android:textColor="@color/Bukr"
-             />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/login_go"
@@ -93,10 +58,50 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="12dp"
             android:text="略過"
-            android:textSize="16sp" 
             android:textColor="@color/Bukr"
-             />
+            android:textSize="16sp" />
 
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/textView3"
+            android:layout_alignParentLeft="true"
+            android:layout_marginBottom="30dp"
+            android:orientation="horizontal" >
+
+            <ImageButton
+                android:id="@+id/login_facebook"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_weight="1"
+                android:padding="0dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/login_facebook_button" />
+
+            <ImageButton
+                android:id="@+id/login_login"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="16dp"
+                android:layout_weight="1"
+                android:padding="0dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/login_login_button" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/linearLayout1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="32dp"
+            android:text="記錄自己的心得與看書心情"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp" />
     </RelativeLayout>
 
 </FrameLayout>

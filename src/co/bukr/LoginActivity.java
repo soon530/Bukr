@@ -7,25 +7,19 @@ import org.apache.http.HttpResponse;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
 import com.coimotion.csdk.common.COIMCallListener;
@@ -41,8 +35,8 @@ public class LoginActivity extends Activity implements OnClickListener {
 	private ProgressDialog pDialog;
 
 	// Login or Singup 
-	private ImageView mFB;
-	private ImageView mLogin;
+	private ImageButton mFB;
+	private ImageButton mLogin;
 	private TextView mSignup;
 	private TextView mGo;
 
@@ -83,7 +77,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 
 		setContentView(R.layout.activity_login2);
 
-		mLogin = (ImageView) findViewById(R.id.login_login);
+		mLogin = (ImageButton) findViewById(R.id.login_login);
 		mLogin.setOnClickListener(this);
 		mLoginDialog = getLoginDialog();
 
@@ -94,7 +88,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 		mGo = (TextView) findViewById(R.id.login_go);
 		mGo.setOnClickListener(this);
 
-		mFB = (ImageView) findViewById(R.id.login_facebook);
+		mFB = (ImageButton) findViewById(R.id.login_facebook);
 		mFB.setOnClickListener(this);
 	}
 	
