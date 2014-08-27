@@ -5,6 +5,8 @@ import it.gmariotti.cardslib.library.internal.CardHeader;
 import it.gmariotti.cardslib.library.internal.CardThumbnail;
 import it.gmariotti.cardslib.library.internal.base.BaseCard;
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +32,7 @@ public class BookGridCard extends Card {
 
 		CardHeader header = new BookGridCardHeader(getContext());
 		header.setButtonOverflowVisible(true);
-		//header.setTitle(mBookItem.mTitle);
+		// header.setTitle(mBookItem.mTitle);
 
 		header.setPopupMenu(R.menu.popup_edit,
 				new CardHeader.OnClickCardHeaderPopupMenuListener() {
@@ -60,24 +62,26 @@ public class BookGridCard extends Card {
 		setOnClickListener(new OnCardClickListener() {
 			@Override
 			public void onClick(Card card, View view) {
-				/*
-				 * Intent intent = new Intent(getContext(),
-				 * BabyRecordActivity.class);
-				 * intent.putExtra(Config.BABY_OBJECT_ID,
-				 * mBabyDiary.getObjectId());
-				 * intent.putExtra(Config.TOTAL_RECORD,
-				 * mBabyDiary.getTotalRecord());
-				 * getContext().startActivity(intent);
-				 */}
+
+				Config.bkID = mBookItem.getBkID();
+				// Log.i(LOG_TAG, "bkID: " + Config.bkID);
+
+				Intent intent = new Intent();
+				// intent.putExtra("spID", spID);
+				intent.setClass(getContext(), BookActivity.class);
+				getContext().startActivity(intent);
+
+			}
 		});
 	}
 
 	@Override
 	public void setupInnerViewElements(ViewGroup parent, View view) {
 
-/*		TextView title = (TextView) view
-				.findViewById(R.id.carddemo_gplay_main_inner_title);
-*/
+		/*
+		 * TextView title = (TextView) view
+		 * .findViewById(R.id.carddemo_gplay_main_inner_title);
+		 */
 		// title.setText(totalRecord + " " + totalFavorite + privateOrPublic);
 
 		TextView subtitle = (TextView) view

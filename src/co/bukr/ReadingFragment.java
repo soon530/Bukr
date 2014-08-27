@@ -196,21 +196,6 @@ public class ReadingFragment extends Fragment {
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.book_card_grid, container, false); 
 		mGirdView = (CardGridView) rootView.findViewById(R.id.book_card_grid);
-		mGirdView.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				BookItem bookItem = mBooks.get(position); 
-				Config.bkID = bookItem.getBkID();
-				Log.i(LOG_TAG, "bkID: " + Config.bkID);
-				
-	            Intent intent = new Intent();
-				//intent.putExtra("spID", spID);
-				intent.setClass(getActivity(), BookActivity.class);
-				startActivity(intent);
-			}
-		});
 		
 		return rootView;
 	}
