@@ -2,13 +2,14 @@
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
     <style name="AppBaseTheme" parent="android:Theme.Light">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.        -->
+            backward-compatibility can go here.
+        -->
     </style>
 
     <!-- Application theme. -->
@@ -20,10 +21,20 @@
         <item name="android:background">#52abaf</item>
         <item name="android:icon">@drawable/ic_launcher</item>
         <item name="android:titleTextStyle">@style/MyActionBar.TitleTextStyle</item>
-        
     </style>
 
     <style name="MyActionBar.TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
-   	 <item name="android:textColor">#FFFFFF</item>
-  </style>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="Birth.card.content_outer_layout" parent="@style/card.content_outer_layout">
+        <!-- Style for Content View -->
+        <item name="android:minHeight">60dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginTop">@dimen/card_content_outer_view_margin_top</item>
+        <item name="android:layout_marginBottom">@dimen/card_content_outer_view_margin_bottom</item>
+        <item name="android:layout_marginLeft">@dimen/card_content_outer_view_margin_left</item>
+        <item name="android:layout_marginRight">@dimen/card_content_outer_view_margin_right</item>
+    </style>
+
 </resources>

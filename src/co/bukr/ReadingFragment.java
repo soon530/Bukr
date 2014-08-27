@@ -1,5 +1,9 @@
 package co.bukr;
 
+import it.gmariotti.cardslib.library.internal.Card;
+import it.gmariotti.cardslib.library.internal.CardGridArrayAdapter;
+import it.gmariotti.cardslib.library.view.CardGridView;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +25,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.GridView;
 
 import com.coimotion.csdk.common.COIMCallListener;
 import com.coimotion.csdk.common.COIMException;
@@ -54,7 +57,8 @@ public class ReadingFragment extends Fragment {
 
 	private OnFragmentInteractionListener mListener;
 	private ArrayList<BookItem> mBooks = new ArrayList<BookItem>();
-	private GridView mGirdView;
+	private ArrayList<Card> mBookCards = new ArrayList<Card>();
+	private CardGridView mGirdView;
 
 	/**
 	 * Use this factory method to create a new instance of this fragment using
@@ -139,18 +143,22 @@ public class ReadingFragment extends Fragment {
 						Log.i(LOG_TAG, "iconURI: " + jsonBook.getString("iconURI"));
 						Log.i(LOG_TAG, "title: " + jsonBook.getString("title"));
 						
+						String bkID = jsonBook.getString("bkID");
 						String iconURI = jsonBook.getString("iconURI");
 						String title = jsonBook.getString("title");
-						String bkID = jsonBook.getString("bkID");
-						mBooks.add(new BookItem(bkID, iconURI, title));						
-
-						adapter = new BooksAdapter(
-								getActivity(), 
-								R.layout.row_books, 
-								mBooks  
-								);
 						
-						mGirdView.setAdapter(adapter);
+						BookGridCard bookCard = new BookGridCard(getActivity());
+						bookCard.setBookItem(new BookItem(bkID, iconURI, title));
+						bookCard.init();
+						//bookCard.init();
+						//CardHeader bookCardHeader = new CardHeader(getActivity());
+						//bookCardHeader.setTitle(title);
+						//bookCard.addCardHeader(bookCardHeader);
+						//bookCard.setTitle(title);
+						mBookCards.add(bookCard);
+						
+						//mBooks.add(new BookItem(bkID, iconURI, title));						
+
 
 						
 					} catch (JSONException e) {
@@ -158,6 +166,18 @@ public class ReadingFragment extends Fragment {
 					}
 					
 				}
+				
+		        CardGridArrayAdapter mCardArrayAdapter = new CardGridArrayAdapter(getActivity(), mBookCards);
+
+				
+/*				adapter = new BooksAdapter(
+						getActivity(), 
+						R.layout.row_books, 
+						mBooks  
+						);
+*/				
+				mGirdView.setAdapter(mCardArrayAdapter);
+
 				
 				
 			}
@@ -174,8 +194,8 @@ public class ReadingFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.fragment_reading, container, false); 
-		mGirdView = (GridView) rootView.findViewById(R.id.gridView1);
+		View rootView = inflater.inflate(R.layout.book_card_grid, container, false); 
+		mGirdView = (CardGridView) rootView.findViewById(R.id.book_card_grid);
 		mGirdView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
