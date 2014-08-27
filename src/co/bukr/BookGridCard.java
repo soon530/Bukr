@@ -75,9 +75,9 @@ public class BookGridCard extends Card {
 	@Override
 	public void setupInnerViewElements(ViewGroup parent, View view) {
 
-		TextView title = (TextView) view
+/*		TextView title = (TextView) view
 				.findViewById(R.id.carddemo_gplay_main_inner_title);
-
+*/
 		// title.setText(totalRecord + " " + totalFavorite + privateOrPublic);
 
 		TextView subtitle = (TextView) view
