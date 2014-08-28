@@ -55,7 +55,7 @@ public class DrawerAdapter extends ArrayAdapter<DrawerItem> {
 				dItem.getImgResID()));
 		drawerHolder.iconColor.setImageDrawable(view.getResources().getDrawable(dItem.getImgResIDColor()));
 		drawerHolder.ItemName.setText(dItem.getItemName());
-		drawerHolder.ItemName.setAlpha(0.56f);
+		drawerHolder.ItemName.setAlpha(0.87f);
 		drawerHolder.iconColor.setVisibility(View.GONE);
 		
 		// don't count header view position
