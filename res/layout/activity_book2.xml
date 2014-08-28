@@ -20,19 +20,78 @@
                 android:background="@android:color/holo_green_light"
                 android:text="" />
 
-            <TextView
-                android:id="@+id/textView2"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="@color/Bukr"
-                android:text="" />
+                android:layout_height="100dp" 
+                android:background="@color/Bukr">
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="64dp"
+                    android:layout_marginTop="18dp"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceLarge" 
+                    android:textColor="@android:color/white"
+                    />
+
+                <TextView
+                    android:id="@+id/author"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/title"
+                    android:layout_below="@+id/title"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@android:color/white"
+                     />
+
+                <TextView
+                    android:id="@+id/publisher"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/author"
+                    android:layout_below="@+id/author"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@android:color/white"
+                    
+                     />
+
+                <TextView
+                    android:id="@+id/sell_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@+id/publisher"
+                    android:layout_alignBottom="@+id/publisher"
+                    android:layout_alignLeft="@+id/price"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@android:color/white"
+                     />
+
+                <TextView
+                    android:id="@+id/price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/sell_price"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    android:text=""
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@android:color/white" />
+
+            </RelativeLayout>
 
             <TextView
                 android:layout_marginLeft="64dp"
                 android:id="@+id/item_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="test" />
+                 />
         </LinearLayout>
 
         <ImageView

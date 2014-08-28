@@ -38,6 +38,11 @@ public class BookActivity extends Activity implements OnQueryTextListener {
 	private ImageView mImageItem;
 	private TextView mTextItem;
 	private SearchView mSearchView;
+	private TextView mTitle;
+	private TextView mAuthor;
+	private TextView mPublisher;
+	private TextView mPrice;
+	private TextView mSellPrice;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +51,7 @@ public class BookActivity extends Activity implements OnQueryTextListener {
 		getActionBar().setBackgroundDrawable(
 				new ColorDrawable(android.R.color.transparent));
 		// getActionBar().setDisplayShowHomeEnabled(false);
-		// getActionBar().setIcon(R.drawable.nav_logo);
+		getActionBar().setIcon(R.drawable.nav_logo);
 		getActionBar().setDisplayShowTitleEnabled(false);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		// 设置ActionBar 背景色 透明
@@ -63,7 +68,12 @@ public class BookActivity extends Activity implements OnQueryTextListener {
 
 		mImageItem = (ImageView) findViewById(R.id.item_image);
 		mTextItem = (TextView) findViewById(R.id.item_text);
-
+		
+		mTitle = (TextView) findViewById(R.id.title);
+		mAuthor = (TextView) findViewById(R.id.author);
+		mPublisher = (TextView) findViewById(R.id.publisher);
+		mPrice = (TextView) findViewById(R.id.price);
+		mSellPrice = (TextView) findViewById(R.id.sell_price);
 	}
 
 	@Override
@@ -159,12 +169,19 @@ public class BookActivity extends Activity implements OnQueryTextListener {
 									jsonBook.getString("iconURI").trim(),
 									mImageItem, Config.OPTIONS, null);
 
-							mTextItem.setText("書名："
-									+ jsonBook.getString("title") + "\n定價："
-									+ jsonBook.getString("price") + "\n出版社名稱："
-									+ jsonBook.getString("publisher")
-									+ "\nISBN：" + jsonBook.getString("ISBN")
+							mTitle.setText(jsonBook.getString("title"));
+							mAuthor.setText("Eason");
+							mPublisher.setText(jsonBook.getString("publisher"));
+							
+							int sellPrice = (int) (jsonBook.getInt("price") * 0.9);
+							mPrice.setText("定價："+ jsonBook.getString("price"));
+							mSellPrice.setText("特價："+String.valueOf(sellPrice));
+							mTextItem.setText(
+									"\nISBN：" + jsonBook.getString("ISBN")
 									+ "\n簡介：" + Html.fromHtml(s));
+							
+							
+							
 
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
