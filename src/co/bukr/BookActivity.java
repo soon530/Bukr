@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.http.HttpResponse;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -12,6 +13,7 @@ import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -40,29 +42,30 @@ public class BookActivity extends Activity implements OnQueryTextListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);    
-		getActionBar().setBackgroundDrawable(new ColorDrawable(android.R.color.transparent));
-		//getActionBar().setDisplayShowHomeEnabled(false);
-		//getActionBar().setIcon(R.drawable.nav_logo);
+		requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+		getActionBar().setBackgroundDrawable(
+				new ColorDrawable(android.R.color.transparent));
+		// getActionBar().setDisplayShowHomeEnabled(false);
+		// getActionBar().setIcon(R.drawable.nav_logo);
 		getActionBar().setDisplayShowTitleEnabled(false);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-		//设置ActionBar 背景色 透明  
+		// 设置ActionBar 背景色 透明
 		setContentView(R.layout.activity_book2);
-		
+
 		try {
 			ReqUtil.initSDK(getApplication());
 		} catch (COIMException e) {
 		} catch (Exception e) {
 		}
-		
+
 		initImageLoader(this);
 		showBookDetail();
-		
+
 		mImageItem = (ImageView) findViewById(R.id.item_image);
 		mTextItem = (TextView) findViewById(R.id.item_text);
-		
+
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
@@ -71,13 +74,14 @@ public class BookActivity extends Activity implements OnQueryTextListener {
 		mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 		mSearchView.setOnQueryTextListener(this);
 
-		int searchIconId = mSearchView.getContext().getResources().
-                getIdentifier("android:id/search_button", null, null);
-ImageView searchIcon = (ImageView) mSearchView.findViewById(searchIconId);
-searchIcon.setImageResource(R.drawable.search);
-		
-		//mSearchView.setIconifiedByDefault(false);
-		//setupSearchView(searchItem);
+		int searchIconId = mSearchView.getContext().getResources()
+				.getIdentifier("android:id/search_button", null, null);
+		ImageView searchIcon = (ImageView) mSearchView
+				.findViewById(searchIconId);
+		searchIcon.setImageResource(R.drawable.search);
+
+		// mSearchView.setIconifiedByDefault(false);
+		// setupSearchView(searchItem);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -97,91 +101,99 @@ searchIcon.setImageResource(R.drawable.search);
 		return super.onOptionsItemSelected(item);
 	}
 
-	
 	public static void initImageLoader(Context context) {
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
-        .memoryCache(new LruMemoryCache(2 * 1024 * 1024))
-        .defaultDisplayImageOptions(DisplayImageOptions.createSimple())
-        //.writeDebugLogs()
-        .denyCacheImageMultipleSizesInMemory()
-        .build();
-		
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+				context).memoryCache(new LruMemoryCache(2 * 1024 * 1024))
+				.defaultDisplayImageOptions(DisplayImageOptions.createSimple())
+				// .writeDebugLogs()
+				.denyCacheImageMultipleSizesInMemory().build();
+
 		// Initialize ImageLoader with configuration.
 		ImageLoader.getInstance().init(config);
 	}
 
-
 	private void showBookDetail() {
 		Map<String, Object> mapParam = new HashMap<String, Object>();
 		mapParam.put("record", "1");
+		mapParam.put("info", "1");
 
 		ReqUtil.send("twBook/book/info/" + Config.bkID, mapParam,
 				new COIMCallListener() {
 
-					private BooksAdapter adapter;
+					//private BooksAdapter adapter;
 
 					@Override
 					public void onSuccess(JSONObject result) {
 						Log.i(LOG_TAG, "success: " + result);
-						
-						
+
 						try {
-							JSONObject jsonBook = (JSONObject) result.get("value");
+							JSONObject jsonBook = (JSONObject) result
+									.get("value");
 
 							Log.i(LOG_TAG,
 									"bkID: " + jsonBook.getString("bkID"));
 							Log.i(LOG_TAG,
-									"iconURI: "
-											+ jsonBook.getString("iconURI"));
+									"iconURI: " + jsonBook.getString("iconURI"));
 							Log.i(LOG_TAG,
 									"title: " + jsonBook.getString("title"));
-							
-							imageLoader.displayImage(
-									jsonBook.getString("iconURI").trim(), 
-									mImageItem,
-									Config.OPTIONS, null);
-							
-							mTextItem.setText(
-									"書名：" + jsonBook.getString("title") +
-									"\n定價：" + jsonBook.getString("price") +
-									"\n出版社名稱：" + jsonBook.getString("publisher") +
-									"\nISBN：" + jsonBook.getString("ISBN")
-									);
 
+							Log.i(LOG_TAG,
+									"infoList: "
+											+ jsonBook.getString("infoList"));
+
+							JSONArray infoList = jsonBook
+									.getJSONArray("infoList");
+
+							// JSONArray jsonInfoList =
+							// Assist.getList(infoList);
+
+							String s = "";
+							for (int i = 0; i < infoList.length(); i++) {
+								JSONObject json_data = infoList
+										.getJSONObject(i);
+								s = s + "*" + i + "*"
+										+ json_data.getString("body");
+							}
+
+							imageLoader.displayImage(
+									jsonBook.getString("iconURI").trim(),
+									mImageItem, Config.OPTIONS, null);
+
+							mTextItem.setText("書名："
+									+ jsonBook.getString("title") + "\n定價："
+									+ jsonBook.getString("price") + "\n出版社名稱："
+									+ jsonBook.getString("publisher")
+									+ "\nISBN：" + jsonBook.getString("ISBN")
+									+ "\n簡介：" + Html.fromHtml(s));
 
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 
-						
-/*						JSONArray jsonBooks = Assist.getList(result);
-
-						for (int i = 0; i < jsonBooks.length(); i++) {
-							JSONObject jsonBook;
-
-							try {
-								jsonBook = (JSONObject) jsonBooks.get(i);
-								// Log.i(LOG_TAG, "book: " + jsonBook);
-
-								Log.i(LOG_TAG,
-										"bkID: " + jsonBook.getString("bkID"));
-								Log.i(LOG_TAG,
-										"iconURI: "
-												+ jsonBook.getString("iconURI"));
-								Log.i(LOG_TAG,
-										"title: " + jsonBook.getString("title"));
-
-								String iconURI = jsonBook.getString("iconURI");
-								String title = jsonBook.getString("title");
-								String bkID = jsonBook.getString("bkID");
-
-							} catch (JSONException e) {
-								e.printStackTrace();
-							}
-
-						}
-*/
+						/*
+						 * JSONArray jsonBooks = Assist.getList(result);
+						 * 
+						 * for (int i = 0; i < jsonBooks.length(); i++) {
+						 * JSONObject jsonBook;
+						 * 
+						 * try { jsonBook = (JSONObject) jsonBooks.get(i); //
+						 * Log.i(LOG_TAG, "book: " + jsonBook);
+						 * 
+						 * Log.i(LOG_TAG, "bkID: " +
+						 * jsonBook.getString("bkID")); Log.i(LOG_TAG,
+						 * "iconURI: " + jsonBook.getString("iconURI"));
+						 * Log.i(LOG_TAG, "title: " +
+						 * jsonBook.getString("title"));
+						 * 
+						 * String iconURI = jsonBook.getString("iconURI");
+						 * String title = jsonBook.getString("title"); String
+						 * bkID = jsonBook.getString("bkID");
+						 * 
+						 * } catch (JSONException e) { e.printStackTrace(); }
+						 * 
+						 * }
+						 */
 					}
 
 					@Override
