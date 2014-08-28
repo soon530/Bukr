@@ -52,6 +52,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 	private EditText mSignupDialogPassword;
 	private ImageView mSignupDialogLogin;
 	private EditText mSignupDialogAgain;
+	private EditText mSignupDialogEmail;
 
 	@Override
 	public void onBackPressed() {
@@ -111,6 +112,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 		dialog.setContentView(R.layout.activity_singup_dialog);
 
 		mSignupDialogName = (EditText) dialog.findViewById(R.id.name);
+		mSignupDialogEmail = (EditText) dialog.findViewById(R.id.email);
 		mSignupDialogPassword = (EditText) dialog.findViewById(R.id.password);
 		mSignupDialogAgain = (EditText) dialog.findViewById(R.id.again);
 		mSignupDialogLogin = (ImageView) dialog.findViewById(R.id.signup);
@@ -203,6 +205,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 	private void signupBukr() {
 		Map<String, Object> mapParam = new HashMap<String, Object>();
 		mapParam.put("accName", mSignupDialogName.getText().toString());
+		mapParam.put("email", mSignupDialogEmail.getText().toString());
 		mapParam.put("passwd", mSignupDialogPassword.getText().toString());
 		mapParam.put("passwd2", mSignupDialogAgain.getText().toString());
 
