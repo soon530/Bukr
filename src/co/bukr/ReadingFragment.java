@@ -13,18 +13,18 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
+import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 
 import com.coimotion.csdk.common.COIMCallListener;
 import com.coimotion.csdk.common.COIMException;
@@ -44,7 +44,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
  * this fragment.
  * 
  */
-public class ReadingFragment extends Fragment {
+public class ReadingFragment extends Fragment implements OnRefreshListener {
 	// TODO: Rename parameter arguments, choose names that match
 	// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 	private final static String LOG_TAG = "Reading";
@@ -59,6 +59,7 @@ public class ReadingFragment extends Fragment {
 	private ArrayList<BookItem> mBooks = new ArrayList<BookItem>();
 	private ArrayList<Card> mBookCards = new ArrayList<Card>();
 	private CardGridView mGirdView;
+	private PullToRefreshLayout mPullToRefreshLayout;
 
 	/**
 	 * Use this factory method to create a new instance of this fragment using
@@ -118,10 +119,10 @@ public class ReadingFragment extends Fragment {
 
 	
 
-	private void showReadingPeople() {
+	private void showReadingPeople(final boolean isRefresh) {
 		
 		Map<String, Object> mapParam = new HashMap<String, Object>();
-		mapParam.put("cycle", "week");
+		mapParam.put("cycle", "month");
 
 		ReqUtil.send("twBook/book/whatsHot", mapParam, new COIMCallListener() {
 			
@@ -177,8 +178,9 @@ public class ReadingFragment extends Fragment {
 						);
 */				
 				mGirdView.setAdapter(mCardArrayAdapter);
-
 				
+				if (isRefresh) 
+					mPullToRefreshLayout.setRefreshComplete();
 				
 			}
 			
@@ -197,12 +199,25 @@ public class ReadingFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.book_card_grid, container, false); 
 		mGirdView = (CardGridView) rootView.findViewById(R.id.book_card_grid);
 		
+		// Retrieve the PullToRefreshLayout from the content view
+		mPullToRefreshLayout = (PullToRefreshLayout) rootView
+				.findViewById(R.id.carddemo_extra_ptr_layout);
+
+		// Now setup the PullToRefreshLayout
+		 ActionBarPullToRefresh.from(getActivity())
+		 	// Mark All Children as pullable
+		 	.allChildrenArePullable()
+		 	// Set the OnRefreshListener
+			.listener(this)
+			// Finally commit the setup to our PullToRefreshLayout
+			.setup(mPullToRefreshLayout);
+
 		return rootView;
 	}
 	
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
-		showReadingPeople();
+		showReadingPeople(false);
 		super.onViewCreated(view, savedInstanceState);
 	}
 	
@@ -248,6 +263,12 @@ public class ReadingFragment extends Fragment {
 	public interface OnFragmentInteractionListener {
 		// TODO: Update argument type and name
 		public void onFragmentInteraction(Uri uri);
+	}
+
+	@Override
+	public void onRefreshStarted(View view) {
+		mBookCards.clear();
+		showReadingPeople(true);
 	}
 
 }

@@ -3,19 +3,26 @@
     xmlns:card="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-	android:layout_margin="5dp"
+    android:layout_margin="5dp"
     android:orientation="vertical" >
 
-    <it.gmariotti.cardslib.library.view.CardGridView
-        android:id="@+id/book_card_grid"
+    <uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/carddemo_extra_ptr_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:columnWidth="110dp"
-        android:gravity="center"
-        android:horizontalSpacing="5dp"
-        android:numColumns="auto_fit"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="5dp"
-        card:list_card_layout_resourceID="@layout/book_card_view" />
+        android:layout_height="match_parent" >
+
+        <it.gmariotti.cardslib.library.view.CardGridView
+            android:id="@+id/book_card_grid"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:columnWidth="110dp"
+            android:gravity="center"
+            android:horizontalSpacing="5dp"
+            android:numColumns="auto_fit"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="5dp"
+            card:list_card_layout_resourceID="@layout/book_card_view" />
+    </uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout>
 
 </LinearLayout>
