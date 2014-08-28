@@ -1,120 +1,125 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/FrameLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <FrameLayout
-        android:id="@+id/FrameLayout1"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
+            android:layout_height="match_parent" >
 
-            <TextView
-                android:id="@+id/textView1"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="224dp"
-                android:background="@android:color/holo_green_light"
-                android:text="" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="@color/Bukr" >
+                android:layout_height="match_parent"
+                android:orientation="vertical" >
 
                 <TextView
-                    android:id="@+id/title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
+                    android:id="@+id/textView1"
+                    android:layout_width="match_parent"
+                    android:layout_height="224dp"
+                    android:background="@android:color/holo_green_light"
+                    android:text="" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:background="@color/Bukr" >
+
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="64dp"
+                        android:layout_marginTop="18dp"
+                        android:text=""
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:textColor="@android:color/white" />
+
+                    <TextView
+                        android:id="@+id/author"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/title"
+                        android:layout_below="@+id/title"
+                        android:text=""
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/white" />
+
+                    <TextView
+                        android:id="@+id/publisher"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@+id/author"
+                        android:layout_below="@+id/author"
+                        android:text=""
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/white" />
+
+                    <TextView
+                        android:id="@+id/sell_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/publisher"
+                        android:layout_alignBottom="@+id/publisher"
+                        android:layout_alignLeft="@+id/price"
+                        android:text=""
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/white" />
+
+                    <TextView
+                        android:id="@+id/price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_above="@+id/sell_price"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="20dp"
+                        android:text=""
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@android:color/white" />
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="16dp"
                     android:layout_marginLeft="64dp"
-                    android:layout_marginTop="18dp"
-                    android:text=""
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@android:color/white" />
+                    android:layout_marginTop="16dp"
+                    android:text="簡介"
+                    android:textColor="@color/Bukr"
+                    android:textSize="27.5sp" />
 
                 <TextView
-                    android:id="@+id/author"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/title"
-                    android:layout_below="@+id/title"
-                    android:text=""
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white" />
+                    android:id="@+id/item_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="64dp" />
+            </LinearLayout>
 
-                <TextView
-                    android:id="@+id/publisher"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/author"
-                    android:layout_below="@+id/author"
-                    android:text=""
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white" />
+            <ImageView
+                android:id="@+id/item_image"
+                android:layout_width="130dp"
+                android:layout_height="176dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="64dp"
+                android:scaleType="fitXY" 
+                android:src="@drawable/login_reading_gril"/>
+        </FrameLayout>
+    </ScrollView>
 
-                <TextView
-                    android:id="@+id/sell_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/publisher"
-                    android:layout_alignBottom="@+id/publisher"
-                    android:layout_alignLeft="@+id/price"
-                    android:text=""
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white" />
+    <ImageView
+        android:id="@+id/ImageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="295dp"
+        android:padding="0dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/save_button" />
 
-                <TextView
-                    android:id="@+id/price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@+id/sell_price"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="20dp"
-                    android:text=""
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white" />
-            </RelativeLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="16dp"
-                android:layout_marginLeft="64dp"
-                android:layout_marginTop="16dp"
-                android:text="簡介"
-                android:textSize="27.5sp"
-                android:textColor="@color/Bukr" />
-
-            <TextView
-                android:id="@+id/item_text"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="64dp" />
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/item_image"
-            android:layout_width="130dp"
-            android:layout_height="176dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="64dp"
-            android:scaleType="fitXY" />
-
-        <ImageView
-            android:id="@+id/ImageView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="295dp"
-            android:src="@drawable/save_button"
-            android:padding="0dp"
-            android:scaleType="fitXY" />
-
-    </FrameLayout>
-
-</ScrollView>
+</FrameLayout>
