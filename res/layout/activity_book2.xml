@@ -12,14 +12,14 @@
         <TextView
             android:id="@+id/textView1"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="224dp"
             android:background="@android:color/holo_green_light"
             android:text="" />
 
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="100dp"
             android:background="@color/Bukr"
             android:text="" />
 
@@ -32,11 +32,11 @@
 
     <ImageView
         android:id="@+id/item_image"
-        android:layout_width="100dp"
-        android:layout_height="150dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="70dp"
+        android:layout_width="130dp"
+        android:layout_height="176dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="64dp"
         android:scaleType="fitXY"
-        android:src="@drawable/login_reading_gril" />
+        />
 
 </FrameLayout>

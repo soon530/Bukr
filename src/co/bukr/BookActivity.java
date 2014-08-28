@@ -11,9 +11,15 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
 import android.widget.TextView;
 
 import com.coimotion.csdk.common.COIMCallListener;
@@ -24,22 +30,25 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
-public class BookActivity extends Activity {
+public class BookActivity extends Activity implements OnQueryTextListener {
 	private final static String LOG_TAG = "Book";
 	private ImageLoader imageLoader = ImageLoader.getInstance();
 	private ImageView mImageItem;
 	private TextView mTextItem;
+	private SearchView mSearchView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);    
 		getActionBar().setBackgroundDrawable(new ColorDrawable(android.R.color.transparent));
-		getActionBar().setDisplayShowHomeEnabled(false);
+		//getActionBar().setDisplayShowHomeEnabled(false);
+		//getActionBar().setIcon(R.drawable.nav_logo);
 		getActionBar().setDisplayShowTitleEnabled(false);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		//设置ActionBar 背景色 透明  
 		setContentView(R.layout.activity_book2);
-
+		
 		try {
 			ReqUtil.initSDK(getApplication());
 		} catch (COIMException e) {
@@ -53,6 +62,41 @@ public class BookActivity extends Activity {
 		mTextItem = (TextView) findViewById(R.id.item_text);
 		
 	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.book_search, menu);
+		MenuItem searchItem = menu.findItem(R.id.action_search);
+		mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+		mSearchView.setOnQueryTextListener(this);
+
+		int searchIconId = mSearchView.getContext().getResources().
+                getIdentifier("android:id/search_button", null, null);
+ImageView searchIcon = (ImageView) mSearchView.findViewById(searchIconId);
+searchIcon.setImageResource(R.drawable.search);
+		
+		//mSearchView.setIconifiedByDefault(false);
+		//setupSearchView(searchItem);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+
+		switch (id) {
+		case android.R.id.home:
+			finish();
+			break;
+
+		default:
+			break;
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
+
 	
 	public static void initImageLoader(Context context) {
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
@@ -149,5 +193,17 @@ public class BookActivity extends Activity {
 					}
 				});
 
+	}
+
+	@Override
+	public boolean onQueryTextChange(String arg0) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean onQueryTextSubmit(String arg0) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
