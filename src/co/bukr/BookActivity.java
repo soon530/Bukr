@@ -176,12 +176,7 @@ public class BookActivity extends Activity implements OnQueryTextListener {
 							int sellPrice = (int) (jsonBook.getInt("price") * 0.9);
 							mPrice.setText("定價："+ jsonBook.getString("price"));
 							mSellPrice.setText("特價："+String.valueOf(sellPrice));
-							mTextItem.setText(
-									"\nISBN：" + jsonBook.getString("ISBN")
-									+ "\n簡介：" + Html.fromHtml(s));
-							
-							
-							
+							mTextItem.setText(Html.fromHtml(s));
 
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block

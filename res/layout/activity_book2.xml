@@ -22,8 +22,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp" 
-                android:background="@color/Bukr">
+                android:layout_height="100dp"
+                android:background="@color/Bukr" >
 
                 <TextView
                     android:id="@+id/title"
@@ -34,9 +34,8 @@
                     android:layout_marginLeft="64dp"
                     android:layout_marginTop="18dp"
                     android:text=""
-                    android:textAppearance="?android:attr/textAppearanceLarge" 
-                    android:textColor="@android:color/white"
-                    />
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@android:color/white" />
 
                 <TextView
                     android:id="@+id/author"
@@ -46,8 +45,7 @@
                     android:layout_below="@+id/title"
                     android:text=""
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white"
-                     />
+                    android:textColor="@android:color/white" />
 
                 <TextView
                     android:id="@+id/publisher"
@@ -57,9 +55,7 @@
                     android:layout_below="@+id/author"
                     android:text=""
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white"
-                    
-                     />
+                    android:textColor="@android:color/white" />
 
                 <TextView
                     android:id="@+id/sell_price"
@@ -70,8 +66,7 @@
                     android:layout_alignLeft="@+id/price"
                     android:text=""
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@android:color/white"
-                     />
+                    android:textColor="@android:color/white" />
 
                 <TextView
                     android:id="@+id/price"
@@ -83,15 +78,23 @@
                     android:text=""
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@android:color/white" />
-
             </RelativeLayout>
 
             <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="16dp"
                 android:layout_marginLeft="64dp"
+                android:layout_marginTop="16dp"
+                android:text="簡介"
+                android:textSize="27.5sp"
+                android:textColor="@color/Bukr" />
+
+            <TextView
                 android:id="@+id/item_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                 />
+                android:layout_marginLeft="64dp" />
         </LinearLayout>
 
         <ImageView
