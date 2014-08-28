@@ -4,27 +4,25 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.http.HttpResponse;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Window;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.coimotion.csdk.common.COIMCallListener;
 import com.coimotion.csdk.common.COIMException;
-import com.coimotion.csdk.util.Assist;
 import com.coimotion.csdk.util.ReqUtil;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-
-import android.app.Activity;
-import android.content.Context;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 public class BookActivity extends Activity {
 	private final static String LOG_TAG = "Book";
@@ -35,7 +33,12 @@ public class BookActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_book);
+		requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);    
+		getActionBar().setBackgroundDrawable(new ColorDrawable(android.R.color.transparent));
+		getActionBar().setDisplayShowHomeEnabled(false);
+		getActionBar().setDisplayShowTitleEnabled(false);
+		//设置ActionBar 背景色 透明  
+		setContentView(R.layout.activity_book2);
 
 		try {
 			ReqUtil.initSDK(getApplication());
