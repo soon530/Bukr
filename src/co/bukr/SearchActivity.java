@@ -14,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.util.Log;
@@ -39,7 +40,7 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.activity_search);
 		mListView = (CardListView) findViewById(R.id.carddemo_list_cursor);
 		
@@ -63,6 +64,22 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 		customizeSearchIcon();
 		return super.onCreateOptionsMenu(menu);
 	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+
+		switch (id) {
+		case android.R.id.home:
+			finish();
+			break;
+		default:
+			break;
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
+
 
 	private void customizeSearchIcon() {
 		int searchIconId = mSearchView.getContext().getResources()
