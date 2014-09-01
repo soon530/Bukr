@@ -147,7 +147,7 @@ public class BookcaseFragment extends Fragment implements OnRefreshListener {
 						String iconURI = jsonBook.getString("iconURI");
 						String title = jsonBook.getString("title");
 						
-						BookGridCard bookCard = new BookGridCard(getActivity());
+						BookcaseGridCard bookCard = new BookcaseGridCard(getActivity());
 						bookCard.setBookItem(new BookItem(bkID, iconURI, title));
 						bookCard.init();
 						mBookCards.add(bookCard);
