@@ -7,8 +7,10 @@ import co.bukr.BookGridCard.GplayGridThumb;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardHeader;
 import it.gmariotti.cardslib.library.internal.CardThumbnail;
+import it.gmariotti.cardslib.library.internal.Card.OnCardClickListener;
 import it.gmariotti.cardslib.library.internal.base.BaseCard;
 import android.content.Context;
+import android.content.Intent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,6 +58,23 @@ public class BookListCard extends Card {
 		thumbnail.setExternalUsage(true);
 
 		addCardThumbnail(thumbnail);
+
+		
+		setOnClickListener(new OnCardClickListener() {
+			@Override
+			public void onClick(Card card, View view) {
+
+				Config.bkID = mBookItem.getBkID();
+				// Log.i(LOG_TAG, "bkID: " + Config.bkID);
+
+				Intent intent = new Intent();
+				// intent.putExtra("spID", spID);
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				intent.setClass(getContext(), BookActivity.class);
+				getContext().startActivity(intent);
+
+			}
+		});
 
 	}
 
