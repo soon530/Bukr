@@ -59,11 +59,8 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 		MenuItem searchItem = menu.findItem(R.id.action_search);
 		mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 		mSearchView.setOnQueryTextListener(this);
-		mSearchView.setIconifiedByDefault(false);
-
+		mSearchView.onActionViewExpanded();
 		customizeSearchIcon();
-
-		// setupSearchView(searchItem);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -77,7 +74,6 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 
 	@Override
 	public boolean onQueryTextChange(String arg0) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -85,7 +81,7 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 	public boolean onQueryTextSubmit(String keyWord) {
 
 		searchBook(keyWord);
-		
+		mSearchView.clearFocus();
 		return false;
 	}
 	
