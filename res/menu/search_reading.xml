@@ -3,9 +3,15 @@
 
     <item
         android:id="@+id/action_search"
-		android:icon="@drawable/search"
+        android:actionViewClass="android.widget.SearchView"
         android:orderInCategory="100"
         android:showAsAction="always"
         android:title="搜尋"/>
+    <item
+        android:id="@+id/action_reading"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        android:title="條碼"
+        />
 
 </menu>

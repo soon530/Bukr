@@ -19,10 +19,14 @@ import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -89,6 +93,7 @@ public class ReadingFragment extends Fragment implements OnRefreshListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setHasOptionsMenu(true);
 //		if (getArguments() != null) {
 //			mParam1 = getArguments().getString(ARG_PARAM1);
 //			mParam2 = getArguments().getString(ARG_PARAM2);
@@ -104,6 +109,33 @@ public class ReadingFragment extends Fragment implements OnRefreshListener {
 		initImageLoader(getActivity());
 		
 	}
+	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.search, menu);
+		super.onCreateOptionsMenu(menu, inflater);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		int id = item.getItemId();
+
+		switch (id) {
+		case R.id.action_search:
+			Intent intent = new Intent();
+			intent.setClass(getActivity(), SearchActivity.class);
+			startActivity(intent);
+			break;
+
+		default:
+			break;
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
+
+	
 	
 	public static void initImageLoader(Context context) {
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)

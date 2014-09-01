@@ -55,7 +55,7 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.search, menu);
+		inflater.inflate(R.menu.search_reading, menu);
 		MenuItem searchItem = menu.findItem(R.id.action_search);
 		mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 		mSearchView.setOnQueryTextListener(this);
