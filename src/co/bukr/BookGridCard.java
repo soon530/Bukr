@@ -1,9 +1,19 @@
 package co.bukr;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import it.gmariotti.cardslib.library.internal.Card;
+import it.gmariotti.cardslib.library.internal.CardGridArrayAdapter;
 import it.gmariotti.cardslib.library.internal.CardHeader;
 import it.gmariotti.cardslib.library.internal.CardThumbnail;
 import it.gmariotti.cardslib.library.internal.base.BaseCard;
+
+import org.apache.http.HttpResponse;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -13,10 +23,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.coimotion.csdk.common.COIMCallListener;
+import com.coimotion.csdk.util.Assist;
+import com.coimotion.csdk.util.ReqUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class BookGridCard extends Card {
 
+	private final static String LOG_TAG = "BookGridCard";
 	private BookItem mBookItem;
 
 	public BookGridCard(Context context) {
@@ -41,11 +55,15 @@ public class BookGridCard extends Card {
 						int id = item.getItemId();
 						switch (id) {
 						case R.id.card_edit:
+
+							addFavorite();
+
 							break;
 						default:
 							break;
 						}
 					}
+
 				});
 
 		addCardHeader(header);
@@ -73,6 +91,62 @@ public class BookGridCard extends Card {
 
 			}
 		});
+	}
+
+	private void addFavorite() {
+		
+		Map<String, Object> mapParam = new HashMap<String, Object>();
+		mapParam.put("bkID", mBookItem.mBkID);
+
+		ReqUtil.send("Bookcase/tag/addBook/3", mapParam, new COIMCallListener() {
+			
+
+			@Override
+			public void onSuccess(JSONObject result) {
+				Log.i(LOG_TAG, "success: "+result);
+				JSONArray jsonBooks  = Assist.getList(result);
+				
+//				for(int i = 0; i < jsonBooks.length(); i++)  {
+//					JSONObject jsonBook;
+//					
+//					try {
+//						jsonBook = (JSONObject) jsonBooks.get(i);
+//						//Log.i(LOG_TAG, "book: " + jsonBook);
+//
+//						Log.i(LOG_TAG, "bkID: " + jsonBook.getString("bkID"));
+//						Log.i(LOG_TAG, "iconURI: " + jsonBook.getString("iconURI"));
+//						Log.i(LOG_TAG, "title: " + jsonBook.getString("title"));
+//						
+//						
+//					} catch (JSONException e) {
+//						e.printStackTrace();
+//					}
+//					
+//				}
+				
+		       // CardGridArrayAdapter mCardArrayAdapter = new CardGridArrayAdapter(getActivity(), mBookCards);
+
+				
+/*				adapter = new BooksAdapter(
+						getActivity(), 
+						R.layout.row_books, 
+						mBooks  
+						);
+*/				
+				//mGirdView.setAdapter(mCardArrayAdapter);
+				
+				//if (isRefresh) 
+					//mPullToRefreshLayout.setRefreshComplete();
+				
+			}
+			
+			@Override
+			public void onFail(HttpResponse response, Exception exception) {
+				Log.i(LOG_TAG, "fail: "+ exception.getLocalizedMessage());
+				
+			}
+		});
+		
 	}
 
 	@Override
