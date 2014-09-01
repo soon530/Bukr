@@ -1,5 +1,10 @@
 package co.bukr;
 
+import it.gmariotti.cardslib.library.internal.Card;
+import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
+import it.gmariotti.cardslib.library.view.CardListView;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,15 +13,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.coimotion.csdk.common.COIMCallListener;
-import com.coimotion.csdk.common.COIMException;
-import com.coimotion.csdk.util.Assist;
-import com.coimotion.csdk.util.ReqUtil;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
-import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,15 +24,26 @@ import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 
+import com.coimotion.csdk.common.COIMCallListener;
+import com.coimotion.csdk.common.COIMException;
+import com.coimotion.csdk.util.Assist;
+import com.coimotion.csdk.util.ReqUtil;
+
 public class SearchActivity extends Activity implements OnQueryTextListener {
 	private final static String LOG_TAG = "SearchActivity";
 
 	private SearchView mSearchView;
-
+	//private ArrayList<Card> mBookCards = new ArrayList<Card>();
+	private CardListView mListView;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		setContentView(R.layout.activity_search);
+		mListView = (CardListView) findViewById(R.id.carddemo_list_cursor);
+		
+		
 		try {
 			ReqUtil.initSDK(getApplication());
 		} catch (COIMException e) {
@@ -80,6 +90,8 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 	}
 	
 	private void searchBook(String keyWord) {
+		final ArrayList<Card> bookCards = new ArrayList<Card>();
+
 		Map<String, Object> mapParam = new HashMap<String, Object>();
 		mapParam.put("pubName", keyWord);
 
@@ -108,12 +120,11 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 								String iconURI = jsonBook.getString("iconURI");
 								String title = jsonBook.getString("title");
 								
-								//BookGridCard bookCard = new BookGridCard(getActivity());
-								//bookCard.setBookItem(new BookItem(bkID, iconURI, title));
-								//bookCard.init();
-								//mBookCards.add(bookCard);
+								BookListCard bookCard = new BookListCard(getBaseContext());
+								bookCard.setBookItem(new BookItem(bkID, iconURI, title));
+								bookCard.init();
+								bookCards.add(bookCard);
 								
-								//mBooks.add(new BookItem(bkID, iconURI, title));						
 
 
 								
@@ -122,6 +133,11 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 							}
 
 						}
+						
+				        CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(getBaseContext() , bookCards);
+
+				        mListView.setAdapter(mCardArrayAdapter);
+					
 					}
 					
 
