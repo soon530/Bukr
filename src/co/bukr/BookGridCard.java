@@ -107,7 +107,7 @@ public class BookGridCard extends Card {
 				JSONArray jsonBooks  = Assist.getList(result);
 				
 				if (Assist.getErrCode(result) == 0) {
-					Assist.showToast(getContext(), "收藏成功!");
+					Assist.showToast(getContext(), "加入收藏成功!");
 				} else {
 					Assist.showToast(getContext(), "已加入書櫃!");
 				}
