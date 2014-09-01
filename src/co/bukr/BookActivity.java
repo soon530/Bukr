@@ -10,6 +10,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -32,12 +33,11 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
-public class BookActivity extends Activity implements OnQueryTextListener {
+public class BookActivity extends Activity  {
 	private final static String LOG_TAG = "Book";
 	private ImageLoader imageLoader = ImageLoader.getInstance();
 	private ImageView mImageItem;
 	private TextView mTextItem;
-	private SearchView mSearchView;
 	private TextView mTitle;
 	private TextView mAuthor;
 	private TextView mPublisher;
@@ -79,19 +79,7 @@ public class BookActivity extends Activity implements OnQueryTextListener {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.book_search, menu);
-		MenuItem searchItem = menu.findItem(R.id.action_search);
-		mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-		mSearchView.setOnQueryTextListener(this);
-
-		int searchIconId = mSearchView.getContext().getResources()
-				.getIdentifier("android:id/search_button", null, null);
-		ImageView searchIcon = (ImageView) mSearchView
-				.findViewById(searchIconId);
-		searchIcon.setImageResource(R.drawable.search);
-
-		// mSearchView.setIconifiedByDefault(false);
-		// setupSearchView(searchItem);
+		inflater.inflate(R.menu.book, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -103,7 +91,11 @@ public class BookActivity extends Activity implements OnQueryTextListener {
 		case android.R.id.home:
 			finish();
 			break;
-
+		case R.id.action_search:
+			Intent intent = new Intent();
+			intent.setClass(this, SearchActivity.class);
+			startActivity(intent);
+			break;
 		default:
 			break;
 		}
@@ -219,15 +211,4 @@ public class BookActivity extends Activity implements OnQueryTextListener {
 
 	}
 
-	@Override
-	public boolean onQueryTextChange(String arg0) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean onQueryTextSubmit(String arg0) {
-		// TODO Auto-generated method stub
-		return false;
-	}
 }

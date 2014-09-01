@@ -9,10 +9,9 @@
         android:title="搜尋"/>
     <item
         android:id="@+id/action_reading"
-        android:icon="@drawable/try_reading"
         android:orderInCategory="100"
         android:showAsAction="always"
-        android:title="試讀"
+        android:title="條碼"
         />
 
 </menu>

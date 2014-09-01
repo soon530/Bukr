@@ -35,8 +35,7 @@
         <activity
             android:name=".LoginActivity"
             android:launchMode="singleTop"
-            android:theme="@android:style/Theme.NoTitleBar"
-            >
+            android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -46,6 +45,10 @@
         <activity
             android:name=".BookActivity"
             android:label="@string/title_activity_book" >
+        </activity>
+        <activity
+            android:name=".SearchActivity"
+            android:label="" >
         </activity>
     </application>
 
