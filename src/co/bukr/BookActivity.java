@@ -34,7 +34,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 public class BookActivity extends Activity  {
-	private final static String LOG_TAG = "Book";
+	private final static String LOG_TAG = "BookActivity";
 	private ImageLoader imageLoader = ImageLoader.getInstance();
 	private ImageView mImageItem;
 	private TextView mTextItem;
