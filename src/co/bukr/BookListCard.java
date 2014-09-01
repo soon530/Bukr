@@ -1,24 +1,16 @@
 package co.bukr;
 
+import it.gmariotti.cardslib.library.internal.Card;
+import it.gmariotti.cardslib.library.internal.CardHeader;
+import it.gmariotti.cardslib.library.internal.CardThumbnail;
+import it.gmariotti.cardslib.library.internal.base.BaseCard;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.http.HttpResponse;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.coimotion.csdk.common.COIMCallListener;
-import com.coimotion.csdk.util.Assist;
-import com.coimotion.csdk.util.ReqUtil;
-import com.nostra13.universalimageloader.core.ImageLoader;
-
-import co.bukr.BookGridCard.BookGridCardHeader;
-import co.bukr.BookGridCard.GplayGridThumb;
-import it.gmariotti.cardslib.library.internal.Card;
-import it.gmariotti.cardslib.library.internal.CardHeader;
-import it.gmariotti.cardslib.library.internal.CardThumbnail;
-import it.gmariotti.cardslib.library.internal.Card.OnCardClickListener;
-import it.gmariotti.cardslib.library.internal.base.BaseCard;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -27,6 +19,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.coimotion.csdk.common.COIMCallListener;
+import com.coimotion.csdk.util.ReqUtil;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class BookListCard extends Card {
 	private final static String LOG_TAG = "BookListCard";
