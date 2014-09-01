@@ -106,38 +106,11 @@ public class BookGridCard extends Card {
 				Log.i(LOG_TAG, "success: "+result);
 				JSONArray jsonBooks  = Assist.getList(result);
 				
-//				for(int i = 0; i < jsonBooks.length(); i++)  {
-//					JSONObject jsonBook;
-//					
-//					try {
-//						jsonBook = (JSONObject) jsonBooks.get(i);
-//						//Log.i(LOG_TAG, "book: " + jsonBook);
-//
-//						Log.i(LOG_TAG, "bkID: " + jsonBook.getString("bkID"));
-//						Log.i(LOG_TAG, "iconURI: " + jsonBook.getString("iconURI"));
-//						Log.i(LOG_TAG, "title: " + jsonBook.getString("title"));
-//						
-//						
-//					} catch (JSONException e) {
-//						e.printStackTrace();
-//					}
-//					
-//				}
-				
-		       // CardGridArrayAdapter mCardArrayAdapter = new CardGridArrayAdapter(getActivity(), mBookCards);
-
-				
-/*				adapter = new BooksAdapter(
-						getActivity(), 
-						R.layout.row_books, 
-						mBooks  
-						);
-*/				
-				//mGirdView.setAdapter(mCardArrayAdapter);
-				
-				//if (isRefresh) 
-					//mPullToRefreshLayout.setRefreshComplete();
-				
+				if (Assist.getErrCode(result) == 0) {
+					Assist.showToast(getContext(), "收藏成功!");
+				} else {
+					Assist.showToast(getContext(), "已加入書櫃!");
+				}
 			}
 			
 			@Override
