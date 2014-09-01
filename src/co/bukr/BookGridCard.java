@@ -109,7 +109,7 @@ public class BookGridCard extends Card {
 				if (Assist.getErrCode(result) == 0) {
 					Assist.showToast(getContext(), "加入收藏成功!");
 				} else {
-					Assist.showToast(getContext(), "已加入書櫃!");
+					Assist.showToast(getContext(), "書櫃中已有此本書!");
 				}
 			}
 			
