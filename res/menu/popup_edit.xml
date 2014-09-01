@@ -19,20 +19,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/card_edit"
-        android:title="收藏"
+        android:title="加入收藏"
         android:orderInCategory="100"
         android:showAsAction="always" />
 
-<!--     <item android:id="@+id/card_del"
-          android:title="刪除"
-          android:orderInCategory="101"
-          android:showAsAction="always" />
- -->
-
-<!--     <item android:id="@+id/action_settings3"
-          android:title="Item3"
-          android:orderInCategory="102"
-          android:showAsAction="always" />
- -->
- 
  </menu>
