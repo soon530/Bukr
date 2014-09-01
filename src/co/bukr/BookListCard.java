@@ -1,5 +1,15 @@
 package co.bukr;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.http.HttpResponse;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import com.coimotion.csdk.common.COIMCallListener;
+import com.coimotion.csdk.util.Assist;
+import com.coimotion.csdk.util.ReqUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import co.bukr.BookGridCard.BookGridCardHeader;
@@ -11,6 +21,7 @@ import it.gmariotti.cardslib.library.internal.Card.OnCardClickListener;
 import it.gmariotti.cardslib.library.internal.base.BaseCard;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +29,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class BookListCard extends Card {
+	private final static String LOG_TAG = "BookListCard";
 
 	String mainTitle;
 	String secondaryTitle;
@@ -45,6 +57,7 @@ public class BookListCard extends Card {
 						int id = item.getItemId();
 						switch (id) {
 						case R.id.card_edit:
+							addFavorite();
 							break;
 						default:
 							break;
@@ -78,6 +91,31 @@ public class BookListCard extends Card {
 
 	}
 
+	private void addFavorite() {
+		
+		Map<String, Object> mapParam = new HashMap<String, Object>();
+		mapParam.put("bkID", mBookItem.mBkID);
+
+		ReqUtil.send("Bookcase/tag/addBook/3", mapParam, new COIMCallListener() {
+			
+
+			@Override
+			public void onSuccess(JSONObject result) {
+				Log.i(LOG_TAG, "success: "+result);
+				//JSONArray jsonBooks  = Assist.getList(result);
+				
+			}
+			
+			@Override
+			public void onFail(HttpResponse response, Exception exception) {
+				Log.i(LOG_TAG, "fail: "+ exception.getLocalizedMessage());
+				
+			}
+		});
+		
+	}
+
+	
 	class BookGridCardHeader extends CardHeader {
 
 		public BookGridCardHeader(Context context) {
