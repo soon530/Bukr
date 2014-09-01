@@ -5,8 +5,6 @@ import it.gmariotti.cardslib.library.internal.CardGridArrayAdapter;
 import it.gmariotti.cardslib.library.view.CardGridView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.apache.http.HttpResponse;
 import org.json.JSONArray;
@@ -19,12 +17,20 @@ import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
 
 import com.coimotion.csdk.common.COIMCallListener;
 import com.coimotion.csdk.common.COIMException;
@@ -44,7 +50,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
  * this fragment.
  * 
  */
-public class BookcaseFragment extends Fragment implements OnRefreshListener {
+public class BookcaseFragment extends Fragment implements OnRefreshListener, OnQueryTextListener {
 	// TODO: Rename parameter arguments, choose names that match
 	// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 	private final static String LOG_TAG = "Reading";
@@ -60,6 +66,8 @@ public class BookcaseFragment extends Fragment implements OnRefreshListener {
 	private ArrayList<Card> mBookCards = new ArrayList<Card>();
 	private CardGridView mGirdView;
 	private PullToRefreshLayout mPullToRefreshLayout;
+	private SearchView mSearchView;
+	private CardGridArrayAdapter mCardArrayAdapter;
 
 	/**
 	 * Use this factory method to create a new instance of this fragment using
@@ -93,6 +101,8 @@ public class BookcaseFragment extends Fragment implements OnRefreshListener {
 //			mParam1 = getArguments().getString(ARG_PARAM1);
 //			mParam2 = getArguments().getString(ARG_PARAM2);
 //		}
+		
+		//setHasOptionsMenu(true);
 
 		try {
 			ReqUtil.initSDK(getActivity().getApplication());
@@ -104,6 +114,38 @@ public class BookcaseFragment extends Fragment implements OnRefreshListener {
 		initImageLoader(getActivity());
 		
 	}
+	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		inflater.inflate(R.menu.bookcase, menu);
+		MenuItem searchItem = menu.findItem(R.id.action_search);
+		mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+		mSearchView.setOnQueryTextListener(this);
+		//mSearchView.onActionViewExpanded();
+		//customizeSearchIcon();
+
+		super.onCreateOptionsMenu(menu, inflater);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+
+		int id = item.getItemId();
+
+		switch (id) {
+		case R.id.action_search:
+			Intent intent = new Intent();
+			intent.setClass(getActivity(), SearchActivity.class);
+			startActivity(intent);
+			break;
+
+		default:
+			break;
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
+
 	
 	public static void initImageLoader(Context context) {
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
@@ -127,6 +169,7 @@ public class BookcaseFragment extends Fragment implements OnRefreshListener {
 		//mapParam.put("share", "1");
 
 		ReqUtil.send("Bookcase/tag/listBooks/3", null, new COIMCallListener() {
+
 			@Override
 			public void onSuccess(JSONObject result) {
 				Log.i(LOG_TAG, "success: "+result);
@@ -158,10 +201,11 @@ public class BookcaseFragment extends Fragment implements OnRefreshListener {
 					
 				}
 				
-		        CardGridArrayAdapter mCardArrayAdapter = new CardGridArrayAdapter(getActivity(), mBookCards);
+		        mCardArrayAdapter = new CardGridArrayAdapter(getActivity(), mBookCards);
 
 				
 				mGirdView.setAdapter(mCardArrayAdapter);
+				mGirdView.setTextFilterEnabled(true);
 				
 				if (isRefresh) 
 					mPullToRefreshLayout.setRefreshComplete();
@@ -253,6 +297,22 @@ public class BookcaseFragment extends Fragment implements OnRefreshListener {
 	public void onRefreshStarted(View view) {
 		mBookCards.clear();
 		showReadingPeople(true);
+	}
+
+	@Override
+	public boolean onQueryTextSubmit(String query) {
+		return false;
+	}
+
+	@Override
+	public boolean onQueryTextChange(String newText) {
+        if (TextUtils.isEmpty(newText)) {
+        	mGirdView.clearTextFilter();
+        } else {
+        	mGirdView.setFilterText(newText.toString());
+        }
+
+		return true;
 	}
 
 }
