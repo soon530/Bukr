@@ -3,7 +3,7 @@
     xmlns:card="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="5dp"
+    android:background="#E4E4E4"
     android:orientation="vertical" >
 
     <uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout
@@ -16,13 +16,16 @@
             android:id="@+id/book_card_grid"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="#E4E4E4"
             android:columnWidth="110dp"
             android:gravity="center"
             android:horizontalSpacing="5dp"
             android:numColumns="auto_fit"
             android:stretchMode="columnWidth"
             android:verticalSpacing="5dp"
-            card:list_card_layout_resourceID="@layout/book_card_view" />
+            card:list_card_layout_resourceID="@layout/book_card_view"
+                android:layout_margin="5dp"
+             />
     </uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout>
 
 </LinearLayout>
