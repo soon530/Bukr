@@ -161,8 +161,9 @@ public class BookcaseFragment extends Fragment implements OnRefreshListener, OnQ
 
 	
 
-	private void showReadingPeople(final boolean isRefresh) {
-		
+	public void showReadingPeople(final boolean isRefresh) {
+		mBookCards.clear();
+
 		//Map<String, Object> mapParam = new HashMap<String, Object>();
 		//mapParam.put("title", "我的書櫃");
 		//mapParam.put("descTx", "用來收藏自己的書");
@@ -190,7 +191,7 @@ public class BookcaseFragment extends Fragment implements OnRefreshListener, OnQ
 						String iconURI = jsonBook.getString("iconURI");
 						String title = jsonBook.getString("title");
 						
-						BookcaseGridCard bookCard = new BookcaseGridCard(getActivity());
+						BookcaseGridCard bookCard = new BookcaseGridCard(getActivity(), BookcaseFragment.this);
 						bookCard.setBookItem(new BookItem(bkID, iconURI, title));
 						bookCard.init();
 						mBookCards.add(bookCard);
@@ -295,7 +296,6 @@ public class BookcaseFragment extends Fragment implements OnRefreshListener, OnQ
 
 	@Override
 	public void onRefreshStarted(View view) {
-		mBookCards.clear();
 		showReadingPeople(true);
 	}
 

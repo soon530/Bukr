@@ -14,6 +14,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -32,9 +33,11 @@ public class BookcaseGridCard extends Card {
 
 	private final static String LOG_TAG = "BookGridCard";
 	private BookItem mBookItem;
+	private BookcaseFragment mBookcase;
 
-	public BookcaseGridCard(Context context) {
+	public BookcaseGridCard(Context context, BookcaseFragment bookcaseFragment) {
 		super(context, R.layout.book_card_view_inner_content);
+		mBookcase = bookcaseFragment;
 	}
 
 	public BookcaseGridCard(Context context, int innerLayout) {
@@ -111,7 +114,8 @@ public class BookcaseGridCard extends Card {
 				} else {
 					Assist.showToast(getContext(), "取消收藏失敗!");
 				}
-				
+
+				mBookcase.showReadingPeople(true);
 			}
 			
 			@Override
