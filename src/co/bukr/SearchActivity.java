@@ -2,6 +2,8 @@ package co.bukr;
 
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
+import it.gmariotti.cardslib.library.internal.CardGridArrayAdapter;
+import it.gmariotti.cardslib.library.view.CardGridView;
 import it.gmariotti.cardslib.library.view.CardListView;
 
 import java.util.ArrayList;
@@ -36,14 +38,14 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 
 	private SearchView mSearchView;
 	//private ArrayList<Card> mBookCards = new ArrayList<Card>();
-	private CardListView mListView;
+	private CardGridView mGridView;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-		setContentView(R.layout.activity_search);
-		mListView = (CardListView) findViewById(R.id.carddemo_list_cursor);
+		setContentView(R.layout.book_card_grid);
+		mGridView = (CardGridView) findViewById(R.id.book_card_grid);
 		
 		
 		try {
@@ -125,6 +127,7 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 		final ArrayList<Card> bookCards = new ArrayList<Card>();
 
 		Map<String, Object> mapParam = new HashMap<String, Object>();
+		mapParam.put("_ps", "12");
 		
 		if (isScan) {
 			mapParam.put("ISBN", keyWord);
@@ -161,7 +164,7 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 								String iconURI = jsonBook.getString("iconURI");
 								String title = jsonBook.getString("title");
 								
-								BookListCard bookCard = new BookListCard(getBaseContext());
+								BookGridCard bookCard = new BookGridCard(getBaseContext());
 								bookCard.setBookItem(new BookItem(bkID, iconURI, title));
 								bookCard.init();
 								bookCards.add(bookCard);
@@ -175,9 +178,9 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 
 						}
 						
-				        CardArrayAdapter mCardArrayAdapter = new CardArrayAdapter(getBaseContext() , bookCards);
+						CardGridArrayAdapter mCardArrayAdapter = new CardGridArrayAdapter(getBaseContext() , bookCards);
 
-				        mListView.setAdapter(mCardArrayAdapter);
+				        mGridView.setAdapter(mCardArrayAdapter);
 					
 					}
 					
