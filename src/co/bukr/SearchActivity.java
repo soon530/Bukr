@@ -63,8 +63,12 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 		MenuItem searchItem = menu.findItem(R.id.action_search);
 		mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 		mSearchView.setOnQueryTextListener(this);
-		//mSearchView.onActionViewExpanded();
-		customizeSearchIcon();
+		//mSearchView.setIconifiedByDefault(false);
+		mSearchView.onActionViewExpanded();
+		Log.i(LOG_TAG, "SearchView width: "+mSearchView.getWidth());
+		// 先寫死，之後再用density去算
+		mSearchView.setMaxWidth(500);
+		//customizeSearchIcon();
 		return super.onCreateOptionsMenu(menu);
 	}
 	

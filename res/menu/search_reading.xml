@@ -6,11 +6,13 @@
         android:actionViewClass="android.widget.SearchView"
         android:orderInCategory="100"
         android:showAsAction="always"
-        android:title="搜尋"/>
+        android:title="搜尋"
+        />
     <item
         android:id="@+id/action_scan"
         android:orderInCategory="100"
-        android:showAsAction="always"
+        android:showAsAction="always|collapseActionView"
+        android:icon="@drawable/barcode"
         android:title="條碼"
         />
 
