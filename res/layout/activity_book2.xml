@@ -1,10 +1,10 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/FrameLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <ScrollView
+    <FrameLayout
+        android:id="@+id/FrameLayout1"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
@@ -17,16 +17,15 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical" >
 
-                <TextView
-                    android:id="@+id/textView1"
+                <ImageView
+                    android:id="@+id/background"
                     android:layout_width="match_parent"
                     android:layout_height="224dp"
-                    android:background="@android:color/holo_green_light"
-                    android:text="" />
+                    android:scaleType="fitXY" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
+                    android:layout_height="120dp"
                     android:background="@color/Bukr" >
 
                     <TextView
@@ -37,9 +36,9 @@
                         android:layout_alignParentTop="true"
                         android:layout_marginLeft="64dp"
                         android:layout_marginTop="18dp"
-                        android:text=""
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:textColor="@android:color/white" />
+                        android:text="書名"
+                        android:textColor="@android:color/white"
+                        android:textSize="22sp" />
 
                     <TextView
                         android:id="@+id/author"
@@ -47,9 +46,10 @@
                         android:layout_height="wrap_content"
                         android:layout_alignLeft="@+id/title"
                         android:layout_below="@+id/title"
-                        android:text=""
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@android:color/white" />
+                        android:alpha="0.6"
+                        android:text="作者"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/publisher"
@@ -57,32 +57,60 @@
                         android:layout_height="wrap_content"
                         android:layout_alignLeft="@+id/author"
                         android:layout_below="@+id/author"
-                        android:text=""
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@android:color/white" />
-
-                    <TextView
-                        android:id="@+id/sell_price"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBaseline="@+id/publisher"
-                        android:layout_alignBottom="@+id/publisher"
-                        android:layout_alignLeft="@+id/price"
-                        android:text=""
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@android:color/white" />
+                        android:alpha="0.6"
+                        android:text="出版社"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
 
                     <TextView
                         android:id="@+id/price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_above="@+id/sell_price"
+                        android:layout_alignLeft="@+id/publisher"
+                        android:layout_below="@+id/publisher"
+                        android:alpha="0.6"
+                        android:text="定價"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/sell_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/price"
+                        android:layout_alignBottom="@+id/price"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="20dp"
-                        android:text=""
-                        android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:textColor="@android:color/white" />
+                        android:layout_marginRight="161dp"
+                        android:alpha="0.6"
+                        android:text="特價"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp" />
                 </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" 
+                    android:layout_marginTop="16dp"
+                    >
+                    
+				<ImageView
+                    android:id="@+id/add_shopping_car"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/add_shooping_car" 
+                    android:layout_marginLeft="64dp"
+                    />
+
+				<ImageView
+                    android:id="@+id/book_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/book_comment"
+                    android:layout_marginLeft="16dp" />
+				
+                    
+                </LinearLayout>
+
 
                 <TextView
                     android:layout_width="match_parent"
@@ -92,34 +120,46 @@
                     android:layout_marginTop="16dp"
                     android:text="簡介"
                     android:textColor="@color/Bukr"
-                    android:textSize="27.5sp" />
+                    android:textSize="22sp" />
 
                 <TextView
                     android:id="@+id/item_text"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="64dp" />
+                    android:layout_marginLeft="64dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:textSize="16sp" />
+
             </LinearLayout>
 
+            <ImageView
+                android:id="@+id/item_image_background"
+                android:layout_width="135dp"
+                android:layout_height="183dp"
+                android:layout_marginLeft="13dp"
+                android:layout_marginTop="62dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/book_back" />
+            
             <ImageView
                 android:id="@+id/item_image"
                 android:layout_width="130dp"
                 android:layout_height="176dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="64dp"
-                android:scaleType="fitXY" 
-                />
+                android:scaleType="fitXY" />
         </FrameLayout>
-    </ScrollView>
 
-    <ImageView
-        android:id="@+id/ImageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="295dp"
-        android:padding="0dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/save_button" />
+        <ImageView
+            android:id="@+id/ImageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="295dp"
+            android:padding="0dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/save_button" />
+    </FrameLayout>
 
-</FrameLayout>
+</ScrollView>

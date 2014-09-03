@@ -43,6 +43,7 @@ public class BookActivity extends Activity  {
 	private TextView mPublisher;
 	private TextView mPrice;
 	private TextView mSellPrice;
+	private ImageView mBackGround;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +75,14 @@ public class BookActivity extends Activity  {
 		mPublisher = (TextView) findViewById(R.id.publisher);
 		mPrice = (TextView) findViewById(R.id.price);
 		mSellPrice = (TextView) findViewById(R.id.sell_price);
+		
+		mBackGround = (ImageView) findViewById(R.id.background);
+		
+		String url = "http://imagizer.imageshack.us/a/img540/761/dOp0Wo.jpg";
+		imageLoader.displayImage(
+				url,
+				mBackGround, Config.OPTIONS, null);
+
 	}
 
 	@Override
@@ -153,8 +162,11 @@ public class BookActivity extends Activity  {
 							for (int i = 0; i < infoList.length(); i++) {
 								JSONObject json_data = infoList
 										.getJSONObject(i);
-								s = s + "*" + i + "*"
-										+ json_data.getString("body");
+								
+								if ( i == 0) {
+								
+								s = json_data.getString("body");
+								}
 							}
 
 							imageLoader.displayImage(
