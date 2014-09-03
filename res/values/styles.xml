@@ -19,7 +19,7 @@
 
     <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:background">#52abaf</item>
-        <item name="android:icon">@drawable/ic_launcher</item>
+        <item name="android:icon">@drawable/nav_logo</item>
         <item name="android:titleTextStyle">@style/MyActionBar.TitleTextStyle</item>
     </style>
 

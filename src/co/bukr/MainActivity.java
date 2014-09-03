@@ -116,7 +116,7 @@ public class MainActivity extends Activity implements
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 		actionBar.setDisplayShowTitleEnabled(true);
 		actionBar.setTitle(mTitle);
-		actionBar.setIcon(R.drawable.ic_launcher);
+		actionBar.setIcon(R.drawable.nav_logo);
 	}
 
 	@Override
