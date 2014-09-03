@@ -48,6 +48,8 @@ public class BookActivity extends Activity implements OnClickListener  {
 	private TextView mSellPrice;
 	private ImageView mBackGround;
 	private ImageView mAddFavorite;
+	
+	private boolean mHasAdd;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +100,6 @@ public class BookActivity extends Activity implements OnClickListener  {
 		//mapParam.put("bkID", Config.bkID);
 
 		ReqUtil.send("Bookcase/tag/contains/"+Config.bkID, null, new COIMCallListener() {
-			
 
 			@Override
 			public void onSuccess(JSONObject result) {
@@ -107,8 +108,10 @@ public class BookActivity extends Activity implements OnClickListener  {
 				
 				if ( jsonBooks.length() == 0 /*Assist.getErrCode(result) == 0*/) {
 					mAddFavorite.setImageResource(R.drawable.save_button);
+					mHasAdd = false;
 				} else {
 					mAddFavorite.setImageResource(R.drawable.done_button);
+					mHasAdd = true;
 				}
 			}
 			
@@ -125,9 +128,47 @@ public class BookActivity extends Activity implements OnClickListener  {
 
 	@Override
 	public void onClick(View v) {
-		addFavorite();
+		
+		if (mHasAdd) {
+			delFavorite();
+		} else {
+			addFavorite();
+		}
 	}
 	
+	private void delFavorite() {
+		
+		Map<String, Object> mapParam = new HashMap<String, Object>();
+		mapParam.put("bkID", Config.bkID);
+
+		ReqUtil.send("Bookcase/tag/rmBook/3", mapParam, new COIMCallListener() {
+			
+
+			@Override
+			public void onSuccess(JSONObject result) {
+				Log.i(LOG_TAG, "success: "+result);
+				JSONArray jsonBooks  = Assist.getList(result);
+				
+				if (Assist.getErrCode(result) == 0) {
+					Assist.showToast(getBaseContext(), "取消收藏成功!");
+					mAddFavorite.setImageResource(R.drawable.save_button);
+					mHasAdd = false;
+
+				} else {
+					Assist.showToast(getBaseContext(), "取消收藏失敗!");
+				}
+				
+			}
+			
+			@Override
+			public void onFail(HttpResponse response, Exception exception) {
+				Log.i(LOG_TAG, "fail: "+ exception.getLocalizedMessage());
+				
+			}
+		});
+		
+	}
+
 	private void addFavorite() {
 		
 		Map<String, Object> mapParam = new HashMap<String, Object>();
@@ -143,6 +184,9 @@ public class BookActivity extends Activity implements OnClickListener  {
 				
 				if (Assist.getErrCode(result) == 0) {
 					Assist.showToast(getBaseContext(), "加入收藏成功!");
+					mAddFavorite.setImageResource(R.drawable.done_button);
+					mHasAdd = true;
+
 				} else {
 					Assist.showToast(getBaseContext(), "書櫃中已有此本書!");
 				}
