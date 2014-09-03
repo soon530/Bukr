@@ -23,19 +23,19 @@
                     android:layout_height="224dp"
                     android:scaleType="fitXY" />
 
-                <RelativeLayout
+                <LinearLayout
+                    android:id="@+id/LinearLayout1"
                     android:layout_width="match_parent"
-                    android:layout_height="120dp"
-                    android:background="@color/Bukr" >
+                    android:layout_height="wrap_content"
+                    android:background="@color/Bukr"
+                    android:orientation="vertical" >
 
                     <TextView
                         android:id="@+id/title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentTop="true"
                         android:layout_marginLeft="64dp"
-                        android:layout_marginTop="18dp"
+                        android:layout_marginTop="32dp"
                         android:text="書名"
                         android:textColor="@android:color/white"
                         android:textSize="22sp" />
@@ -44,8 +44,7 @@
                         android:id="@+id/author"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignLeft="@+id/title"
-                        android:layout_below="@+id/title"
+                        android:layout_marginLeft="64dp"
                         android:alpha="0.6"
                         android:text="作者"
                         android:textColor="@android:color/black"
@@ -55,19 +54,23 @@
                         android:id="@+id/publisher"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignLeft="@+id/author"
-                        android:layout_below="@+id/author"
+                        android:layout_marginLeft="64dp"
                         android:alpha="0.6"
                         android:text="出版社"
                         android:textColor="@android:color/black"
                         android:textSize="16sp" />
 
-                    <TextView
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" 
+                        android:layout_marginLeft="64dp"
+                        android:layout_marginBottom="16dp"
+                        >
+					<TextView
                         android:id="@+id/price"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignLeft="@+id/publisher"
-                        android:layout_below="@+id/publisher"
+                    	android:layout_weight="1"    
                         android:alpha="0.6"
                         android:text="定價"
                         android:textColor="@android:color/black"
@@ -75,42 +78,37 @@
 
                     <TextView
                         android:id="@+id/sell_price"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignBaseline="@+id/price"
-                        android:layout_alignBottom="@+id/price"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="161dp"
+                        android:layout_weight="1"    
                         android:alpha="0.6"
                         android:text="特價"
                         android:textColor="@android:color/black"
                         android:textSize="16sp" />
-                </RelativeLayout>
+                        
+                    </LinearLayout>
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" 
-                    android:layout_marginTop="16dp"
-                    >
-                    
-				<ImageView
-                    android:id="@+id/add_shopping_car"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/add_shooping_car" 
-                    android:layout_marginLeft="64dp"
-                    />
+                    android:layout_marginTop="16dp" >
 
-				<ImageView
-                    android:id="@+id/book_comment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/book_comment"
-                    android:layout_marginLeft="16dp" />
-				
-                    
+                    <ImageView
+                        android:id="@+id/add_shopping_car"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="64dp"
+                        android:src="@drawable/add_shooping_car" />
+
+                    <ImageView
+                        android:id="@+id/book_comment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="16dp"
+                        android:src="@drawable/book_comment" />
                 </LinearLayout>
-
 
                 <TextView
                     android:layout_width="match_parent"
@@ -126,11 +124,10 @@
                     android:id="@+id/item_text"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginBottom="16dp"
                     android:layout_marginLeft="64dp"
                     android:layout_marginRight="16dp"
-                    android:layout_marginBottom="16dp"
                     android:textSize="16sp" />
-
             </LinearLayout>
 
             <ImageView
@@ -141,7 +138,7 @@
                 android:layout_marginTop="62dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/book_back" />
-            
+
             <ImageView
                 android:id="@+id/item_image"
                 android:layout_width="130dp"
@@ -156,7 +153,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="295dp"
+            android:layout_marginTop="340dp"
             android:padding="0dp"
             android:scaleType="fitXY"
             android:src="@drawable/save_button" />
