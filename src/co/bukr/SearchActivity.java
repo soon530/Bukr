@@ -97,15 +97,59 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 				requestCode, resultCode, data);
 		if (scanningResult != null) {
 			String scanContent = scanningResult.getContents();
-			searchBook(scanContent, true);
+			Assist.showToast(SearchActivity.this, "ISBN：" + scanContent);
+			scanBook(scanContent);
 		} else {
-			Toast toast = Toast.makeText(getApplicationContext(),
-					"No scan data received!", Toast.LENGTH_SHORT);
-			toast.show();
+			Assist.showToast(SearchActivity.this, "掃描不到任何資料!");
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 	
+	private void scanBook(final String scanContent) {
+		Map<String, Object> mapParam = new HashMap<String, Object>();
+		mapParam.put("ISBN", scanContent);
+		ReqUtil.send("twBook/book/search", mapParam,
+				new COIMCallListener() {
+					@Override
+					public void onSuccess(JSONObject result) {
+						Log.i(LOG_TAG, "success: " + result);
+
+						JSONArray jsonBooks  = Assist.getList(result);
+						
+						if (jsonBooks.length() == 0) {
+							Assist.showToast(SearchActivity.this, "沒有搜尋到任何資料!");
+						} else {
+							try {
+								JSONObject jsonBook = (JSONObject) jsonBooks.get(0);
+								Log.i(LOG_TAG, "bkID: " + jsonBook.getString("bkID"));
+								String bkID = jsonBook.getString("bkID");
+
+								Config.bkID = bkID;
+
+								Intent intent = new Intent();
+								// intent.putExtra("spID", spID);
+								intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+								intent.setClass(getBaseContext(), BookActivity.class);
+								startActivity(intent);
+								
+							} catch (JSONException e) {
+								e.printStackTrace();
+							}
+						}
+					}
+					
+
+					@Override
+					public void onFail(HttpResponse response,
+							Exception exception) {
+						Log.i(LOG_TAG,
+								"fail: " + exception.getLocalizedMessage());
+
+					}
+				});
+
+	}
+
 	private void customizeSearchIcon() {
 		int searchIconId = mSearchView.getContext().getResources()
 				.getIdentifier("android:id/search_button", null, null);
@@ -122,22 +166,19 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 	@Override
 	public boolean onQueryTextSubmit(String keyWord) {
 
-		searchBook(keyWord, false);
+		searchBook(keyWord);
 		mSearchView.clearFocus();
 		return false;
 	}
 	
-	private void searchBook(String keyWord, boolean isScan) {
+	
+	
+	private void searchBook(String keyWord) {
 		final ArrayList<Card> bookCards = new ArrayList<Card>();
 
 		Map<String, Object> mapParam = new HashMap<String, Object>();
 		mapParam.put("_ps", "12");
-		
-		if (isScan) {
-			mapParam.put("ISBN", keyWord);
-		} else {
-			mapParam.put("pubName", keyWord);
-		}
+		mapParam.put("pubName", keyWord);
 		
 		ReqUtil.send("twBook/book/search", mapParam,
 				new COIMCallListener() {
