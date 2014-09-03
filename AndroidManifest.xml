@@ -50,6 +50,10 @@
             android:name=".SearchActivity"
             android:label="" >
         </activity>
+        <activity
+            android:name=".TryActivity"
+            android:label="" >
+        </activity>
     </application>
 
 </manifest>

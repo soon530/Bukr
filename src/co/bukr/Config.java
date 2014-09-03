@@ -14,5 +14,6 @@ public class Config {
 	.build();
 
 	public static String bkID = ""; 
+	public static String content = "";
 	
 }

@@ -105,6 +105,11 @@ public class BookActivity extends Activity  {
 			intent.setClass(this, SearchActivity.class);
 			startActivity(intent);
 			break;
+		case R.id.action_reading:
+			Intent intentReading = new Intent();
+			intentReading.setClass(this, TryActivity.class);
+			startActivity(intentReading);
+			break;
 		default:
 			break;
 		}
@@ -164,9 +169,11 @@ public class BookActivity extends Activity  {
 										.getJSONObject(i);
 								
 								if ( i == 0) {
-								
-								s = json_data.getString("body");
+									s = json_data.getString("body");
+								} else {
+									Config.content = json_data.getString("body");
 								}
+								
 							}
 
 							imageLoader.displayImage(
