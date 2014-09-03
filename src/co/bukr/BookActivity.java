@@ -89,9 +89,40 @@ public class BookActivity extends Activity implements OnClickListener  {
 		
 		mAddFavorite = (ImageView) findViewById(R.id.add_favorite);
 		mAddFavorite.setOnClickListener(this);
-
+		
+		getFavorite();
 	}
 	
+	private void getFavorite() {
+		//Map<String, Object> mapParam = new HashMap<String, Object>();
+		//mapParam.put("bkID", Config.bkID);
+
+		ReqUtil.send("Bookcase/tag/contains/"+Config.bkID, null, new COIMCallListener() {
+			
+
+			@Override
+			public void onSuccess(JSONObject result) {
+				Log.i(LOG_TAG, "success: "+result);
+				JSONArray jsonBooks  = Assist.getList(result);
+				
+				if ( jsonBooks.length() == 0 /*Assist.getErrCode(result) == 0*/) {
+					mAddFavorite.setImageResource(R.drawable.save_button);
+				} else {
+					mAddFavorite.setImageResource(R.drawable.done_button);
+				}
+			}
+			
+			@Override
+			public void onFail(HttpResponse response, Exception exception) {
+				Log.i(LOG_TAG, "fail: "+ exception.getLocalizedMessage());
+				
+			}
+		});
+		
+	}
+
+
+
 	@Override
 	public void onClick(View v) {
 		addFavorite();
