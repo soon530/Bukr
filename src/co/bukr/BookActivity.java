@@ -19,6 +19,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.SearchView;
@@ -27,13 +29,14 @@ import android.widget.TextView;
 
 import com.coimotion.csdk.common.COIMCallListener;
 import com.coimotion.csdk.common.COIMException;
+import com.coimotion.csdk.util.Assist;
 import com.coimotion.csdk.util.ReqUtil;
 import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
-public class BookActivity extends Activity  {
+public class BookActivity extends Activity implements OnClickListener  {
 	private final static String LOG_TAG = "BookActivity";
 	private ImageLoader imageLoader = ImageLoader.getInstance();
 	private ImageView mImageItem;
@@ -44,6 +47,7 @@ public class BookActivity extends Activity  {
 	private TextView mPrice;
 	private TextView mSellPrice;
 	private ImageView mBackGround;
+	private ImageView mAddFavorite;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -82,8 +86,47 @@ public class BookActivity extends Activity  {
 		imageLoader.displayImage(
 				url,
 				mBackGround, Config.OPTIONS, null);
+		
+		mAddFavorite = (ImageView) findViewById(R.id.add_favorite);
+		mAddFavorite.setOnClickListener(this);
 
 	}
+	
+	@Override
+	public void onClick(View v) {
+		addFavorite();
+	}
+	
+	private void addFavorite() {
+		
+		Map<String, Object> mapParam = new HashMap<String, Object>();
+		mapParam.put("bkID", Config.bkID);
+
+		ReqUtil.send("Bookcase/tag/addBook/3", mapParam, new COIMCallListener() {
+			
+
+			@Override
+			public void onSuccess(JSONObject result) {
+				Log.i(LOG_TAG, "success: "+result);
+				JSONArray jsonBooks  = Assist.getList(result);
+				
+				if (Assist.getErrCode(result) == 0) {
+					Assist.showToast(getBaseContext(), "加入收藏成功!");
+				} else {
+					Assist.showToast(getBaseContext(), "書櫃中已有此本書!");
+				}
+			}
+			
+			@Override
+			public void onFail(HttpResponse response, Exception exception) {
+				Log.i(LOG_TAG, "fail: "+ exception.getLocalizedMessage());
+				
+			}
+		});
+		
+	}
+
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -229,5 +272,6 @@ public class BookActivity extends Activity  {
 				});
 
 	}
+
 
 }
