@@ -15,6 +15,6 @@
         android:alpha="0.6"
         android:text="Eason"
         android:textColor="@android:color/black"
-        android:textSize="16sp" />
+        android:textSize="12sp" />
 
 </LinearLayout>
