@@ -86,6 +86,7 @@ public class BookGridCard extends Card {
 
 				Intent intent = new Intent();
 				// intent.putExtra("spID", spID);
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				intent.setClass(getContext(), BookActivity.class);
 				getContext().startActivity(intent);
 
