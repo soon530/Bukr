@@ -50,6 +50,7 @@ public class BookActivity extends Activity implements OnClickListener  {
 	private ImageView mAddFavorite;
 	
 	private boolean mHasAdd;
+	private MenuItem mReading;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +72,6 @@ public class BookActivity extends Activity implements OnClickListener  {
 		}
 
 		initImageLoader(this);
-		showBookDetail();
 
 		mImageItem = (ImageView) findViewById(R.id.item_image);
 		mTextItem = (TextView) findViewById(R.id.item_text);
@@ -207,6 +207,10 @@ public class BookActivity extends Activity implements OnClickListener  {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.book, menu);
+		mReading = menu.findItem(R.id.action_reading);
+		
+		showBookDetail();
+
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -282,6 +286,7 @@ public class BookActivity extends Activity implements OnClickListener  {
 							// Assist.getList(infoList);
 
 							String s = "";
+							Config.content = "";
 							for (int i = 0; i < infoList.length(); i++) {
 								JSONObject json_data = infoList
 										.getJSONObject(i);
@@ -306,6 +311,15 @@ public class BookActivity extends Activity implements OnClickListener  {
 							mPrice.setText("定價："+ jsonBook.getString("price"));
 							mSellPrice.setText("特價："+String.valueOf(sellPrice));
 							mTextItem.setText(Html.fromHtml(s));
+							
+							// 有可能menu還沒new出來
+							if (Config.content.isEmpty() && mReading != null && mReading.getIcon()!= null) {
+								mReading.setEnabled(false);
+								mReading.getIcon().setAlpha(125);
+							} else {
+								mReading.getIcon().setAlpha(255);
+							}
+
 
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
