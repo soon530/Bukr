@@ -15,5 +15,6 @@ public class Config {
 
 	public static String bkID = ""; 
 	public static String content = "";
+	public static String fgID="";
 	
 }

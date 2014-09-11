@@ -169,7 +169,7 @@ public class BookcaseFragment extends Fragment implements OnRefreshListener, OnQ
 		//mapParam.put("descTx", "用來收藏自己的書");
 		//mapParam.put("share", "1");
 
-		ReqUtil.send("Bookcase/tag/listBooks/3", null, new COIMCallListener() {
+		ReqUtil.send("Bookcase/tag/listBooks/" + Config.fgID, null, new COIMCallListener() {
 
 			@Override
 			public void onSuccess(JSONObject result) {
@@ -259,20 +259,6 @@ public class BookcaseFragment extends Fragment implements OnRefreshListener, OnQ
 		}
 	}
 */
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-/*		try {
-			mListener = (OnFragmentInteractionListener) activity;
-		} catch (ClassCastException e) {
-			throw new ClassCastException(activity.toString()
-					+ " must implement OnFragmentInteractionListener");
-		}
-*/		
-		((MainActivity) activity).onSectionAttached(getArguments().getInt(
-				"section_number"));
-
-	}
 
 	@Override
 	public void onDetach() {

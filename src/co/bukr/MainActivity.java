@@ -62,7 +62,8 @@ public class MainActivity extends Activity implements
 			break;
 
 		case 4:
-			fragment = BookcaseFragment.newInstance(number);
+			fragment = MyTagFragment.newInstance(number);
+			//fragment = BookcaseFragment.newInstance(number);
 			break;
 
 		case 5:
