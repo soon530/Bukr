@@ -48,18 +48,17 @@ public class TagActivity extends Activity implements OnQueryTextListener {
         mListView = (ListView) findViewById(R.id.list_view);
         setupSearchView();
 
-/*        mListView.setOnItemClickListener(new OnItemClickListener() {
+        mListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				TextView textView = (TextView) view.findViewById(android.R.id.text1);
 
-		        textView.setTextColor(Color.RED);
+		        textView.setTextColor(getResources().getColor(R.color.Bukr));
 				
 			}
 		});
-*/		
 		
 		try {
 			ReqUtil.initSDK(getApplication());
