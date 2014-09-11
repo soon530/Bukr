@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
@@ -35,6 +36,7 @@ public class TagActivity extends Activity implements OnQueryTextListener {
     private ListView mListView;
     private ArrayAdapter<String> mAdapter;
 	protected ArrayList<String> mTags = new ArrayList<String>();
+	protected ArrayList<String> mFgID = new ArrayList<String>();
 
 
 	@Override
@@ -57,6 +59,18 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 
 		        textView.setTextColor(getResources().getColor(R.color.Bukr));
 				
+			}
+		});
+        
+        mListView.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				
+				delTag(mFgID.get(position));
+				
+				return false;
 			}
 		});
 		
@@ -100,14 +114,16 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 						Log.i(LOG_TAG, "title: " + jsonBook.getString("title"));
 						
 						String title = jsonBook.getString("title");
+						String fgID = jsonBook.getString("fgID");
 						mTags.add(title);
-						
+						mFgID.add(fgID);
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
 					
 				}
 				Collections.reverse(mTags);
+				Collections.reverse(mFgID);
 				mAdapter = new ArrayAdapter<String>(TagActivity.this, android.R.layout.simple_list_item_1, mTags);
 		        mListView.setAdapter(mAdapter);
 		        mListView.setTextFilterEnabled(true);
@@ -124,9 +140,26 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 
 	}
 	
-	private void delTag() {
-		// TODO Auto-generated method stub
+	private void delTag(String fgID) {
 		
+		ReqUtil.send("Bookcase/tag/remove/" + fgID, null, new COIMCallListener() {
+
+
+			@Override
+			public void onSuccess(JSONObject result) {
+				Log.i(LOG_TAG, "success: "+result);
+				
+				showTags();
+				
+			}
+			
+			
+			public void onFail(HttpResponse response, Exception exception) {
+				Log.i(LOG_TAG, "fail: "+ exception.getLocalizedMessage());
+				
+			}
+		});
+
 	}
 
 	@Override
@@ -153,24 +186,6 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 				mListView.clearTextFilter();
 				showTags();
 				
-//				JSONArray jsonBooks  = Assist.getList(result);
-//				
-//				for(int i = 0; i < jsonBooks.length(); i++)  {
-//					JSONObject jsonBook;
-//					
-//					try {
-//						jsonBook = (JSONObject) jsonBooks.get(i);
-//						Log.i(LOG_TAG, "title: " + jsonBook.getString("title"));
-//						
-//						String title = jsonBook.getString("title");
-//						mTags.add(title);
-//						
-//					} catch (JSONException e) {
-//						e.printStackTrace();
-//					}
-//					
-//				}
-//				
 			}
 			
 			
