@@ -232,6 +232,13 @@ public class BookActivity extends Activity implements OnClickListener  {
 			intentReading.setClass(this, TryActivity.class);
 			startActivity(intentReading);
 			break;
+		case R.id.action_share:
+			Assist.showToast(BookActivity.this, "分享功能開發...");
+			break;
+		case R.id.action_edit:
+			Assist.showToast(BookActivity.this, "收藏編輯");
+			break;
+
 		default:
 			break;
 		}
