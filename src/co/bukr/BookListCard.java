@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.http.HttpResponse;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.content.Context;
@@ -21,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.coimotion.csdk.common.COIMCallListener;
+import com.coimotion.csdk.util.Assist;
 import com.coimotion.csdk.util.ReqUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -33,8 +35,11 @@ public class BookListCard extends Card {
 	int resourceIdThumb;
 	private CommentItem mCommentItem;
 
-	public BookListCard(Context context) {
+	private BookCommentActivity mbookCommentActivity;
+
+	public BookListCard(Context context, BookCommentActivity bookCommentActivity) {
 		super(context, R.layout.carddemo_cursor_inner_content);
+		mbookCommentActivity = bookCommentActivity;
 	}
 
 	public BookListCard(Context context, int innerLayout) {
@@ -68,6 +73,17 @@ public class BookListCard extends Card {
 //
 //		addCardThumbnail(thumbnail);
 
+		setOnLongClickListener(new OnLongCardClickListener() {
+			
+			@Override
+			public boolean onLongClick(Card card, View view) {
+				delComment();
+				return true;
+			}
+
+		});
+
+		
 		
 //		setOnClickListener(new OnCardClickListener() {
 //			@Override
@@ -87,6 +103,30 @@ public class BookListCard extends Card {
 
 	}
 
+	private void delComment() {
+
+		ReqUtil.send("books/comment/delete/" + mCommentItem.mUcID , null,
+				new COIMCallListener() {
+
+
+					@Override
+					public void onSuccess(JSONObject result) {
+						mbookCommentActivity.showComments();
+					}
+					
+
+					@Override
+					public void onFail(HttpResponse response,
+							Exception exception) {
+						Log.i(LOG_TAG,
+								"fail: " + exception.getLocalizedMessage());
+
+					}
+				});
+
+	}
+
+	
 //	private void addFavorite() {
 //		
 //		Map<String, Object> mapParam = new HashMap<String, Object>();
@@ -130,7 +170,7 @@ public class BookListCard extends Card {
 						.findViewById(R.id.card_header_inner_simple_title);
 
 				if (textView != null) {
-					textView.setText("Vic" + mCommentItem.mMdTime);
+					textView.setText("Vic \n" + mCommentItem.mMdTime.substring(0, 10));
 				}
 			}
 		}

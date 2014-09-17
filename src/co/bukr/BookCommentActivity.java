@@ -89,39 +89,7 @@ public class BookCommentActivity extends Activity {
 						JSONArray jsonBooks  = Assist.getList(result);
 						
 						showComments();
-//						for(int i = 0; i < jsonBooks.length(); i++)  {
-//							JSONObject jsonBook;
-//							
-//							try {
-//								jsonBook = (JSONObject) jsonBooks.get(i);
-//								//Log.i(LOG_TAG, "book: " + jsonBook);
-//
-//								Log.i(LOG_TAG, "bkID: " + jsonBook.getString("bkID"));
-//								Log.i(LOG_TAG, "iconURI: " + jsonBook.getString("iconURI"));
-//								Log.i(LOG_TAG, "title: " + jsonBook.getString("title"));
-//								
-//								String bkID = jsonBook.getString("bkID");
-//								String iconURI = jsonBook.getString("iconURI");
-//								String title = jsonBook.getString("title");
-//								
-//								BookGridCard bookCard = new BookGridCard(getBaseContext());
-//								bookCard.setBookItem(new BookItem(bkID, iconURI, title));
-//								bookCard.init();
-//								bookCards.add(bookCard);
-//								
-//
-//
-//								
-//							} catch (JSONException e) {
-//								e.printStackTrace();
-//							}
-//
-//						}
-//						
-//						CardArrayAdapter mCardAdapter = new CardArrayAdapter(getBaseContext() , bookCards);
-//
-//				        mListView.setAdapter(mCardArrayAdapter);
-					
+				
 					}
 					
 
@@ -137,7 +105,7 @@ public class BookCommentActivity extends Activity {
 	}
 
 	
-	private void showComments() {
+	void showComments() {
 		final ArrayList<Card> bookCards = new ArrayList<Card>();
 
 		//Map<String, Object> mapParam = new HashMap<String, Object>();
@@ -171,7 +139,7 @@ public class BookCommentActivity extends Activity {
 								Log.i(LOG_TAG, "body: " + body);
 								Log.i(LOG_TAG, "mdTime: " + mdTime);
 
-								BookListCard bookCard = new BookListCard(getBaseContext());
+								BookListCard bookCard = new BookListCard(getBaseContext(), BookCommentActivity.this);
 								bookCard.setCommentItem(new CommentItem(ucID, body, mdTime));
 								bookCard.init();
 								bookCards.add(bookCard);
