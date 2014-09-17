@@ -58,6 +58,10 @@
             android:name=".TagActivity"
             android:label="編輯收藏" >
         </activity>
-        </application>
+        <activity
+            android:name=".BookCommentActivity"
+            android:label="觀看評論" >
+        </activity>
+    </application>
 
 </manifest>

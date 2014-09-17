@@ -51,6 +51,7 @@ public class BookActivity extends Activity implements OnClickListener  {
 	
 	private boolean mHasAdd;
 	private MenuItem mReading;
+	private ImageView mBookComment;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +92,18 @@ public class BookActivity extends Activity implements OnClickListener  {
 		
 		mAddFavorite = (ImageView) findViewById(R.id.add_favorite);
 		mAddFavorite.setOnClickListener(this);
+		
+		mBookComment = (ImageView) findViewById(R.id.book_comment);
+		
+		mBookComment.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intentReading = new Intent();
+				intentReading.setClass(BookActivity.this, BookCommentActivity.class);
+				startActivity(intentReading);
+			}
+		});
 		
 		getFavorite();
 	}
