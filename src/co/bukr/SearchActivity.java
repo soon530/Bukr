@@ -178,7 +178,8 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 
 		Map<String, Object> mapParam = new HashMap<String, Object>();
 		mapParam.put("_ps", "12");
-		mapParam.put("pubName", keyWord);
+		//mapParam.put("pubName", keyWord);
+		mapParam.put("kw", keyWord);
 		
 		ReqUtil.send("twBook/book/search", mapParam,
 				new COIMCallListener() {
