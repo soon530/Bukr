@@ -31,7 +31,7 @@ public class BookListCard extends Card {
 	String secondaryTitle;
 	String mainHeader;
 	int resourceIdThumb;
-	private BookItem mBookItem;
+	private CommentItem mCommentItem;
 
 	public BookListCard(Context context) {
 		super(context, R.layout.carddemo_cursor_inner_content);
@@ -44,72 +44,72 @@ public class BookListCard extends Card {
 
 	public void init() {
 		CardHeader header = new BookGridCardHeader(getContext());
-		header.setButtonOverflowVisible(true);
+//		header.setButtonOverflowVisible(true);
 
-		header.setPopupMenu(R.menu.popup_edit,
-				new CardHeader.OnClickCardHeaderPopupMenuListener() {
-					@Override
-					public void onMenuItemClick(BaseCard card, MenuItem item) {
-						int id = item.getItemId();
-						switch (id) {
-						case R.id.card_edit:
-							addFavorite();
-							break;
-						default:
-							break;
-						}
-					}
-				});
+//		header.setPopupMenu(R.menu.popup_edit,
+//				new CardHeader.OnClickCardHeaderPopupMenuListener() {
+//					@Override
+//					public void onMenuItemClick(BaseCard card, MenuItem item) {
+//						int id = item.getItemId();
+//						switch (id) {
+//						case R.id.card_edit:
+//							addFavorite();
+//							break;
+//						default:
+//							break;
+//						}
+//					}
+//				});
 
 		addCardHeader(header);
 
-		GplayGridThumb thumbnail = new GplayGridThumb(getContext());
-		thumbnail.setExternalUsage(true);
-
-		addCardThumbnail(thumbnail);
+//		GplayGridThumb thumbnail = new GplayGridThumb(getContext());
+//		thumbnail.setExternalUsage(true);
+//
+//		addCardThumbnail(thumbnail);
 
 		
-		setOnClickListener(new OnCardClickListener() {
-			@Override
-			public void onClick(Card card, View view) {
-
-				Config.bkID = mBookItem.getBkID();
-				// Log.i(LOG_TAG, "bkID: " + Config.bkID);
-
-				Intent intent = new Intent();
-				// intent.putExtra("spID", spID);
-				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-				intent.setClass(getContext(), BookActivity.class);
-				getContext().startActivity(intent);
-
-			}
-		});
+//		setOnClickListener(new OnCardClickListener() {
+//			@Override
+//			public void onClick(Card card, View view) {
+//
+//				Config.bkID = mBookItem.getBkID();
+//				// Log.i(LOG_TAG, "bkID: " + Config.bkID);
+//
+//				Intent intent = new Intent();
+//				// intent.putExtra("spID", spID);
+//				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//				intent.setClass(getContext(), BookActivity.class);
+//				getContext().startActivity(intent);
+//
+//			}
+//		});
 
 	}
 
-	private void addFavorite() {
-		
-		Map<String, Object> mapParam = new HashMap<String, Object>();
-		mapParam.put("bkID", mBookItem.mBkID);
-
-		ReqUtil.send("Bookcase/tag/addBook/3", mapParam, new COIMCallListener() {
-			
-
-			@Override
-			public void onSuccess(JSONObject result) {
-				Log.i(LOG_TAG, "success: "+result);
-				//JSONArray jsonBooks  = Assist.getList(result);
-				
-			}
-			
-			@Override
-			public void onFail(HttpResponse response, Exception exception) {
-				Log.i(LOG_TAG, "fail: "+ exception.getLocalizedMessage());
-				
-			}
-		});
-		
-	}
+//	private void addFavorite() {
+//		
+//		Map<String, Object> mapParam = new HashMap<String, Object>();
+//		mapParam.put("bkID", mBookItem.mUcID);
+//
+//		ReqUtil.send("Bookcase/tag/addBook/3", mapParam, new COIMCallListener() {
+//			
+//
+//			@Override
+//			public void onSuccess(JSONObject result) {
+//				Log.i(LOG_TAG, "success: "+result);
+//				//JSONArray jsonBooks  = Assist.getList(result);
+//				
+//			}
+//			
+//			@Override
+//			public void onFail(HttpResponse response, Exception exception) {
+//				Log.i(LOG_TAG, "fail: "+ exception.getLocalizedMessage());
+//				
+//			}
+//		});
+//		
+//	}
 
 	
 	class BookGridCardHeader extends CardHeader {
@@ -130,7 +130,7 @@ public class BookListCard extends Card {
 						.findViewById(R.id.card_header_inner_simple_title);
 
 				if (textView != null) {
-					textView.setText(mBookItem.mTitle);
+					textView.setText("Vic" + mCommentItem.mMdTime);
 				}
 			}
 		}
@@ -146,10 +146,10 @@ public class BookListCard extends Card {
 		@Override
 		public void setupInnerViewElements(ViewGroup parent, View viewImage) {
 
-			String url = null;
-			url = mBookItem.getIconURI().trim();
-			imageLoader.displayImage(url, (ImageView) viewImage,
-					Config.OPTIONS, null);
+//			String url = null;
+//			url = mBookItem.getIconURI().trim();
+//			imageLoader.displayImage(url, (ImageView) viewImage,
+//					Config.OPTIONS, null);
 
 			// viewImage.getLayoutParams().width = 196;
 			// viewImage.getLayoutParams().height = 196;
@@ -166,14 +166,14 @@ public class BookListCard extends Card {
 				.findViewById(R.id.carddemo_cursor_main_inner_subtitle);
 
 		if (mTitleTextView != null)
-			mTitleTextView.setText(mBookItem.getBkID());
+			mTitleTextView.setText(mCommentItem.mBody);
 
-		if (mSecondaryTitleTextView != null)
-			mSecondaryTitleTextView.setText(mBookItem.getTitle());
+//		if (mSecondaryTitleTextView != null)
+//			mSecondaryTitleTextView.setText(mCommentItem.getTitle());
 
 	}
 
-	public void setBookItem(BookItem bookItem) {
-		mBookItem = bookItem;
+	public void setCommentItem(CommentItem commentItem) {
+		mCommentItem = commentItem;
 	}
 }

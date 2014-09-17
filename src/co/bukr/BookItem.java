@@ -36,4 +36,5 @@ public class BookItem {
 	public void setTitle(String title) {
 		mTitle = title;
 	}
+
 }

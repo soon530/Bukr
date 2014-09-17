@@ -1,12 +1,16 @@
 package co.bukr;
 
+import it.gmariotti.cardslib.library.internal.Card;
+import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 import it.gmariotti.cardslib.library.view.CardListView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.http.HttpResponse;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
@@ -134,7 +138,7 @@ public class BookCommentActivity extends Activity {
 
 	
 	private void showComments() {
-		//final ArrayList<Card> bookCards = new ArrayList<Card>();
+		final ArrayList<Card> bookCards = new ArrayList<Card>();
 
 		//Map<String, Object> mapParam = new HashMap<String, Object>();
 		//mapParam.put("_ps", "12");
@@ -151,38 +155,37 @@ public class BookCommentActivity extends Activity {
 
 						JSONArray jsonBooks  = Assist.getList(result);
 												
-//						for(int i = 0; i < jsonBooks.length(); i++)  {
-//							JSONObject jsonBook;
-//							
-//							try {
-//								jsonBook = (JSONObject) jsonBooks.get(i);
-//								//Log.i(LOG_TAG, "book: " + jsonBook);
-//
-//								Log.i(LOG_TAG, "bkID: " + jsonBook.getString("bkID"));
-//								Log.i(LOG_TAG, "iconURI: " + jsonBook.getString("iconURI"));
-//								Log.i(LOG_TAG, "title: " + jsonBook.getString("title"));
-//								
-//								String bkID = jsonBook.getString("bkID");
-//								String iconURI = jsonBook.getString("iconURI");
-//								String title = jsonBook.getString("title");
-//								
-//								BookGridCard bookCard = new BookGridCard(getBaseContext());
-//								bookCard.setBookItem(new BookItem(bkID, iconURI, title));
-//								bookCard.init();
-//								bookCards.add(bookCard);
-//								
-//
-//
-//								
-//							} catch (JSONException e) {
-//								e.printStackTrace();
-//							}
-//
-//						}
-//						
-//						CardArrayAdapter mCardAdapter = new CardArrayAdapter(getBaseContext() , bookCards);
-//
-//				        mListView.setAdapter(mCardArrayAdapter);
+						for(int i = 0; i < jsonBooks.length(); i++)  {
+							JSONObject jsonBook;
+							
+							try {
+								jsonBook = (JSONObject) jsonBooks.get(i);
+								//Log.i(LOG_TAG, "book: " + jsonBook);
+
+								
+								String ucID = jsonBook.getString("ucID");
+								String body = jsonBook.getString("body");
+								String mdTime = jsonBook.getString("mdTime");
+
+								Log.i(LOG_TAG, "ucID: " + ucID);
+								Log.i(LOG_TAG, "body: " + body);
+								Log.i(LOG_TAG, "mdTime: " + mdTime);
+
+								BookListCard bookCard = new BookListCard(getBaseContext());
+								bookCard.setCommentItem(new CommentItem(ucID, body, mdTime));
+								bookCard.init();
+								bookCards.add(bookCard);
+
+								
+							} catch (JSONException e) {
+								e.printStackTrace();
+							}
+
+						}
+						
+						CardArrayAdapter mCardAdapter = new CardArrayAdapter(getBaseContext() , bookCards);
+
+				        mListView.setAdapter(mCardAdapter);
 					
 					}
 					
