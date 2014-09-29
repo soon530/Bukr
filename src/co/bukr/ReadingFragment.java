@@ -99,12 +99,6 @@ public class ReadingFragment extends Fragment implements OnRefreshListener {
 //			mParam2 = getArguments().getString(ARG_PARAM2);
 //		}
 
-		try {
-			ReqUtil.initSDK(getActivity().getApplication());
-			sws.initSws(getActivity().getApplication());
-		} catch (COIMException e) {
-		} catch (Exception e) {
-		}
 
 		initImageLoader(getActivity());
 		
@@ -154,9 +148,9 @@ public class ReadingFragment extends Fragment implements OnRefreshListener {
 	private void showReadingPeople(final boolean isRefresh) {
 		
 		Map<String, Object> mapParam = new HashMap<String, Object>();
-		mapParam.put("cycle", "month");
+		mapParam.put("cycle", "i");
 
-		ReqUtil.send("twBook/book/whatsHot", mapParam, new COIMCallListener() {
+		ReqUtil.send("books/book/whatsHot", mapParam, new COIMCallListener() {
 			
 			private BooksAdapter adapter;
 
@@ -173,11 +167,13 @@ public class ReadingFragment extends Fragment implements OnRefreshListener {
 						//Log.i(LOG_TAG, "book: " + jsonBook);
 
 						Log.i(LOG_TAG, "bkID: " + jsonBook.getString("bkID"));
-						Log.i(LOG_TAG, "iconURI: " + jsonBook.getString("iconURI"));
+						//Log.i(LOG_TAG, "iconURI: " + jsonBook.getString("iconURI"));
 						Log.i(LOG_TAG, "title: " + jsonBook.getString("title"));
 						
 						String bkID = jsonBook.getString("bkID");
-						String iconURI = jsonBook.getString("iconURI");
+						Log.i("url", "http://bukrtw.skinapi.com/books/auxi/node?path="+ jsonBook.getString("icon")+"&_key=ab2b2c86-cd6e-a51a-a800-b56fb9fefd3b");
+						String iconURI = 
+						"http://bukrtw.skinapi.com/books/auxi/node?path="+ jsonBook.getString("icon")+"&_key=ab2b2c86-cd6e-a51a-a800-b56fb9fefd3b";
 						String title = jsonBook.getString("title");
 						
 						BookGridCard bookCard = new BookGridCard(getActivity());

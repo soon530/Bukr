@@ -66,12 +66,6 @@ public class BookActivity extends Activity implements OnClickListener  {
 		// 设置ActionBar 背景色 透明
 		setContentView(R.layout.activity_book2);
 
-		try {
-			ReqUtil.initSDK(getApplication());
-		} catch (COIMException e) {
-		} catch (Exception e) {
-		}
-
 		initImageLoader(this);
 
 		mImageItem = (ImageView) findViewById(R.id.item_image);
@@ -277,7 +271,7 @@ public class BookActivity extends Activity implements OnClickListener  {
 		mapParam.put("record", "1");
 		mapParam.put("info", "1");
 
-		ReqUtil.send("twBook/book/info/" + Config.bkID, mapParam,
+		ReqUtil.send("books/book/info/" + Config.bkID, mapParam,
 				new COIMCallListener() {
 
 					//private BooksAdapter adapter;
@@ -292,37 +286,37 @@ public class BookActivity extends Activity implements OnClickListener  {
 
 							Log.i(LOG_TAG,
 									"bkID: " + jsonBook.getString("bkID"));
-							Log.i(LOG_TAG,
-									"iconURI: " + jsonBook.getString("iconURI"));
+//							Log.i(LOG_TAG,
+//									"iconURI: " + jsonBook.getString("iconURI"));
 							Log.i(LOG_TAG,
 									"title: " + jsonBook.getString("title"));
 
-							Log.i(LOG_TAG,
-									"infoList: "
-											+ jsonBook.getString("infoList"));
-
-							JSONArray infoList = jsonBook
-									.getJSONArray("infoList");
+//							Log.i(LOG_TAG,
+//									"infoList: "
+//											+ jsonBook.getString("infoList"));
+//
+//							JSONArray infoList = jsonBook
+//									.getJSONArray("infoList");
 
 							// JSONArray jsonInfoList =
 							// Assist.getList(infoList);
 
-							String s = "";
-							Config.content = "";
-							for (int i = 0; i < infoList.length(); i++) {
-								JSONObject json_data = infoList
-										.getJSONObject(i);
-								
-								if ( i == 0) {
-									s = json_data.getString("body");
-								} else {
-									Config.content = json_data.getString("body");
-								}
-								
-							}
+//							String s = "";
+//							Config.content = "";
+//							for (int i = 0; i < infoList.length(); i++) {
+//								JSONObject json_data = infoList
+//										.getJSONObject(i);
+//								
+//								if ( i == 0) {
+//									s = json_data.getString("body");
+//								} else {
+//									Config.content = json_data.getString("body");
+//								}
+//								
+//							}
 
-							imageLoader.displayImage(
-									jsonBook.getString("iconURI").trim(),
+							imageLoader.displayImage("",
+									//jsonBook.getString("iconURI").trim(),
 									mImageItem, Config.OPTIONS, null);
 
 							mTitle.setText(jsonBook.getString("title"));
@@ -332,7 +326,7 @@ public class BookActivity extends Activity implements OnClickListener  {
 							int sellPrice = (int) (jsonBook.getInt("price") * 0.9);
 							mPrice.setText("定價："+ jsonBook.getString("price"));
 							mSellPrice.setText("特價："+String.valueOf(sellPrice));
-							mTextItem.setText(Html.fromHtml(s));
+							//mTextItem.setText(Html.fromHtml(s));
 							
 							// 有可能menu還沒new出來
 							if (Config.content.isEmpty() && mReading != null && mReading.getIcon()!= null) {

@@ -46,16 +46,7 @@ public class MyTagFragment extends Fragment  {
 		super.onCreate(savedInstanceState);
 		//getActionBar().setDisplayHomeAsUpEnabled(true);
 		//setContentView(R.layout.searchview_filter);
-		
-		
-        
-		
-		try {
-			ReqUtil.initSDK(getActivity().getApplication());
-		} catch (COIMException e) {
-		} catch (Exception e) {
-		}
-
+  
 	}
 
 	@Override

@@ -49,12 +49,6 @@ public class BookCommentActivity extends Activity {
 		mAdd = (Button) findViewById(R.id.add);
 		mBody = (EditText) findViewById(R.id.comment);
 		
-		try {
-			ReqUtil.initSDK(getApplication());
-		} catch (COIMException e) {
-		} catch (Exception e) {
-		}
-
 		showComments();
 		
 		mAdd.setOnClickListener(new OnClickListener() {
@@ -169,12 +163,12 @@ public class BookCommentActivity extends Activity {
 		
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.comment, menu);
-		return super.onCreateOptionsMenu(menu);
-	}
+//	@Override
+//	public boolean onCreateOptionsMenu(Menu menu) {
+//		MenuInflater inflater = getMenuInflater();
+//		inflater.inflate(R.menu.comment, menu);
+//		return super.onCreateOptionsMenu(menu);
+//	}
 
 	
 	@Override

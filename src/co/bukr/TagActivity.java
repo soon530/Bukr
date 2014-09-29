@@ -86,12 +86,6 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 			}
 		});
 		
-		try {
-			ReqUtil.initSDK(getApplication());
-		} catch (COIMException e) {
-		} catch (Exception e) {
-		}
-
 		getBookTags();
 		showTags();
 	}

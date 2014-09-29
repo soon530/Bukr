@@ -104,13 +104,6 @@ public class BookcaseFragment extends Fragment implements OnRefreshListener, OnQ
 		
 		//setHasOptionsMenu(true);
 
-		try {
-			ReqUtil.initSDK(getActivity().getApplication());
-			sws.initSws(getActivity().getApplication());
-		} catch (COIMException e) {
-		} catch (Exception e) {
-		}
-
 		initImageLoader(getActivity());
 		
 	}
@@ -184,11 +177,11 @@ public class BookcaseFragment extends Fragment implements OnRefreshListener, OnQ
 						//Log.i(LOG_TAG, "book: " + jsonBook);
 
 						Log.i(LOG_TAG, "bkID: " + jsonBook.getString("bkID"));
-						Log.i(LOG_TAG, "iconURI: " + jsonBook.getString("iconURI"));
+						//Log.i(LOG_TAG, "iconURI: " + jsonBook.getString("iconURI"));
 						Log.i(LOG_TAG, "title: " + jsonBook.getString("title"));
 						
 						String bkID = jsonBook.getString("bkID");
-						String iconURI = jsonBook.getString("iconURI");
+						String iconURI = ""; //jsonBook.getString("iconURI");
 						String title = jsonBook.getString("title");
 						
 						BookcaseGridCard bookCard = new BookcaseGridCard(getActivity(), BookcaseFragment.this);

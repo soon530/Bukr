@@ -69,12 +69,6 @@ public class LoginActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		try {
-			ReqUtil.initSDK(getApplication());
-			sws.initSws(getApplication());
-		} catch (COIMException e) {
-		} catch (Exception e) {
-		}
 
 		setContentView(R.layout.activity_login2);
 

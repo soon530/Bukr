@@ -1,11 +1,10 @@
 package co.bukr;
 
 import it.gmariotti.cardslib.library.internal.Card;
-import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 import it.gmariotti.cardslib.library.internal.CardGridArrayAdapter;
 import it.gmariotti.cardslib.library.view.CardGridView;
-import it.gmariotti.cardslib.library.view.CardListView;
 
+import java.io.BufferedInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,6 +16,8 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.util.Log;
@@ -26,7 +27,6 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
-import android.widget.Toast;
 
 import com.coimotion.csdk.common.COIMCallListener;
 import com.coimotion.csdk.common.COIMException;
@@ -47,13 +47,6 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 		setContentView(R.layout.book_card_grid);
 		mGridView = (CardGridView) findViewById(R.id.book_card_grid);
 		
-		
-		try {
-			ReqUtil.initSDK(getApplication());
-		} catch (COIMException e) {
-		} catch (Exception e) {
-		}
-
 	}
 	
 	@Override
@@ -203,11 +196,11 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 								//Log.i(LOG_TAG, "book: " + jsonBook);
 
 								Log.i(LOG_TAG, "bkID: " + jsonBook.getString("bkID"));
-								Log.i(LOG_TAG, "iconURI: " + jsonBook.getString("iconURI"));
+								//Log.i(LOG_TAG, "iconURI: " + jsonBook.getString("iconURI"));
 								Log.i(LOG_TAG, "title: " + jsonBook.getString("title"));
 								
 								String bkID = jsonBook.getString("bkID");
-								String iconURI = jsonBook.getString("iconURI");
+								String iconURI = ""; //jsonBook.getString("iconURI");
 								String title = jsonBook.getString("title");
 								
 								BookGridCard bookCard = new BookGridCard(getBaseContext());
@@ -215,7 +208,8 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 								bookCard.init();
 								bookCards.add(bookCard);
 								
-
+								String icon = jsonBook.getString("icon");
+								getIconUrl(icon);
 
 								
 							} catch (JSONException e) {
@@ -240,6 +234,32 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 					}
 				});
 
+	}
+	
+	void getIconUrl(String icon) {
+		Log.i(LOG_TAG, "icon: " + icon );
+		
+		Map<String, Object> mapParam = new HashMap<String, Object>();
+		mapParam.put("path", icon);
+
+		ReqUtil.send("books/auxi/node", mapParam, new COIMCallListener() {
+			
+			@Override
+			public void onSuccess(JSONObject result) {
+				Log.i(LOG_TAG, "success: " + result);
+				
+				//final BufferedInputStream bis = new BufferedInputStream(result.getInputStream());
+		        //final Bitmap bm = BitmapFactory.decodeStream(bis);
+		        //bis.close();
+			}
+			
+			@Override
+			public void onFail(HttpResponse arg0, Exception arg1) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 	}
 
 
