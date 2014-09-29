@@ -66,8 +66,6 @@ public class BookActivity extends Activity implements OnClickListener  {
 		// 设置ActionBar 背景色 透明
 		setContentView(R.layout.activity_book2);
 
-		initImageLoader(this);
-
 		mImageItem = (ImageView) findViewById(R.id.item_image);
 		mTextItem = (TextView) findViewById(R.id.item_text);
 		
@@ -253,17 +251,6 @@ public class BookActivity extends Activity implements OnClickListener  {
 		}
 
 		return super.onOptionsItemSelected(item);
-	}
-
-	public static void initImageLoader(Context context) {
-		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
-				context).memoryCache(new LruMemoryCache(2 * 1024 * 1024))
-				.defaultDisplayImageOptions(DisplayImageOptions.createSimple())
-				// .writeDebugLogs()
-				.denyCacheImageMultipleSizesInMemory().build();
-
-		// Initialize ImageLoader with configuration.
-		ImageLoader.getInstance().init(config);
 	}
 
 	private void showBookDetail() {

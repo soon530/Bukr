@@ -98,10 +98,6 @@ public class ReadingFragment extends Fragment implements OnRefreshListener {
 //			mParam1 = getArguments().getString(ARG_PARAM1);
 //			mParam2 = getArguments().getString(ARG_PARAM2);
 //		}
-
-
-		initImageLoader(getActivity());
-		
 	}
 	
 	@Override
@@ -128,22 +124,6 @@ public class ReadingFragment extends Fragment implements OnRefreshListener {
 
 		return super.onOptionsItemSelected(item);
 	}
-
-	
-	
-	public static void initImageLoader(Context context) {
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
-        .memoryCache(new LruMemoryCache(2 * 1024 * 1024))
-        .defaultDisplayImageOptions(DisplayImageOptions.createSimple())
-        //.writeDebugLogs()
-        .denyCacheImageMultipleSizesInMemory()
-        .build();
-		
-		// Initialize ImageLoader with configuration.
-		ImageLoader.getInstance().init(config);
-	}
-
-	
 
 	private void showReadingPeople(final boolean isRefresh) {
 		

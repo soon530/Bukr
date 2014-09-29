@@ -103,9 +103,6 @@ public class BookcaseFragment extends Fragment implements OnRefreshListener, OnQ
 //		}
 		
 		//setHasOptionsMenu(true);
-
-		initImageLoader(getActivity());
-		
 	}
 	
 	@Override
@@ -138,21 +135,6 @@ public class BookcaseFragment extends Fragment implements OnRefreshListener, OnQ
 
 		return super.onOptionsItemSelected(item);
 	}
-
-	
-	public static void initImageLoader(Context context) {
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context)
-        .memoryCache(new LruMemoryCache(2 * 1024 * 1024))
-        .defaultDisplayImageOptions(DisplayImageOptions.createSimple())
-        //.writeDebugLogs()
-        .denyCacheImageMultipleSizesInMemory()
-        .build();
-		
-		// Initialize ImageLoader with configuration.
-		ImageLoader.getInstance().init(config);
-	}
-
-	
 
 	public void showReadingPeople(final boolean isRefresh) {
 		mBookCards.clear();
