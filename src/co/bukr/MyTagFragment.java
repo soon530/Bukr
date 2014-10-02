@@ -89,7 +89,7 @@ public class MyTagFragment extends Fragment  {
 
 	public void showTags() {
 
-		ReqUtil.send("Bookcase/tag/list", null, new COIMCallListener() {
+		ReqUtil.send("bukrBooks/faviGroup/list", null, new COIMCallListener() {
 
 
 			@Override

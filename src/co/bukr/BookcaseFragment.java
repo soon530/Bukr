@@ -144,7 +144,7 @@ public class BookcaseFragment extends Fragment implements OnRefreshListener, OnQ
 		//mapParam.put("descTx", "用來收藏自己的書");
 		//mapParam.put("share", "1");
 
-		ReqUtil.send("Bookcase/tag/listBooks/" + Config.fgID, null, new COIMCallListener() {
+		ReqUtil.send("bukrBooks/faviGroup/listBooks/" + Config.fgID, null, new COIMCallListener() {
 
 			@Override
 			public void onSuccess(JSONObject result) {
@@ -158,16 +158,18 @@ public class BookcaseFragment extends Fragment implements OnRefreshListener, OnQ
 						jsonBook = (JSONObject) jsonBooks.get(i);
 						//Log.i(LOG_TAG, "book: " + jsonBook);
 
-						Log.i(LOG_TAG, "bkID: " + jsonBook.getString("bkID"));
-						//Log.i(LOG_TAG, "iconURI: " + jsonBook.getString("iconURI"));
-						Log.i(LOG_TAG, "title: " + jsonBook.getString("title"));
 						
 						String bkID = jsonBook.getString("bkID");
-						String iconURI = ""; //jsonBook.getString("iconURI");
+						String iconURI = BukrUtlis.getBookIconUrl(jsonBook.getString("icon"));
 						String title = jsonBook.getString("title");
-						
+						String author = jsonBook.getString("author");
+
+						Log.i(LOG_TAG, "bkID: " + bkID);
+						//Log.i(LOG_TAG, "iconURI: " + jsonBook.getString("iconURI"));
+						Log.i(LOG_TAG, "title: " + title);
+
 						BookcaseGridCard bookCard = new BookcaseGridCard(getActivity(), BookcaseFragment.this);
-						bookCard.setBookItem(new BookItem(bkID, iconURI, title));
+						bookCard.setBookItem(new BookItem(bkID, iconURI, title, author));
 						bookCard.init();
 						mBookCards.add(bookCard);
 						

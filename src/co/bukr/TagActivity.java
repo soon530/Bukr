@@ -92,7 +92,7 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 
     private void getBookTags() {
     	mBookTags = "";
-		ReqUtil.send("Bookcase/tag/contains/" + Config.bkID, null, new COIMCallListener() {
+		ReqUtil.send("bukrBooks/faviGroup/contains/" + Config.bkID, null, new COIMCallListener() {
 
 
 			@Override
@@ -133,7 +133,7 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 		Map<String, Object> mapParam = new HashMap<String, Object>();
 		mapParam.put("bkID", Config.bkID);
 
-		ReqUtil.send("Bookcase/tag/rmBook/" + fgID, mapParam, new COIMCallListener() {
+		ReqUtil.send("bukrBooks/faviGroup/rmBook/" + fgID, mapParam, new COIMCallListener() {
 
 
 			@Override
@@ -154,7 +154,7 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 		Map<String, Object> mapParam = new HashMap<String, Object>();
 		mapParam.put("bkID", Config.bkID);
 
-		ReqUtil.send("Bookcase/tag/addBook/" + fgID, mapParam, new COIMCallListener() {
+		ReqUtil.send("bukrBooks/faviGroup/addBook/" + fgID, mapParam, new COIMCallListener() {
 
 
 			@Override
@@ -186,7 +186,7 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 		//mapParam.put("descTx", "用來收藏自己的書");
 		//mapParam.put("share", "1");
 
-		ReqUtil.send("Bookcase/tag/list", null, new COIMCallListener() {
+		ReqUtil.send("bukrBooks/faviGroup/list", null, new COIMCallListener() {
 
 
 			@Override
@@ -229,7 +229,7 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 	
 	private void delTag(String fgID) {
 		
-		ReqUtil.send("Bookcase/tag/remove/" + fgID, null, new COIMCallListener() {
+		ReqUtil.send("bukrBooks/faviGroup/remove/" + fgID, null, new COIMCallListener() {
 
 
 			@Override
@@ -263,7 +263,7 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 		mapParam.put("share", "0");
 
 		
-		ReqUtil.send("Bookcase/tag/create", mapParam, new COIMCallListener() {
+		ReqUtil.send("bukrBooks/faviGroup/create", mapParam, new COIMCallListener() {
 
 
 			@Override
