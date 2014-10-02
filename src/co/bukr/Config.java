@@ -16,5 +16,5 @@ public class Config {
 	public static String bkID = ""; 
 	public static String content = "";
 	public static String fgID="";
-	
+	public static String COIM_APP_KEY = "ab2b2c86-cd6e-a51a-a800-b56fb9fefd3b";
 }
