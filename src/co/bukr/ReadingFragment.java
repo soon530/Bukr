@@ -18,7 +18,6 @@ import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -31,36 +30,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.coimotion.csdk.common.COIMCallListener;
-import com.coimotion.csdk.common.COIMException;
 import com.coimotion.csdk.util.Assist;
 import com.coimotion.csdk.util.ReqUtil;
-import com.coimotion.csdk.util.sws;
-import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
-/**
- * A simple {@link Fragment} subclass. Activities that contain this fragment
- * must implement the {@link ReadingFragment.OnFragmentInteractionListener}
- * interface to handle interaction events. Use the
- * {@link ReadingFragment#newInstance} factory method to create an instance of
- * this fragment.
- * 
- */
 public class ReadingFragment extends Fragment implements OnRefreshListener {
-	// TODO: Rename parameter arguments, choose names that match
-	// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 	private final static String LOG_TAG = "Reading";
-	private static final String ARG_PARAM1 = "param1";
-	private static final String ARG_PARAM2 = "param2";
 
-	// TODO: Rename and change types of parameters
-	private String mParam1;
-	private String mParam2;
 
 	private OnFragmentInteractionListener mListener;
-	private ArrayList<BookItem> mBooks = new ArrayList<BookItem>();
+	//private ArrayList<BookItem> mBooks = new ArrayList<BookItem>();
 	private ArrayList<Card> mBookCards = new ArrayList<Card>();
 	private CardGridView mGirdView;
 	private PullToRefreshLayout mPullToRefreshLayout;
@@ -125,15 +103,12 @@ public class ReadingFragment extends Fragment implements OnRefreshListener {
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void showReadingPeople(final boolean isRefresh) {
+	private void showReading(final boolean isRefresh) {
 		
 		Map<String, Object> mapParam = new HashMap<String, Object>();
 		mapParam.put("cycle", "i");
 
-		ReqUtil.send("books/book/whatsHot", mapParam, new COIMCallListener() {
-			
-			private BooksAdapter adapter;
-
+		ReqUtil.send("bukrBooks/book/whatsHot", mapParam, new COIMCallListener() {
 			@Override
 			public void onSuccess(JSONObject result) {
 				Log.i(LOG_TAG, "success: "+result);
@@ -144,32 +119,22 @@ public class ReadingFragment extends Fragment implements OnRefreshListener {
 					
 					try {
 						jsonBook = (JSONObject) jsonBooks.get(i);
-						//Log.i(LOG_TAG, "book: " + jsonBook);
 
-						Log.i(LOG_TAG, "bkID: " + jsonBook.getString("bkID"));
-						//Log.i(LOG_TAG, "iconURI: " + jsonBook.getString("iconURI"));
-						Log.i(LOG_TAG, "title: " + jsonBook.getString("title"));
 						
 						String bkID = jsonBook.getString("bkID");
-						Log.i("url", "http://bukrtw.skinapi.com/books/auxi/node?path="+ jsonBook.getString("icon")+"&_key=ab2b2c86-cd6e-a51a-a800-b56fb9fefd3b");
-						String iconURI = 
-						"http://bukrtw.skinapi.com/books/auxi/node?path="+ jsonBook.getString("icon")+"&_key=ab2b2c86-cd6e-a51a-a800-b56fb9fefd3b";
+						String iconUrl = BukrUtlis.getBookIconUrl(jsonBook.getString("icon"));
 						String title = jsonBook.getString("title");
+						String author = jsonBook.getString("author");
+
+						Log.i(LOG_TAG, "bkID: " + bkID);
+						Log.i(LOG_TAG, "iconUrl: " + iconUrl);
+						Log.i(LOG_TAG, "title: " + title);
+						Log.i(LOG_TAG, "author: " + author);
 						
 						BookGridCard bookCard = new BookGridCard(getActivity());
-						bookCard.setBookItem(new BookItem(bkID, iconURI, title));
+						bookCard.setBookItem(new BookItem(bkID, iconUrl, title, author));
 						bookCard.init();
-						//bookCard.init();
-						//CardHeader bookCardHeader = new CardHeader(getActivity());
-						//bookCardHeader.setTitle(title);
-						//bookCard.addCardHeader(bookCardHeader);
-						//bookCard.setTitle(title);
 						mBookCards.add(bookCard);
-						
-						//mBooks.add(new BookItem(bkID, iconURI, title));						
-
-
-						
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
@@ -177,19 +142,10 @@ public class ReadingFragment extends Fragment implements OnRefreshListener {
 				}
 				
 		        CardGridArrayAdapter mCardArrayAdapter = new CardGridArrayAdapter(getActivity(), mBookCards);
-
-				
-/*				adapter = new BooksAdapter(
-						getActivity(), 
-						R.layout.row_books, 
-						mBooks  
-						);
-*/				
 				mGirdView.setAdapter(mCardArrayAdapter);
 				
 				if (isRefresh) 
 					mPullToRefreshLayout.setRefreshComplete();
-				
 			}
 			
 			@Override
@@ -225,7 +181,7 @@ public class ReadingFragment extends Fragment implements OnRefreshListener {
 	
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
-		showReadingPeople(false);
+		showReading(false);
 		super.onViewCreated(view, savedInstanceState);
 	}
 	
@@ -276,7 +232,7 @@ public class ReadingFragment extends Fragment implements OnRefreshListener {
 	@Override
 	public void onRefreshStarted(View view) {
 		mBookCards.clear();
-		showReadingPeople(true);
+		showReading(true);
 	}
 
 }
