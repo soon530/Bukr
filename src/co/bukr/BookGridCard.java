@@ -135,7 +135,7 @@ public class BookGridCard extends Card {
 		TextView subtitle = (TextView) view
 				.findViewById(R.id.carddemo_gplay_main_inner_subtitle);
 
-		// subtitle.setText(description);
+		subtitle.setText(mBookItem.mAuthor);
 
 	}
 
