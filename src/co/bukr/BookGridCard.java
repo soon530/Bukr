@@ -48,15 +48,22 @@ public class BookGridCard extends Card {
 		header.setButtonOverflowVisible(true);
 		// header.setTitle(mBookItem.mTitle);
 
-		header.setPopupMenu(R.menu.popup_edit,
+		int popupMenuLayout = R.menu.popup_add; 
+		if (mBookItem.mIsFavi) {
+			popupMenuLayout = R.menu.popup_edit;
+		}
+		
+		header.setPopupMenu(popupMenuLayout,
 				new CardHeader.OnClickCardHeaderPopupMenuListener() {
 					@Override
 					public void onMenuItemClick(BaseCard card, MenuItem item) {
+						
 						int id = item.getItemId();
 						switch (id) {
-						case R.id.card_edit:
+						case R.id.add:
+						case R.id.edit:
 
-							addFavorite();
+							//addFavorite();
 
 							break;
 						default:
@@ -65,7 +72,7 @@ public class BookGridCard extends Card {
 					}
 
 				});
-
+		
 		addCardHeader(header);
 
 		GplayGridThumb thumbnail = new GplayGridThumb(getContext());

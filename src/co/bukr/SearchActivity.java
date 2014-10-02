@@ -173,6 +173,7 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 		mapParam.put("_ps", "12");
 		//mapParam.put("pubName", keyWord);
 		mapParam.put("kw", keyWord);
+		mapParam.put("favi", "1");
 		
 		ReqUtil.send("twBook/book/search", mapParam,
 				new COIMCallListener() {
@@ -203,9 +204,10 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 								String iconURI = BukrUtlis.getBookIconUrl(jsonBook.getString("icon"));
 								String title = jsonBook.getString("title");
 								String author = jsonBook.getString("author");
+								boolean isFavi =  jsonBook.getInt("isFavi") == 1 ? true : false;
 								
 								BookGridCard bookCard = new BookGridCard(getBaseContext());
-								bookCard.setBookItem(new BookItem(bkID, iconURI, title, author));
+								bookCard.setBookItem(new BookItem(bkID, iconURI, title, author, isFavi));
 								bookCard.init();
 								bookCards.add(bookCard);
 								

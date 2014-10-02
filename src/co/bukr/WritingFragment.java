@@ -123,6 +123,7 @@ public class WritingFragment extends Fragment implements OnRefreshListener{
 		
 		Map<String, Object> mapParam = new HashMap<String, Object>();
 		mapParam.put("order", "i");
+		mapParam.put("favi", "1");
 
 		ReqUtil.send("bukrBooks/book/lastCommented", mapParam, new COIMCallListener() {
 			@Override
@@ -141,6 +142,7 @@ public class WritingFragment extends Fragment implements OnRefreshListener{
 						String iconUrl = BukrUtlis.getBookIconUrl(jsonBook.getString("icon"));
 						String title = jsonBook.getString("title");
 						String author = jsonBook.getString("author");
+						boolean isFavi =  jsonBook.getInt("isFavi") == 1 ? true : false;
 
 						Log.i(LOG_TAG, "bkID: " + bkID);
 						Log.i(LOG_TAG, "iconUrl: " + iconUrl);
@@ -148,7 +150,7 @@ public class WritingFragment extends Fragment implements OnRefreshListener{
 						Log.i(LOG_TAG, "author: " + author);
 						
 						BookGridCard bookCard = new BookGridCard(getActivity());
-						bookCard.setBookItem(new BookItem(bkID, iconUrl, title, author));
+						bookCard.setBookItem(new BookItem(bkID, iconUrl, title, author, isFavi));
 						bookCard.init();
 						mBookCards.add(bookCard);
 					} catch (JSONException e) {

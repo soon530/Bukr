@@ -18,8 +18,8 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/edit"
-        android:title="編輯收藏"
+    <item android:id="@+id/add"
+        android:title="加入收藏"
         android:orderInCategory="100"
         android:showAsAction="always" />
 

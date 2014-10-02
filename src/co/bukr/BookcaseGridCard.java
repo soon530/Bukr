@@ -50,16 +50,21 @@ public class BookcaseGridCard extends Card {
 		CardHeader header = new BookGridCardHeader(getContext());
 		header.setButtonOverflowVisible(true);
 		// header.setTitle(mBookItem.mTitle);
+		int popupMenuLayout = R.menu.popup_add; 
+		if (mBookItem.mIsFavi) {
+			popupMenuLayout = R.menu.popup_edit;
+		}
 
-		header.setPopupMenu(R.menu.popup_bookcase,
+		header.setPopupMenu(popupMenuLayout,
 				new CardHeader.OnClickCardHeaderPopupMenuListener() {
 					@Override
 					public void onMenuItemClick(BaseCard card, MenuItem item) {
 						int id = item.getItemId();
 						switch (id) {
-						case R.id.card_del:
+						//case R.id.add:
+						case R.id.edit:
 
-							delFavorite();
+							//delFavorite();
 
 							break;
 						default:

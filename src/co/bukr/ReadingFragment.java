@@ -43,17 +43,6 @@ public class ReadingFragment extends Fragment implements OnRefreshListener {
 	private CardGridView mGirdView;
 	private PullToRefreshLayout mPullToRefreshLayout;
 
-	/**
-	 * Use this factory method to create a new instance of this fragment using
-	 * the provided parameters.
-	 * 
-	 * @param param1
-	 *            Parameter 1.
-	 * @param param2
-	 *            Parameter 2.
-	 * @return A new instance of fragment ReadingFragment.
-	 */
-	// TODO: Rename and change types and number of parameters
 	public static ReadingFragment newInstance(int sectionNumber) {
 		ReadingFragment fragment = new ReadingFragment();
 		Bundle args = new Bundle();
@@ -106,8 +95,9 @@ public class ReadingFragment extends Fragment implements OnRefreshListener {
 	private void showReading(final boolean isRefresh) {
 		
 		Map<String, Object> mapParam = new HashMap<String, Object>();
-		mapParam.put("cycle", "i");
-
+		mapParam.put("order", "i");
+		mapParam.put("favi", "1");
+		
 		ReqUtil.send("bukrBooks/book/whatsHot", mapParam, new COIMCallListener() {
 			@Override
 			public void onSuccess(JSONObject result) {
@@ -120,19 +110,19 @@ public class ReadingFragment extends Fragment implements OnRefreshListener {
 					try {
 						jsonBook = (JSONObject) jsonBooks.get(i);
 
-						
 						String bkID = jsonBook.getString("bkID");
 						String iconUrl = BukrUtlis.getBookIconUrl(jsonBook.getString("icon"));
 						String title = jsonBook.getString("title");
 						String author = jsonBook.getString("author");
-
+						boolean isFavi =  jsonBook.getInt("isFavi") == 1 ? true : false;
+						
 						Log.i(LOG_TAG, "bkID: " + bkID);
 						Log.i(LOG_TAG, "iconUrl: " + iconUrl);
 						Log.i(LOG_TAG, "title: " + title);
 						Log.i(LOG_TAG, "author: " + author);
 						
 						BookGridCard bookCard = new BookGridCard(getActivity());
-						bookCard.setBookItem(new BookItem(bkID, iconUrl, title, author));
+						bookCard.setBookItem(new BookItem(bkID, iconUrl, title, author, isFavi));
 						bookCard.init();
 						mBookCards.add(bookCard);
 					} catch (JSONException e) {
