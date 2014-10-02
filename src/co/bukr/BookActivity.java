@@ -9,11 +9,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
 import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
@@ -23,18 +21,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ImageView;
-import android.widget.SearchView;
-import android.widget.SearchView.OnQueryTextListener;
 import android.widget.TextView;
 
 import com.coimotion.csdk.common.COIMCallListener;
-import com.coimotion.csdk.common.COIMException;
 import com.coimotion.csdk.util.Assist;
 import com.coimotion.csdk.util.ReqUtil;
-import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 public class BookActivity extends Activity implements OnClickListener  {
 	private final static String LOG_TAG = "BookActivity";
@@ -152,7 +144,7 @@ public class BookActivity extends Activity implements OnClickListener  {
 			@Override
 			public void onSuccess(JSONObject result) {
 				Log.i(LOG_TAG, "success: "+result);
-				JSONArray jsonBooks  = Assist.getList(result);
+				//JSONArray jsonBooks  = Assist.getList(result);
 				
 				if (Assist.getErrCode(result) == 0) {
 					Assist.showToast(getBaseContext(), "取消收藏成功!");
@@ -185,7 +177,7 @@ public class BookActivity extends Activity implements OnClickListener  {
 			@Override
 			public void onSuccess(JSONObject result) {
 				Log.i(LOG_TAG, "success: "+result);
-				JSONArray jsonBooks  = Assist.getList(result);
+				//JSONArray jsonBooks  = Assist.getList(result);
 				
 				if (Assist.getErrCode(result) == 0) {
 					Assist.showToast(getBaseContext(), "加入收藏成功!");
@@ -257,8 +249,10 @@ public class BookActivity extends Activity implements OnClickListener  {
 		Map<String, Object> mapParam = new HashMap<String, Object>();
 		mapParam.put("record", "1");
 		mapParam.put("info", "1");
+		mapParam.put("waCode", "bukrBooks");
 
-		ReqUtil.send("books/book/info/" + Config.bkID, mapParam,
+		//public data
+		ReqUtil.send("twBook/book/info/" + Config.bkID, mapParam,
 				new COIMCallListener() {
 
 					//private BooksAdapter adapter;
@@ -268,90 +262,57 @@ public class BookActivity extends Activity implements OnClickListener  {
 						Log.i(LOG_TAG, "success: " + result);
 
 						try {
-							JSONObject jsonBook = (JSONObject) result
-									.get("value");
-
-							Log.i(LOG_TAG,
-									"bkID: " + jsonBook.getString("bkID"));
-//							Log.i(LOG_TAG,
-//									"iconURI: " + jsonBook.getString("iconURI"));
-							Log.i(LOG_TAG,
-									"title: " + jsonBook.getString("title"));
-
-//							Log.i(LOG_TAG,
-//									"infoList: "
-//											+ jsonBook.getString("infoList"));
-//
-//							JSONArray infoList = jsonBook
-//									.getJSONArray("infoList");
-
-							// JSONArray jsonInfoList =
-							// Assist.getList(infoList);
-
-//							String s = "";
-//							Config.content = "";
-//							for (int i = 0; i < infoList.length(); i++) {
-//								JSONObject json_data = infoList
-//										.getJSONObject(i);
-//								
-//								if ( i == 0) {
-//									s = json_data.getString("body");
-//								} else {
-//									Config.content = json_data.getString("body");
-//								}
-//								
-//							}
-
-							imageLoader.displayImage("",
-									//jsonBook.getString("iconURI").trim(),
-									mImageItem, Config.OPTIONS, null);
-
-							mTitle.setText(jsonBook.getString("title"));
-							mAuthor.setText("Eason");
-							mPublisher.setText(jsonBook.getString("publisher"));
+							//JSONObject jsonBook = (JSONObject) result.get("value");
+							JSONObject jsonBook = Assist.getValue(result);
+							Log.i(LOG_TAG, "success: " + jsonBook);
 							
-							int sellPrice = (int) (jsonBook.getInt("price") * 0.9);
-							mPrice.setText("定價："+ jsonBook.getString("price"));
-							mSellPrice.setText("特價："+String.valueOf(sellPrice));
-							//mTextItem.setText(Html.fromHtml(s));
+
+							//String bkID = jsonBook.getString("bksID");
+							String icon = jsonBook.getString("icon");
+							String title = jsonBook.getString("title");
+							String author = jsonBook.getString("author");
+							String publisher = jsonBook.getString("publisher");
+							String price = jsonBook.getString("price");
+							String sellPrice = getSellPrice(jsonBook.getInt("price"));
+							String bnAbstract = jsonBook.getString("bnAbstract");
+							String bnExerpt = "";
+							if (!jsonBook.isNull("bnExcerpt")) {
+								bnExerpt = jsonBook.getString("bnExcerpt");
+								Config.content = bnExerpt;
+							}
+							
+							Log.i(LOG_TAG, "icon: " + icon);
+							Log.i(LOG_TAG, "title: " + title);
+							Log.i(LOG_TAG, "author: " + author);
+							Log.i(LOG_TAG, "publisher: " + publisher);
+							Log.i(LOG_TAG, "publisher: " + price);
+							Log.i(LOG_TAG, "sellPrice: " + sellPrice);
+							Log.i(LOG_TAG, "bnExerpt: " + bnExerpt);
+							
+
+							imageLoader.displayImage(
+									BukrUtlis.getBookIconUrl(icon),
+									mImageItem, Config.OPTIONS, null);
+							mTitle.setText(title);
+							mAuthor.setText(author );
+							mPublisher.setText(publisher );
+							mPrice.setText("定價："+ price );
+							mSellPrice.setText("特價："+ sellPrice);
+							mTextItem.setText(Html.fromHtml(bnAbstract));
 							
 							// 有可能menu還沒new出來
-							if (Config.content.isEmpty() && mReading != null && mReading.getIcon()!= null) {
+							if (bnExerpt.isEmpty() && mReading != null && mReading.getIcon()!= null) {
 								mReading.setEnabled(false);
 								mReading.getIcon().setAlpha(125);
 							} else {
 								mReading.getIcon().setAlpha(255);
 							}
 
-
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 
-						/*
-						 * JSONArray jsonBooks = Assist.getList(result);
-						 * 
-						 * for (int i = 0; i < jsonBooks.length(); i++) {
-						 * JSONObject jsonBook;
-						 * 
-						 * try { jsonBook = (JSONObject) jsonBooks.get(i); //
-						 * Log.i(LOG_TAG, "book: " + jsonBook);
-						 * 
-						 * Log.i(LOG_TAG, "bkID: " +
-						 * jsonBook.getString("bkID")); Log.i(LOG_TAG,
-						 * "iconURI: " + jsonBook.getString("iconURI"));
-						 * Log.i(LOG_TAG, "title: " +
-						 * jsonBook.getString("title"));
-						 * 
-						 * String iconURI = jsonBook.getString("iconURI");
-						 * String title = jsonBook.getString("title"); String
-						 * bkID = jsonBook.getString("bkID");
-						 * 
-						 * } catch (JSONException e) { e.printStackTrace(); }
-						 * 
-						 * }
-						 */
 					}
 
 					@Override
@@ -365,5 +326,9 @@ public class BookActivity extends Activity implements OnClickListener  {
 
 	}
 
+	private String getSellPrice(int price) {
+		int sellPrice = (int) (price * 0.9);
+		return String.valueOf(sellPrice);
+	}
 
 }
