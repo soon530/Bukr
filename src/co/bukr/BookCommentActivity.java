@@ -71,7 +71,7 @@ public class BookCommentActivity extends Activity {
 		mapParam.put("body", mBody.getText());
 		//mapParam.put("kw", keyWord);
 
-		ReqUtil.send("books/comment/create/" + Config.bkID, mapParam,
+		ReqUtil.send("bukrBooks/comment/create/" + Config.bkID, mapParam,
 				new COIMCallListener() {
 
 
@@ -107,7 +107,7 @@ public class BookCommentActivity extends Activity {
 		//mapParam.put("pubName", keyWord);
 		//mapParam.put("kw", keyWord);
 		
-		ReqUtil.send("books/comment/list/" + Config.bkID, null,
+		ReqUtil.send("bukrBooks/comment/list/" + Config.bkID, null,
 				new COIMCallListener() {
 
 
