@@ -200,17 +200,15 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 								Log.i(LOG_TAG, "title: " + jsonBook.getString("title"));
 								
 								String bkID = jsonBook.getString("bkID");
-								String iconURI = ""; //jsonBook.getString("iconURI");
+								String iconURI = BukrUtlis.getBookIconUrl(jsonBook.getString("icon"));
 								String title = jsonBook.getString("title");
+								String author = jsonBook.getString("author");
 								
 								BookGridCard bookCard = new BookGridCard(getBaseContext());
-								bookCard.setBookItem(new BookItem(bkID, iconURI, title));
+								bookCard.setBookItem(new BookItem(bkID, iconURI, title, author));
 								bookCard.init();
 								bookCards.add(bookCard);
 								
-								String icon = jsonBook.getString("icon");
-								getIconUrl(icon);
-
 								
 							} catch (JSONException e) {
 								e.printStackTrace();
@@ -236,31 +234,5 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 
 	}
 	
-	void getIconUrl(String icon) {
-		Log.i(LOG_TAG, "icon: " + icon );
-		
-		Map<String, Object> mapParam = new HashMap<String, Object>();
-		mapParam.put("path", icon);
-
-		ReqUtil.send("books/auxi/node", mapParam, new COIMCallListener() {
-			
-			@Override
-			public void onSuccess(JSONObject result) {
-				Log.i(LOG_TAG, "success: " + result);
-				
-				//final BufferedInputStream bis = new BufferedInputStream(result.getInputStream());
-		        //final Bitmap bm = BitmapFactory.decodeStream(bis);
-		        //bis.close();
-			}
-			
-			@Override
-			public void onFail(HttpResponse arg0, Exception arg1) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		
-	}
-
 
 }
