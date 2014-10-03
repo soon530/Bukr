@@ -11,35 +11,41 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SearchView;
 import android.widget.SearchView.OnQueryTextListener;
 import android.widget.TextView;
 
 import com.coimotion.csdk.common.COIMCallListener;
-import com.coimotion.csdk.common.COIMException;
 import com.coimotion.csdk.util.Assist;
 import com.coimotion.csdk.util.ReqUtil;
 
 public class TagActivity extends Activity implements OnQueryTextListener {
 	private final static String LOG_TAG = "TagActivity";
-    private SearchView mSearchView;
+//    private SearchView mSearchView;
     private ListView mListView;
     private ArrayAdapter<String> mAdapter;
 	protected ArrayList<String> mTags = new ArrayList<String>();
 	protected ArrayList<String> mFgID = new ArrayList<String>();
 	private TextView mBookTagsShow;
 	private String mBookTags;
+	private ImageView mAddToBooklist;
 
 
 	@Override
@@ -49,26 +55,41 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 		setContentView(R.layout.searchview_filter);
 		
 		
-        mSearchView = (SearchView) findViewById(R.id.search_view);
+//        mSearchView = (SearchView) findViewById(R.id.search_view);
         mListView = (ListView) findViewById(R.id.list_view);
-        mBookTagsShow = (TextView) findViewById(R.id.book_tags);
-        setupSearchView();
-
+        mAddToBooklist = (ImageView) findViewById(R.id.add_to_booklist);
+//        mBookTagsShow = (TextView) findViewById(R.id.book_tags);
+//        setupSearchView();
+        mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         mListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				
+				Log.i(LOG_TAG, "listview item");
+				
+				CheckBox check = (CheckBox)view.findViewById(R.id.checkBox1);
+				
+				//check.setChecked(!check.isChecked());
+
 				String fgID = mFgID.get(position);
-				Log.i(LOG_TAG, "mBookTags:" + mBookTags + ", mTags.get():" + mTags.get(position) + ", contains:" + mBookTags.contains(mTags.get(position)));
-				//如果書本中，有這個分類，就將這個分類刪除
-				if (mBookTags.contains(mTags.get(position))) {
+				if (check.isChecked()) {
 					delBook(fgID);
-				} else { //如果書本中，沒有這個分類，就將這個分類增加
-					addBook(fgID);
+				} else {
+					addBook(fgID);					
 				}
 				getBookTags();
+				
+//				String fgID = mFgID.get(position);
+//				Log.i(LOG_TAG, "mBookTags:" + mBookTags + ", mTags.get():" + mTags.get(position) + ", contains:" + mBookTags.contains(mTags.get(position)));
+//				//如果書本中，有這個分類，就將這個分類刪除
+//				if (mBookTags.contains(mTags.get(position))) {
+//					delBook(fgID);
+//				} else { //如果書本中，沒有這個分類，就將這個分類增加
+//					addBook(fgID);
+//				}
+//				getBookTags();
 			}
 		});
         
@@ -85,9 +106,52 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 				return true;
 			}
 		});
+        
+        
+        mAddToBooklist.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				showInputDialog();
+			}
+		});
 		
-		getBookTags();
 		showTags();
+	}
+	
+	protected void showInputDialog() {
+
+		// get prompts.xml view
+		LayoutInflater layoutInflater = LayoutInflater.from(TagActivity.this);
+		View promptView = layoutInflater.inflate(R.layout.input_dialog, null);
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+				TagActivity.this);
+		alertDialogBuilder.setView(promptView);
+
+		final EditText editText = (EditText) promptView
+				.findViewById(R.id.edittext);
+		// setup a dialog window
+		alertDialogBuilder
+				.setCancelable(false)
+				.setTitle("請輸入書單名稱")
+				.setPositiveButton("確認", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						//resultText.setText("Hello, " + editText.getText());
+						addTag(editText.getText().toString());
+						showTags();
+					}
+				})
+				.setNegativeButton("取消",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
+
+		// create an alert dialog
+		AlertDialog alert = alertDialogBuilder.create();
+		alert.show();
+
 	}
 
     private void getBookTags() {
@@ -114,10 +178,10 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 					}
 					
 				}
-
-				mBookTagsShow.setText(mBookTags);
+				//該有的tag後，做選取動作
+				setBookListChecked();
+				//mBookTagsShow.setText(mBookTags);
 			}
-			
 			
 			public void onFail(HttpResponse response, Exception exception) {
 				Log.i(LOG_TAG, "fail: "+ exception.getLocalizedMessage());
@@ -128,6 +192,24 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 		
 	}
 
+	protected void setBookListChecked() {
+				
+		for (int i=0; i < mListView.getCount(); i++) {
+
+			View view = mListView.getChildAt(i);
+			if (view != null) {
+				CheckBox chk = (CheckBox) view.findViewById(R.id.checkBox1);
+		
+			
+				if (mBookTags.contains(chk.getText())) {
+					chk.setChecked(true);
+				} else {
+					chk.setChecked(false);
+				}
+			}
+		}
+	
+	}
 
 	protected void delBook(String fgID) {
 		Map<String, Object> mapParam = new HashMap<String, Object>();
@@ -171,12 +253,12 @@ public class TagActivity extends Activity implements OnQueryTextListener {
     	
 	}
 
-	private void setupSearchView() {
-        mSearchView.setIconifiedByDefault(false);
-        mSearchView.setOnQueryTextListener(this);
-        mSearchView.setSubmitButtonEnabled(false);
-        mSearchView.setQueryHint("搜尋tags");
-    }
+//	private void setupSearchView() {
+//        mSearchView.setIconifiedByDefault(false);
+//        mSearchView.setOnQueryTextListener(this);
+//        mSearchView.setSubmitButtonEnabled(false);
+//        mSearchView.setQueryHint("搜尋tags");
+//    }
 
 	public void showTags() {
 		//mBookCards.clear();
@@ -212,10 +294,11 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 				}
 				Collections.reverse(mTags);
 				Collections.reverse(mFgID);
-				mAdapter = new ArrayAdapter<String>(TagActivity.this, android.R.layout.simple_list_item_1, mTags);
+				mAdapter = new ArrayAdapter<String>(TagActivity.this, R.layout.row_booklist, R.id.checkBox1 , mTags);
 		        mListView.setAdapter(mAdapter);
 		        mListView.setTextFilterEnabled(true);
-				
+		        //打勾勾
+		        getBookTags();
 			}
 			
 			
@@ -236,8 +319,8 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 			public void onSuccess(JSONObject result) {
 				Log.i(LOG_TAG, "success: "+result);
 				
-				showTags();
-				getBookTags();
+				//showTags();
+				//getBookTags();
 			}
 			
 			
@@ -251,8 +334,8 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 
 	@Override
 	public boolean onQueryTextSubmit(String query) {
-		addTag(query);
-		mSearchView.setQuery("", false);
+		//addTag(query);
+		//mSearchView.setQuery("", false);
 		return false;
 	}
 

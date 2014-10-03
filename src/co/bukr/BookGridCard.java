@@ -63,8 +63,8 @@ public class BookGridCard extends Card {
 						case R.id.add:
 						case R.id.edit:
 
-							//addFavorite();
-
+							addFavorite();
+							
 							break;
 						default:
 							break;
@@ -102,31 +102,36 @@ public class BookGridCard extends Card {
 	}
 
 	private void addFavorite() {
+		Config.bkID = mBookItem.mBkID;
+		Intent intentTag = new Intent();
+		intentTag.setClass(getContext(), TagActivity.class);
+		getContext().startActivity(intentTag);
+
 		
-		Map<String, Object> mapParam = new HashMap<String, Object>();
-		mapParam.put("bkID", mBookItem.mBkID);
-
-		ReqUtil.send("Bookcase/tag/addBook/3", mapParam, new COIMCallListener() {
-			
-
-			@Override
-			public void onSuccess(JSONObject result) {
-				Log.i(LOG_TAG, "success: "+result);
-				JSONArray jsonBooks  = Assist.getList(result);
-				
-				if (Assist.getErrCode(result) == 0) {
-					Assist.showToast(getContext(), "加入收藏成功!");
-				} else {
-					Assist.showToast(getContext(), "書櫃中已有此本書!");
-				}
-			}
-			
-			@Override
-			public void onFail(HttpResponse response, Exception exception) {
-				Log.i(LOG_TAG, "fail: "+ exception.getLocalizedMessage());
-				
-			}
-		});
+//		Map<String, Object> mapParam = new HashMap<String, Object>();
+//		mapParam.put("bkID", mBookItem.mBkID);
+//
+//		ReqUtil.send("Bookcase/tag/addBook/3", mapParam, new COIMCallListener() {
+//			
+//
+//			@Override
+//			public void onSuccess(JSONObject result) {
+//				Log.i(LOG_TAG, "success: "+result);
+//				JSONArray jsonBooks  = Assist.getList(result);
+//				
+//				if (Assist.getErrCode(result) == 0) {
+//					Assist.showToast(getContext(), "加入收藏成功!");
+//				} else {
+//					Assist.showToast(getContext(), "書櫃中已有此本書!");
+//				}
+//			}
+//			
+//			@Override
+//			public void onFail(HttpResponse response, Exception exception) {
+//				Log.i(LOG_TAG, "fail: "+ exception.getLocalizedMessage());
+//				
+//			}
+//		});
 		
 	}
 

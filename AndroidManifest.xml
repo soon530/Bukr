@@ -57,7 +57,7 @@
         </activity>
         <activity
             android:name=".TagActivity"
-            android:label="編輯收藏" >
+            android:label="收藏狀態" >
         </activity>
         <activity
             android:name=".BookCommentActivity"
