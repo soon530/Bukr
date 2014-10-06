@@ -95,7 +95,7 @@ public class ReadingFragment extends Fragment implements OnRefreshListener {
 	private void showReading(final boolean isRefresh) {
 		
 		Map<String, Object> mapParam = new HashMap<String, Object>();
-		mapParam.put("order", "i");
+		mapParam.put("cycle", "i");
 		mapParam.put("favi", "1");
 		
 		ReqUtil.send("bukrBooks/book/whatsHot", mapParam, new COIMCallListener() {
@@ -116,10 +116,10 @@ public class ReadingFragment extends Fragment implements OnRefreshListener {
 						String author = jsonBook.getString("author");
 						boolean isFavi =  jsonBook.getInt("isFavi") == 1 ? true : false;
 						
-						Log.i(LOG_TAG, "bkID: " + bkID);
-						Log.i(LOG_TAG, "iconUrl: " + iconUrl);
-						Log.i(LOG_TAG, "title: " + title);
-						Log.i(LOG_TAG, "author: " + author);
+//						Log.i(LOG_TAG, "bkID: " + bkID);
+//						Log.i(LOG_TAG, "iconUrl: " + iconUrl);
+//						Log.i(LOG_TAG, "title: " + title);
+//						Log.i(LOG_TAG, "author: " + author);
 						
 						BookGridCard bookCard = new BookGridCard(getActivity());
 						bookCard.setBookItem(new BookItem(bkID, iconUrl, title, author, isFavi));
@@ -172,10 +172,26 @@ public class ReadingFragment extends Fragment implements OnRefreshListener {
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		showReading(false);
+		showUserProfile();
 		super.onViewCreated(view, savedInstanceState);
 	}
-	
 
+	private void showUserProfile() {
+			
+		ReqUtil.send("core/user/profile", null, new COIMCallListener() {
+			@Override
+			public void onSuccess(JSONObject result) {
+				Log.i(LOG_TAG, "showUserProfile() success: "+result);
+			}
+			
+			@Override
+			public void onFail(HttpResponse response, Exception exception) {
+				Log.i(LOG_TAG, "fail: "+ exception.getLocalizedMessage());
+				
+			}
+		});
+		
+	}
 
 	// TODO: Rename method, update argument and hook method into UI event
 /*	public void onButtonPressed(Uri uri) {
