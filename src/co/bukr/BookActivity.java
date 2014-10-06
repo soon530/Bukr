@@ -1,5 +1,6 @@
 package co.bukr;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,17 +10,21 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,6 +49,7 @@ public class BookActivity extends Activity implements OnClickListener  {
 	private boolean mHasAdd;
 	private MenuItem mReading;
 	private ImageView mBookComment;
+	private ArrayList<String> mBooklists = new ArrayList<String>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +102,7 @@ public class BookActivity extends Activity implements OnClickListener  {
 		//Map<String, Object> mapParam = new HashMap<String, Object>();
 		//mapParam.put("bkID", Config.bkID);
 
-		ReqUtil.send("Bookcase/tag/contains/"+Config.bkID, null, new COIMCallListener() {
+		ReqUtil.send("bukrBooks/faviGroup/contains/"+Config.bkID, null, new COIMCallListener() {
 
 			@Override
 			public void onSuccess(JSONObject result) {
@@ -110,6 +116,25 @@ public class BookActivity extends Activity implements OnClickListener  {
 					mAddFavorite.setImageResource(R.drawable.done_button);
 					mHasAdd = true;
 				}
+
+				//這本書已加入的「書單」有那些？先存起來，方便等一下全部取消用
+				for(int i = 0; i < jsonBooks.length(); i++)  {
+					JSONObject jsonBook;
+					
+					try {
+						jsonBook = (JSONObject) jsonBooks.get(i);
+						Log.i(LOG_TAG, "title: " + jsonBook.getString("fgID"));
+						
+						String fgID = jsonBook.getString("fgID");
+						mBooklists .add(fgID);
+						
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+					
+				}
+
+				
 			}
 			
 			@Override
@@ -120,25 +145,68 @@ public class BookActivity extends Activity implements OnClickListener  {
 		});
 		
 	}
-
-
 
 	@Override
 	public void onClick(View v) {
 		
 		if (mHasAdd) {
-			delFavorite();
+			showDelDialog();
 		} else {
 			addFavorite();
 		}
 	}
 	
+	
+	protected void showDelDialog() {
+
+		// get prompts.xml view
+		//LayoutInflater layoutInflater = LayoutInflater.from(this);
+		//View promptView = layoutInflater.inflate(R.layout.input_dialog, null);
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+		//alertDialogBuilder.setView(promptView);
+
+		//final EditText editText = (EditText) promptView.findViewById(R.id.edittext);
+		// setup a dialog window
+		alertDialogBuilder
+				.setCancelable(false)
+				.setTitle("取消收藏")
+				.setMessage("將會取消此書的所有收藏")
+				.setPositiveButton("確認", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						delFavorite();
+					}
+				})
+				.setNegativeButton("取消",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
+
+		// create an alert dialog
+		AlertDialog alert = alertDialogBuilder.create();
+		alert.show();
+
+	}
+
+	
 	private void delFavorite() {
 		
+		for (String fgID : mBooklists) {
+			removeBookFromFavorite(fgID);
+		}
+		
+		mHasAdd = false;
+		mAddFavorite.setImageResource(R.drawable.save_button);
+
+	}
+	
+
+	private void removeBookFromFavorite(String fgID) {
 		Map<String, Object> mapParam = new HashMap<String, Object>();
 		mapParam.put("bkID", Config.bkID);
 
-		ReqUtil.send("Bookcase/tag/rmBook/3", mapParam, new COIMCallListener() {
+		ReqUtil.send("bukrBooks/faviGroup/rmBook/"+ fgID, mapParam, new COIMCallListener() {
 			
 
 			@Override
@@ -147,14 +215,11 @@ public class BookActivity extends Activity implements OnClickListener  {
 				//JSONArray jsonBooks  = Assist.getList(result);
 				
 				if (Assist.getErrCode(result) == 0) {
-					Assist.showToast(getBaseContext(), "取消收藏成功!");
-					mAddFavorite.setImageResource(R.drawable.save_button);
-					mHasAdd = false;
+					//Assist.showToast(getBaseContext(), "取消收藏成功!");
 
 				} else {
-					Assist.showToast(getBaseContext(), "取消收藏失敗!");
+					//Assist.showToast(getBaseContext(), "取消收藏失敗!");
 				}
-				
 			}
 			
 			@Override
@@ -163,38 +228,40 @@ public class BookActivity extends Activity implements OnClickListener  {
 				
 			}
 		});
-		
 	}
 
 	private void addFavorite() {
+		Intent intentTag = new Intent();
+		intentTag.setClass(this, TagActivity.class);
+		startActivity(intentTag);
 		
-		Map<String, Object> mapParam = new HashMap<String, Object>();
-		mapParam.put("bkID", Config.bkID);
-
-		ReqUtil.send("Bookcase/tag/addBook/3", mapParam, new COIMCallListener() {
-			
-
-			@Override
-			public void onSuccess(JSONObject result) {
-				Log.i(LOG_TAG, "success: "+result);
-				//JSONArray jsonBooks  = Assist.getList(result);
-				
-				if (Assist.getErrCode(result) == 0) {
-					Assist.showToast(getBaseContext(), "加入收藏成功!");
-					mAddFavorite.setImageResource(R.drawable.done_button);
-					mHasAdd = true;
-
-				} else {
-					Assist.showToast(getBaseContext(), "書櫃中已有此本書!");
-				}
-			}
-			
-			@Override
-			public void onFail(HttpResponse response, Exception exception) {
-				Log.i(LOG_TAG, "fail: "+ exception.getLocalizedMessage());
-				
-			}
-		});
+//		Map<String, Object> mapParam = new HashMap<String, Object>();
+//		mapParam.put("bkID", Config.bkID);
+//
+//		ReqUtil.send("Bookcase/tag/addBook/3", mapParam, new COIMCallListener() {
+//			
+//
+//			@Override
+//			public void onSuccess(JSONObject result) {
+//				Log.i(LOG_TAG, "success: "+result);
+//				//JSONArray jsonBooks  = Assist.getList(result);
+//				
+//				if (Assist.getErrCode(result) == 0) {
+//					Assist.showToast(getBaseContext(), "加入收藏成功!");
+//					mAddFavorite.setImageResource(R.drawable.done_button);
+//					mHasAdd = true;
+//
+//				} else {
+//					Assist.showToast(getBaseContext(), "書櫃中已有此本書!");
+//				}
+//			}
+//			
+//			@Override
+//			public void onFail(HttpResponse response, Exception exception) {
+//				Log.i(LOG_TAG, "fail: "+ exception.getLocalizedMessage());
+//				
+//			}
+//		});
 		
 	}
 
