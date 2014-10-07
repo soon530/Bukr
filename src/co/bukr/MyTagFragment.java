@@ -1,5 +1,9 @@
 package co.bukr;
 
+import it.gmariotti.cardslib.library.internal.Card;
+import it.gmariotti.cardslib.library.internal.CardGridArrayAdapter;
+import it.gmariotti.cardslib.library.view.CardGridView;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -34,12 +38,15 @@ import com.felipecsl.abslistviewhelper.library.AbsListViewHelper;
 
 public class MyTagFragment extends Fragment  {
 	private final static String LOG_TAG = "MyTagActivity";
-    private ListView mListView;
-    private ArrayAdapter<String> mAdapter;
+    private CardGridView mListView;
+    //private ArrayAdapter<String> mAdapter;
 	protected ArrayList<String> mTags = new ArrayList<String>();
 	protected ArrayList<String> mFgID = new ArrayList<String>();
 	private FrameLayout mHeaderView;
 	private AbsListViewHelper helper;
+	private ArrayList<Card> mBookCards = new ArrayList<Card>();
+	private CardGridArrayAdapter mCardArrayAdapter;
+
 	
 	public static Fragment newInstance(int sectionNumber) {
 		MyTagFragment fragment = new MyTagFragment();
@@ -69,7 +76,7 @@ public class MyTagFragment extends Fragment  {
 		View rootView = inflater.inflate(R.layout.activity_my_tag, container, false); 
 
 		mHeaderView = (FrameLayout) rootView.findViewById(R.id.header);
-        mListView = (ListView) rootView.findViewById(R.id.list_view);
+        mListView = (CardGridView) rootView.findViewById(R.id.list_view);
 
       mListView.setOnItemClickListener(new OnItemClickListener() {
 
@@ -86,10 +93,14 @@ public class MyTagFragment extends Fragment  {
       
       helper = new AbsListViewHelper(mListView, savedInstanceState)
       .setHeaderView(mHeaderView);
-      
-		showTags();
 		
 		return rootView;
+	}
+	
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		showTags();
 	}
 	
 	protected void goBookcase() {
@@ -127,6 +138,12 @@ public class MyTagFragment extends Fragment  {
 						String fgID = jsonBook.getString("fgID");
 						mTags.add(title);
 						mFgID.add(fgID);
+						
+						BookGridCard bookCard = new BookGridCard(getActivity());
+						bookCard.setBookItem(new BookItem("", "", title, "", false));
+						bookCard.init();
+						mBookCards.add(bookCard);
+
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
@@ -134,9 +151,11 @@ public class MyTagFragment extends Fragment  {
 				}
 				Collections.reverse(mTags);
 				Collections.reverse(mFgID);
-				mAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, mTags);
-		        mListView.setAdapter(mAdapter);
-		        //mListView.setTextFilterEnabled(true);
+				//mAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, mTags);
+		        //mListView.setAdapter(mAdapter);
+
+		        mCardArrayAdapter = new CardGridArrayAdapter(getActivity(), mBookCards);
+		        mListView.setAdapter(mCardArrayAdapter);
 				
 			}
 			
