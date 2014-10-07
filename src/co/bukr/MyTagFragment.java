@@ -21,12 +21,16 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.coimotion.csdk.common.COIMCallListener;
 import com.coimotion.csdk.common.COIMException;
 import com.coimotion.csdk.util.Assist;
 import com.coimotion.csdk.util.ReqUtil;
+import com.felipecsl.abslistviewhelper.library.AbsListViewHelper;
 
 public class MyTagFragment extends Fragment  {
 	private final static String LOG_TAG = "MyTagActivity";
@@ -34,7 +38,9 @@ public class MyTagFragment extends Fragment  {
     private ArrayAdapter<String> mAdapter;
 	protected ArrayList<String> mTags = new ArrayList<String>();
 	protected ArrayList<String> mFgID = new ArrayList<String>();
-
+	private FrameLayout mHeaderView;
+	private AbsListViewHelper helper;
+	
 	public static Fragment newInstance(int sectionNumber) {
 		MyTagFragment fragment = new MyTagFragment();
 		Bundle args = new Bundle();
@@ -62,6 +68,7 @@ public class MyTagFragment extends Fragment  {
 			Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.activity_my_tag, container, false); 
 
+		mHeaderView = (FrameLayout) rootView.findViewById(R.id.header);
         mListView = (ListView) rootView.findViewById(R.id.list_view);
 
       mListView.setOnItemClickListener(new OnItemClickListener() {
@@ -76,6 +83,10 @@ public class MyTagFragment extends Fragment  {
 			}
 		});
 
+      
+      helper = new AbsListViewHelper(mListView, savedInstanceState)
+      .setHeaderView(mHeaderView);
+      
 		showTags();
 		
 		return rootView;
@@ -125,7 +136,7 @@ public class MyTagFragment extends Fragment  {
 				Collections.reverse(mFgID);
 				mAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, mTags);
 		        mListView.setAdapter(mAdapter);
-		        mListView.setTextFilterEnabled(true);
+		        //mListView.setTextFilterEnabled(true);
 				
 			}
 			
