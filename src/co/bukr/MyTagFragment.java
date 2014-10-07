@@ -11,11 +11,13 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
@@ -43,7 +45,13 @@ public class MyTagFragment extends Fragment  {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		
+		//getActivity().requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+//		getActivity().getActionBar().setBackgroundDrawable(
+//				new ColorDrawable(android.R.color.transparent));
+
 		super.onCreate(savedInstanceState);
+		
 		//getActionBar().setDisplayHomeAsUpEnabled(true);
 		//setContentView(R.layout.searchview_filter);
   
