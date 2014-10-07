@@ -32,10 +32,10 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 public class BookcaseGridCard extends Card {
 
 	private final static String LOG_TAG = "BookGridCard";
-	private BookItem mBookItem;
-	private BookcaseFragment mBookcase;
+	private MyTagFragment mBookcase;
+	private FavoriteItem mFavoriteItem;
 
-	public BookcaseGridCard(Context context, BookcaseFragment bookcaseFragment) {
+	public BookcaseGridCard(Context context, MyTagFragment bookcaseFragment) {
 		super(context, R.layout.book_card_view_inner_content);
 		mBookcase = bookcaseFragment;
 	}
@@ -49,11 +49,7 @@ public class BookcaseGridCard extends Card {
 
 		CardHeader header = new BookGridCardHeader(getContext());
 		header.setButtonOverflowVisible(true);
-		// header.setTitle(mBookItem.mTitle);
 		int popupMenuLayout = R.menu.popup_add; 
-		if (mBookItem.mIsFavi) {
-			popupMenuLayout = R.menu.popup_edit;
-		}
 
 		header.setPopupMenu(popupMenuLayout,
 				new CardHeader.OnClickCardHeaderPopupMenuListener() {
@@ -63,10 +59,10 @@ public class BookcaseGridCard extends Card {
 						switch (id) {
 						//case R.id.add:
 						case R.id.edit:
-							Config.bkID = mBookItem.mBkID;
-							Intent intentTag = new Intent();
-							intentTag.setClass(getContext(), TagActivity.class);
-							getContext().startActivity(intentTag);
+//							Config.bkID = mBookItem.mBkID;
+//							Intent intentTag = new Intent();
+//							intentTag.setClass(getContext(), TagActivity.class);
+//							getContext().startActivity(intentTag);
 
 							//delFavorite();
 
@@ -93,12 +89,12 @@ public class BookcaseGridCard extends Card {
 			@Override
 			public void onClick(Card card, View view) {
 
-				Config.bkID = mBookItem.getBkID();
+				Config.fgID = mFavoriteItem.mFgID;
 				// Log.i(LOG_TAG, "bkID: " + Config.bkID);
 
 				Intent intent = new Intent();
 				// intent.putExtra("spID", spID);
-				intent.setClass(getContext(), BookActivity.class);
+				intent.setClass(getContext(), BooklistActivity.class);
 				getContext().startActivity(intent);
 
 			}
@@ -108,7 +104,7 @@ public class BookcaseGridCard extends Card {
 	private void delFavorite() {
 		
 		Map<String, Object> mapParam = new HashMap<String, Object>();
-		mapParam.put("bkID", mBookItem.mBkID);
+		//mapParam.put("bkID", mBookItem.mBkID);
 
 		ReqUtil.send("Bookcase/tag/rmBook/3", mapParam, new COIMCallListener() {
 			
@@ -124,7 +120,7 @@ public class BookcaseGridCard extends Card {
 					Assist.showToast(getContext(), "取消收藏失敗!");
 				}
 
-				mBookcase.showReadingPeople(true);
+				//mBookcase.showReadingPeople(true);
 			}
 			
 			@Override
@@ -170,7 +166,7 @@ public class BookcaseGridCard extends Card {
 						.findViewById(R.id.card_header_inner_simple_title);
 
 				if (textView != null) {
-					textView.setText(mBookItem.mTitle);
+					textView.setText(mFavoriteItem.mTitle);
 				}
 			}
 		}
@@ -186,10 +182,10 @@ public class BookcaseGridCard extends Card {
 		@Override
 		public void setupInnerViewElements(ViewGroup parent, View viewImage) {
 
-			String url;
-			url = mBookItem.getIconURI().trim();
-			imageLoader.displayImage(url, (ImageView) viewImage,
-					Config.OPTIONS, null);
+//			String url;
+//			url = mBookItem.getIconURI().trim();
+//			imageLoader.displayImage(url, (ImageView) viewImage,
+//					Config.OPTIONS, null);
 
 			// viewImage.getLayoutParams().width = 196;
 			// viewImage.getLayoutParams().height = 196;
@@ -197,7 +193,7 @@ public class BookcaseGridCard extends Card {
 		}
 	}
 
-	public void setBookItem(BookItem bookItem) {
-		mBookItem = bookItem;
+	public void setFavoriteItem(FavoriteItem favoriteItem) {
+		mFavoriteItem = favoriteItem;
 	}
 }

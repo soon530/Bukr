@@ -104,6 +104,7 @@ public class BookGridCard extends Card {
 	private void addFavorite() {
 		Config.bkID = mBookItem.mBkID;
 		Intent intentTag = new Intent();
+		intentTag.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		intentTag.setClass(getContext(), TagActivity.class);
 		getContext().startActivity(intentTag);
 

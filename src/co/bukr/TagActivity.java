@@ -319,7 +319,7 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 			public void onSuccess(JSONObject result) {
 				Log.i(LOG_TAG, "success: "+result);
 				
-				//showTags();
+				showTags();
 				//getBookTags();
 			}
 			

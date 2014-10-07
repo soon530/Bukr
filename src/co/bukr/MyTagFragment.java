@@ -139,8 +139,8 @@ public class MyTagFragment extends Fragment  {
 						mTags.add(title);
 						mFgID.add(fgID);
 						
-						BookGridCard bookCard = new BookGridCard(getActivity());
-						bookCard.setBookItem(new BookItem("", "", title, "", false));
+						BookcaseGridCard bookCard = new BookcaseGridCard(getActivity(), MyTagFragment.this );
+						bookCard.setFavoriteItem(new FavoriteItem(fgID, title));
 						bookCard.init();
 						mBookCards.add(bookCard);
 

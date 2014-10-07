@@ -169,10 +169,10 @@ public class BookcaseFragment extends Fragment implements OnRefreshListener, OnQ
 						//Log.i(LOG_TAG, "iconURI: " + jsonBook.getString("iconURI"));
 						Log.i(LOG_TAG, "title: " + title);
 
-						BookcaseGridCard bookCard = new BookcaseGridCard(getActivity(), BookcaseFragment.this);
-						bookCard.setBookItem(new BookItem(bkID, iconURI, title, author, isFavi));
-						bookCard.init();
-						mBookCards.add(bookCard);
+//						BookcaseGridCard bookCard = new BookcaseGridCard(getActivity(), BookcaseFragment.this);
+//						bookCard.setBookItem(new BookItem(bkID, iconURI, title, author, isFavi));
+						//bookCard.init();
+						//mBookCards.add(bookCard);
 						
 					} catch (JSONException e) {
 						e.printStackTrace();

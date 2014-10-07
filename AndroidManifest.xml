@@ -63,6 +63,10 @@
             android:label="收藏狀態" >
         </activity>
         <activity
+            android:name=".BooklistActivity"
+            android:label="我的收藏" >
+        </activity>
+        <activity
             android:name=".BookCommentActivity"
             android:label="觀看評論" >
         </activity>
