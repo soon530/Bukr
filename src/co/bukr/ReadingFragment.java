@@ -32,6 +32,7 @@ import android.view.ViewGroup;
 import com.coimotion.csdk.common.COIMCallListener;
 import com.coimotion.csdk.util.Assist;
 import com.coimotion.csdk.util.ReqUtil;
+import com.coimotion.csdk.util.sws;
 
 public class ReadingFragment extends Fragment implements OnRefreshListener {
 	private final static String LOG_TAG = "Reading";
@@ -172,8 +173,26 @@ public class ReadingFragment extends Fragment implements OnRefreshListener {
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		showReading(false);
-		showUserProfile();
+		//isLoginFB();
+		//showUserProfile();
 		super.onViewCreated(view, savedInstanceState);
+	}
+
+	private void isLoginFB() {
+		sws.checkFB(getActivity(), new COIMCallListener() {
+			
+			@Override
+			public void onSuccess(JSONObject result) {
+				Log.i(LOG_TAG, "isLoginFB() success: "+result);
+				
+			}
+			
+			@Override
+			public void onFail(HttpResponse response, Exception exception) {
+				Log.i(LOG_TAG, "fail: "+ exception.getLocalizedMessage());
+				
+			}
+		});
 	}
 
 	private void showUserProfile() {
