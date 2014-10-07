@@ -28,6 +28,9 @@
         <meta-data
             android:name="coim_fb_app_id"
             android:value="\ 1459466694315536" />
+        <meta-data
+            android:name="coim_test_server"
+            android:value="true" />
 
         <activity
             android:name=".MainActivity"
