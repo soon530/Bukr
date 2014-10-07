@@ -63,6 +63,10 @@ public class BookcaseGridCard extends Card {
 						switch (id) {
 						//case R.id.add:
 						case R.id.edit:
+							Config.bkID = mBookItem.mBkID;
+							Intent intentTag = new Intent();
+							intentTag.setClass(getContext(), TagActivity.class);
+							getContext().startActivity(intentTag);
 
 							//delFavorite();
 
