@@ -124,6 +124,7 @@ public class MyTagFragment extends Fragment  {
 			public void onSuccess(JSONObject result) {
 				Log.i(LOG_TAG, "success: "+result);
 				mTags.clear();
+				mBookCards.clear();
 				JSONArray jsonBooks  = Assist.getList(result);
 				for(int i = 0; i < jsonBooks.length(); i++)  {
 					JSONObject jsonBook;
@@ -207,11 +208,11 @@ public class MyTagFragment extends Fragment  {
 		Map<String, Object> mapParam = new HashMap<String, Object>();
 		mapParam.put("title", title);
 
-		ReqUtil.send("bukrBooks/faviGroup/update/"+ favorite.mFgID, null, new COIMCallListener() {
+		ReqUtil.send("bukrBooks/faviGroup/update/"+ favorite.mFgID, mapParam, new COIMCallListener() {
 
 			@Override
 			public void onSuccess(JSONObject result) {
-				Log.i(LOG_TAG, "success: "+result);
+				Log.i(LOG_TAG, "editFavorite success: "+result);
 				MyTagFragment.this.showTags();
 			}
 			
@@ -223,8 +224,6 @@ public class MyTagFragment extends Fragment  {
 		});
 		
 	}
-
-	
 
 	@Override
 	public void onAttach(Activity activity) {
