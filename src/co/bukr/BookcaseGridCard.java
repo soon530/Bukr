@@ -17,6 +17,9 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -85,13 +88,21 @@ public class BookcaseGridCard extends Card {
 		GplayGridThumb thumbnail = new GplayGridThumb(getContext());
 		thumbnail.setExternalUsage(true);
 		
+		//CardThumbnail thumbnail = new CardThumbnail(getContext());
 		/*
 		 * if (resourceIdThumbnail > -1)
 		 * thumbnail.setDrawableResource(resourceIdThumbnail); else
-		 * thumbnail.setDrawableResource(R.drawable.ic_launcher);
-		 */
+		*/
+		//thumbnail.setDrawableResource(R.drawable.login_reading_gril);
+		 
+		
+		
+		
+		//Drawable drawable = new BitmapDrawable(Config.book_cover);
+		//thumbnail.setDrawableResource(drawable.get);
 		addCardThumbnail(thumbnail);
-
+		
+		
 		setOnClickListener(new OnCardClickListener() {
 			@Override
 			public void onClick(Card card, View view) {
@@ -193,15 +204,28 @@ public class BookcaseGridCard extends Card {
 		@Override
 		public void setupInnerViewElements(ViewGroup parent, View viewImage) {
 
-			String url;
-			url = "";//mBookItem.getIconURI().trim();
-			imageLoader.displayImage(url, (ImageView) viewImage,
-					Config.OPTIONS, null);
-
+			//applyBitmap(viewImage, Config.book_cover);
+			
+			((ImageView) viewImage).setImageBitmap(Config.book_cover);
+			
+			//String url;
+			//url = "";//mBookItem.getIconURI().trim();
+			//imageLoader.displayImage(url, (ImageView) viewImage, Config.OPTIONS, null);
+			
+			
 			// viewImage.getLayoutParams().width = 196;
 			// viewImage.getLayoutParams().height = 196;
 
 		}
+		
+//		@Override
+//		public boolean applyBitmap(View imageView, Bitmap bitmap) {
+//			Bitmap temp = bitmap;
+//			if (Config.book_cover != null) {
+//				temp = Config.book_cover;
+//			}
+//			return super.applyBitmap(imageView, temp);
+//		}
 	}
 
 	public void setFavoriteItem(FavoriteItem favoriteItem) {

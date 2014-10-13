@@ -19,33 +19,37 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.coimotion.csdk.common.COIMCallListener;
 import com.coimotion.csdk.util.Assist;
 import com.coimotion.csdk.util.ReqUtil;
 import com.felipecsl.abslistviewhelper.library.AbsListViewHelper;
 
-public class MyTagFragment extends Fragment  {
+public class MyTagFragment extends Fragment {
 	private final static String LOG_TAG = "MyTagActivity";
-    private CardGridView mListView;
-    //private ArrayAdapter<String> mAdapter;
+	private CardGridView mListView;
+	// private ArrayAdapter<String> mAdapter;
 	protected ArrayList<String> mTags = new ArrayList<String>();
 	protected ArrayList<String> mFgID = new ArrayList<String>();
 	private FrameLayout mHeaderView;
 	private AbsListViewHelper helper;
 	private ArrayList<Card> mBookCards = new ArrayList<Card>();
 	private CardGridArrayAdapter mCardArrayAdapter;
+	private ImageView mCover;
 
-	
 	public static Fragment newInstance(int sectionNumber) {
 		MyTagFragment fragment = new MyTagFragment();
 		Bundle args = new Bundle();
@@ -56,89 +60,112 @@ public class MyTagFragment extends Fragment  {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		
-		//getActivity().requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
-//		getActivity().getActionBar().setBackgroundDrawable(
-//				new ColorDrawable(android.R.color.transparent));
+
+		// getActivity().requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+		// getActivity().getActionBar().setBackgroundDrawable(
+		// new ColorDrawable(android.R.color.transparent));
 
 		super.onCreate(savedInstanceState);
-		
-		//getActionBar().setDisplayHomeAsUpEnabled(true);
-		//setContentView(R.layout.searchview_filter);
-  
+
+		// getActionBar().setDisplayHomeAsUpEnabled(true);
+		// setContentView(R.layout.searchview_filter);
+
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View rootView = inflater.inflate(R.layout.activity_my_tag, container, false); 
+		// 書單的3本書
+		 if (Config.book_cover == null ) {
+			 View bookCoverView = inflater.inflate(R.layout.booklist_cover, null, false);
+			 LinearLayout bookCover = (LinearLayout) bookCoverView.findViewById(R.id.book_cover);
+			 Config.book_cover = convertViewToBitmap(bookCover);
+		}
+		 
+		View rootView = inflater.inflate(R.layout.activity_my_tag, container,
+				false);
 
 		mHeaderView = (FrameLayout) rootView.findViewById(R.id.header);
-        mListView = (CardGridView) rootView.findViewById(R.id.list_view);
+		
+		mCover = (ImageView) rootView.findViewById(R.id.background);
+		
+		mListView = (CardGridView) rootView.findViewById(R.id.list_view);
 
-      mListView.setOnItemClickListener(new OnItemClickListener() {
+		mListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				
+
 				Config.fgID = mFgID.get(position);
-				
+
 				goBookcase();
 			}
 		});
 
-      
-      helper = new AbsListViewHelper(mListView, savedInstanceState)
-      .setHeaderView(mHeaderView);
-		
+		helper = new AbsListViewHelper(mListView, savedInstanceState)
+				.setHeaderView(mHeaderView);
+
 		return rootView;
 	}
-	
+
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+		//mCover.setImageBitmap(Config.book_cover);
 		showTags();
 	}
-	
+
+	public static Bitmap convertViewToBitmap(View view){
+		view.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED), MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+		view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+	    view.buildDrawingCache();
+	    Bitmap bitmap = view.getDrawingCache();
+
+	    return bitmap;
+	}
+
 	protected void goBookcase() {
-		Fragment newFragment = new BookcaseFragment(); 
-	    // consider using Java coding conventions (upper first char class names!!!)
-	    FragmentTransaction transaction = getFragmentManager().beginTransaction();
+		Fragment newFragment = new BookcaseFragment();
+		// consider using Java coding conventions (upper first char class
+		// names!!!)
+		FragmentTransaction transaction = getFragmentManager()
+				.beginTransaction();
 
-	    // Replace whatever is in the fragment_container view with this fragment,
-	    // and add the transaction to the back stack
-	    transaction.replace(R.id.container, newFragment);
-	    transaction.addToBackStack(null);
+		// Replace whatever is in the fragment_container view with this
+		// fragment,
+		// and add the transaction to the back stack
+		transaction.replace(R.id.container, newFragment);
+		transaction.addToBackStack(null);
 
-	    // Commit the transaction
-	    transaction.commit();		
+		// Commit the transaction
+		transaction.commit();
 	}
 
 	public void showTags() {
 
 		ReqUtil.send("bukrBooks/faviGroup/list", null, new COIMCallListener() {
 
-
 			@Override
 			public void onSuccess(JSONObject result) {
-				Log.i(LOG_TAG, "success: "+result);
+				Log.i(LOG_TAG, "success: " + result);
 				mTags.clear();
 				mBookCards.clear();
-				JSONArray jsonBooks  = Assist.getList(result);
-				for(int i = 0; i < jsonBooks.length(); i++)  {
+				JSONArray jsonBooks = Assist.getList(result);
+				for (int i = 0; i < jsonBooks.length(); i++) {
 					JSONObject jsonBook;
-					
+
 					try {
 						jsonBook = (JSONObject) jsonBooks.get(i);
 						Log.i(LOG_TAG, "title: " + jsonBook.getString("title"));
-						
+
 						String title = jsonBook.getString("title");
 						String fgID = jsonBook.getString("fgID");
 						mTags.add(title);
 						mFgID.add(fgID);
-						
-						BookcaseGridCard bookCard = new BookcaseGridCard(getActivity(), MyTagFragment.this );
+
+						BookcaseGridCard bookCard = new BookcaseGridCard(
+								getActivity(), MyTagFragment.this);
 						bookCard.setFavoriteItem(new FavoriteItem(fgID, title));
 						bookCard.init();
 						mBookCards.add(bookCard);
@@ -146,27 +173,28 @@ public class MyTagFragment extends Fragment  {
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
-					
-				}
-				//Collections.reverse(mTags);
-				//Collections.reverse(mFgID);
-				//mAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, mTags);
-		        //mListView.setAdapter(mAdapter);
 
-		        mCardArrayAdapter = new CardGridArrayAdapter(getActivity(), mBookCards);
-		        mListView.setAdapter(mCardArrayAdapter);
-				
+				}
+				// Collections.reverse(mTags);
+				// Collections.reverse(mFgID);
+				// mAdapter = new ArrayAdapter<String>(getActivity(),
+				// android.R.layout.simple_list_item_1, mTags);
+				// mListView.setAdapter(mAdapter);
+
+				mCardArrayAdapter = new CardGridArrayAdapter(getActivity(),
+						mBookCards);
+				mListView.setAdapter(mCardArrayAdapter);
+
 			}
-			
-			
+
 			public void onFail(HttpResponse response, Exception exception) {
-				Log.i(LOG_TAG, "fail: "+ exception.getLocalizedMessage());
-				
+				Log.i(LOG_TAG, "fail: " + exception.getLocalizedMessage());
+
 			}
 		});
 
 	}
-	
+
 	protected void showInputDialog(final FavoriteItem favoriteItem) {
 
 		// get prompts.xml view
@@ -185,18 +213,18 @@ public class MyTagFragment extends Fragment  {
 				.setTitle("請輸入書單名稱")
 				.setPositiveButton("確認", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
-						//resultText.setText("Hello, " + editText.getText());
-						//addTag(editText.getText().toString());
-						//showTags();
-						editFavorite(editText.getText().toString(), favoriteItem);
+						// resultText.setText("Hello, " + editText.getText());
+						// addTag(editText.getText().toString());
+						// showTags();
+						editFavorite(editText.getText().toString(),
+								favoriteItem);
 					}
 				})
-				.setNegativeButton("取消",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								dialog.cancel();
-							}
-						});
+				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+					}
+				});
 
 		// create an alert dialog
 		AlertDialog alert = alertDialogBuilder.create();
@@ -208,48 +236,51 @@ public class MyTagFragment extends Fragment  {
 		Map<String, Object> mapParam = new HashMap<String, Object>();
 		mapParam.put("title", title);
 
-		ReqUtil.send("bukrBooks/faviGroup/update/"+ favorite.mFgID, mapParam, new COIMCallListener() {
+		ReqUtil.send("bukrBooks/faviGroup/update/" + favorite.mFgID, mapParam,
+				new COIMCallListener() {
 
-			@Override
-			public void onSuccess(JSONObject result) {
-				Log.i(LOG_TAG, "editFavorite success: "+result);
-				MyTagFragment.this.showTags();
-			}
-			
-			@Override
-			public void onFail(HttpResponse response, Exception exception) {
-				Log.i(LOG_TAG, "fail: "+ exception.getLocalizedMessage());
-				
-			}
-		});
-		
+					@Override
+					public void onSuccess(JSONObject result) {
+						Log.i(LOG_TAG, "editFavorite success: " + result);
+						MyTagFragment.this.showTags();
+					}
+
+					@Override
+					public void onFail(HttpResponse response,
+							Exception exception) {
+						Log.i(LOG_TAG,
+								"fail: " + exception.getLocalizedMessage());
+
+					}
+				});
+
 	}
 
 	protected void showDelDialog(final FavoriteItem favoriteItem) {
 
 		// get prompts.xml view
-		//LayoutInflater layoutInflater = LayoutInflater.from(this);
-		//View promptView = layoutInflater.inflate(R.layout.input_dialog, null);
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-		//alertDialogBuilder.setView(promptView);
+		// LayoutInflater layoutInflater = LayoutInflater.from(this);
+		// View promptView = layoutInflater.inflate(R.layout.input_dialog,
+		// null);
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+				getActivity());
+		// alertDialogBuilder.setView(promptView);
 
-		//final EditText editText = (EditText) promptView.findViewById(R.id.edittext);
+		// final EditText editText = (EditText)
+		// promptView.findViewById(R.id.edittext);
 		// setup a dialog window
-		alertDialogBuilder
-				.setCancelable(false)
-				.setTitle("刪除書單")
+		alertDialogBuilder.setCancelable(false).setTitle("刪除書單")
 				.setMessage("將會刪除此書單下的所有收藏")
 				.setPositiveButton("確認", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
 						delFavorite(favoriteItem);
 					}
 				})
-				.setNegativeButton("取消",
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								dialog.cancel();
-							}
-						});
+				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+					}
+				});
 
 		// create an alert dialog
 		AlertDialog alert = alertDialogBuilder.create();
@@ -257,39 +288,39 @@ public class MyTagFragment extends Fragment  {
 
 	}
 
-
 	protected void delFavorite(FavoriteItem favoriteItem) {
-		//Map<String, Object> mapParam = new HashMap<String, Object>();
-		//mapParam.put("title", title);
+		// Map<String, Object> mapParam = new HashMap<String, Object>();
+		// mapParam.put("title", title);
 
-		ReqUtil.send("bukrBooks/faviGroup/remove/"+ favoriteItem.mFgID, null, new COIMCallListener() {
+		ReqUtil.send("bukrBooks/faviGroup/remove/" + favoriteItem.mFgID, null,
+				new COIMCallListener() {
 
-			@Override
-			public void onSuccess(JSONObject result) {
-				Log.i(LOG_TAG, "success: "+result);
-				MyTagFragment.this.showTags();
-			}
-			
-			@Override
-			public void onFail(HttpResponse response, Exception exception) {
-				Log.i(LOG_TAG, "fail: "+ exception.getLocalizedMessage());
-				
-			}
-		});
-		
+					@Override
+					public void onSuccess(JSONObject result) {
+						Log.i(LOG_TAG, "success: " + result);
+						MyTagFragment.this.showTags();
+					}
+
+					@Override
+					public void onFail(HttpResponse response,
+							Exception exception) {
+						Log.i(LOG_TAG,
+								"fail: " + exception.getLocalizedMessage());
+
+					}
+				});
+
 	}
 
-	
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-/*		try {
-			mListener = (OnFragmentInteractionListener) activity;
-		} catch (ClassCastException e) {
-			throw new ClassCastException(activity.toString()
-					+ " must implement OnFragmentInteractionListener");
-		}
-*/		
+		/*
+		 * try { mListener = (OnFragmentInteractionListener) activity; } catch
+		 * (ClassCastException e) { throw new
+		 * ClassCastException(activity.toString() +
+		 * " must implement OnFragmentInteractionListener"); }
+		 */
 		((MainActivity) activity).onSectionAttached(getArguments().getInt(
 				"section_number"));
 	}
