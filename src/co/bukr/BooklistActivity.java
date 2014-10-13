@@ -18,10 +18,13 @@ import org.json.JSONException;
 
 
 
+
 import android.app.Activity;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -46,7 +49,13 @@ public class BooklistActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
+		getActionBar().setBackgroundDrawable(
+				new ColorDrawable(android.R.color.transparent));
+		getActionBar().setIcon(R.drawable.nav_logo);
+		getActionBar().setDisplayShowTitleEnabled(false);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
+
 		setContentView(R.layout.activity_booklist);
 		mHeaderView = (FrameLayout) findViewById(R.id.header);
 		mBooklistName = (TextView) findViewById(R.id.name);
