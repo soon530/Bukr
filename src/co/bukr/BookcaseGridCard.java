@@ -69,6 +69,10 @@ public class BookcaseGridCard extends Card {
 							//delFavorite();
 
 							break;
+							
+						case R.id.delete:
+							mBookcase.showDelDialog(mFavoriteItem);
+							
 						default:
 							break;
 						}

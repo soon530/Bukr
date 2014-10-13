@@ -225,6 +225,61 @@ public class MyTagFragment extends Fragment  {
 		
 	}
 
+	protected void showDelDialog(final FavoriteItem favoriteItem) {
+
+		// get prompts.xml view
+		//LayoutInflater layoutInflater = LayoutInflater.from(this);
+		//View promptView = layoutInflater.inflate(R.layout.input_dialog, null);
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+		//alertDialogBuilder.setView(promptView);
+
+		//final EditText editText = (EditText) promptView.findViewById(R.id.edittext);
+		// setup a dialog window
+		alertDialogBuilder
+				.setCancelable(false)
+				.setTitle("刪除書單")
+				.setMessage("將會刪除此書單下的所有收藏")
+				.setPositiveButton("確認", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						delFavorite(favoriteItem);
+					}
+				})
+				.setNegativeButton("取消",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
+
+		// create an alert dialog
+		AlertDialog alert = alertDialogBuilder.create();
+		alert.show();
+
+	}
+
+
+	protected void delFavorite(FavoriteItem favoriteItem) {
+		//Map<String, Object> mapParam = new HashMap<String, Object>();
+		//mapParam.put("title", title);
+
+		ReqUtil.send("bukrBooks/faviGroup/remove/"+ favoriteItem.mFgID, null, new COIMCallListener() {
+
+			@Override
+			public void onSuccess(JSONObject result) {
+				Log.i(LOG_TAG, "success: "+result);
+				MyTagFragment.this.showTags();
+			}
+			
+			@Override
+			public void onFail(HttpResponse response, Exception exception) {
+				Log.i(LOG_TAG, "fail: "+ exception.getLocalizedMessage());
+				
+			}
+		});
+		
+	}
+
+	
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
