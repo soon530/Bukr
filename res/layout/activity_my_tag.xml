@@ -34,7 +34,7 @@
         android:numColumns="auto_fit"
         android:stretchMode="columnWidth"
         android:verticalSpacing="5dp"
-        card:list_card_layout_resourceID="@layout/book_card_view" />
+        card:list_card_layout_resourceID="@layout/book_favorite_card_view" />
 
     <!--
          	android:overScrollMode="never"

@@ -143,8 +143,9 @@ public class BookcaseGridCard extends Card {
 		 */
 		// title.setText(totalRecord + " " + totalFavorite + privateOrPublic);
 
-		TextView subtitle = (TextView) view
-				.findViewById(R.id.carddemo_gplay_main_inner_subtitle);
+		view.setVisibility(View.GONE);
+//		TextView subtitle = (TextView) view
+//				.findViewById(R.id.carddemo_gplay_main_inner_subtitle);
 
 		// subtitle.setText(description);
 
