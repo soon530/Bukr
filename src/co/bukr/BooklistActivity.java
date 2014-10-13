@@ -15,14 +15,20 @@ import org.json.JSONException;
 
 
 
+
+
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.coimotion.csdk.common.COIMCallListener;
 import com.coimotion.csdk.util.Assist;
 import com.coimotion.csdk.util.ReqUtil;
+import com.felipecsl.abslistviewhelper.library.AbsListViewHelper;
 
 public class BooklistActivity extends Activity {
 	private final static String LOG_TAG = "BooklistActivity";
@@ -31,12 +37,27 @@ public class BooklistActivity extends Activity {
 	private CardGridView mGridView;
 	private ArrayList<Card> mBookCards = new ArrayList<Card>();
 
+	private FrameLayout mHeaderView;
+
+	private AbsListViewHelper helper;
+
+	private TextView mBooklistName;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-		setContentView(R.layout.book_card_grid);
+		setContentView(R.layout.activity_booklist);
+		mHeaderView = (FrameLayout) findViewById(R.id.header);
+		mBooklistName = (TextView) findViewById(R.id.name);
 		mGridView = (CardGridView) findViewById(R.id.book_card_grid);
+		
+	
+	      helper = new AbsListViewHelper(mGridView, savedInstanceState)
+	      .setHeaderView(mHeaderView);
+
+	      mBooklistName.setText(Config.my_favorite_title);
+		
 		showReading(false);
 	}
 	

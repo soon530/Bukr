@@ -78,6 +78,7 @@ public class BookcaseGridCard extends Card {
 
 		GplayGridThumb thumbnail = new GplayGridThumb(getContext());
 		thumbnail.setExternalUsage(true);
+		
 		/*
 		 * if (resourceIdThumbnail > -1)
 		 * thumbnail.setDrawableResource(resourceIdThumbnail); else
@@ -90,6 +91,7 @@ public class BookcaseGridCard extends Card {
 			public void onClick(Card card, View view) {
 
 				Config.fgID = mFavoriteItem.mFgID;
+				Config.my_favorite_title = mFavoriteItem.mTitle;
 				// Log.i(LOG_TAG, "bkID: " + Config.bkID);
 
 				Intent intent = new Intent();
@@ -182,10 +184,10 @@ public class BookcaseGridCard extends Card {
 		@Override
 		public void setupInnerViewElements(ViewGroup parent, View viewImage) {
 
-//			String url;
-//			url = mBookItem.getIconURI().trim();
-//			imageLoader.displayImage(url, (ImageView) viewImage,
-//					Config.OPTIONS, null);
+			String url;
+			url = "";//mBookItem.getIconURI().trim();
+			imageLoader.displayImage(url, (ImageView) viewImage,
+					Config.OPTIONS, null);
 
 			// viewImage.getLayoutParams().width = 196;
 			// viewImage.getLayoutParams().height = 196;
