@@ -292,8 +292,8 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 					}
 					
 				}
-				Collections.reverse(mTags);
-				Collections.reverse(mFgID);
+				//Collections.reverse(mTags);
+				//Collections.reverse(mFgID);
 				mAdapter = new ArrayAdapter<String>(TagActivity.this, R.layout.row_booklist, R.id.checkBox1 , mTags);
 		        mListView.setAdapter(mAdapter);
 		        mListView.setTextFilterEnabled(true);

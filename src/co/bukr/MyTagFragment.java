@@ -148,8 +148,8 @@ public class MyTagFragment extends Fragment  {
 					}
 					
 				}
-				Collections.reverse(mTags);
-				Collections.reverse(mFgID);
+				//Collections.reverse(mTags);
+				//Collections.reverse(mFgID);
 				//mAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, mTags);
 		        //mListView.setAdapter(mAdapter);
 
