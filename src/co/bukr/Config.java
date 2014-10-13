@@ -21,4 +21,7 @@ public class Config {
 	public static String COIM_APP_KEY = "ab2b2c86-cd6e-a51a-a800-b56fb9fefd3b";
 	public static String my_favorite_title="";
 	public static Bitmap book_cover = null;
+	public static String book0 = "";
+	public static String book1 = "";
+	public static String book2 = "";
 }

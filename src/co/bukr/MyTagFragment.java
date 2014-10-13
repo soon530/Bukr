@@ -76,11 +76,11 @@ public class MyTagFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// 書單的3本書
-		 if (Config.book_cover == null ) {
-			 View bookCoverView = inflater.inflate(R.layout.booklist_cover, null, false);
-			 LinearLayout bookCover = (LinearLayout) bookCoverView.findViewById(R.id.book_cover);
-			 Config.book_cover = convertViewToBitmap(bookCover);
-		}
+//		 if (Config.book_cover == null ) {
+//			 View bookCoverView = inflater.inflate(R.layout.booklist_cover, null, false);
+//			 LinearLayout bookCover = (LinearLayout) bookCoverView.findViewById(R.id.book_cover);
+//			 Config.book_cover = convertViewToBitmap(bookCover);
+//		}
 		 
 		View rootView = inflater.inflate(R.layout.activity_my_tag, container,
 				false);
