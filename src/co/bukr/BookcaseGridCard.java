@@ -1,25 +1,19 @@
 package co.bukr;
 
+import it.gmariotti.cardslib.library.internal.Card;
+import it.gmariotti.cardslib.library.internal.CardHeader;
+import it.gmariotti.cardslib.library.internal.base.BaseCard;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import it.gmariotti.cardslib.library.internal.Card;
-import it.gmariotti.cardslib.library.internal.CardGridArrayAdapter;
-import it.gmariotti.cardslib.library.internal.CardHeader;
-import it.gmariotti.cardslib.library.internal.CardThumbnail;
-import it.gmariotti.cardslib.library.internal.base.BaseCard;
 
 import org.apache.http.HttpResponse;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -37,9 +31,15 @@ public class BookcaseGridCard extends Card {
 	private final static String LOG_TAG = "BookGridCard";
 	private MyTagFragment mBookcase;
 	private FavoriteItem mFavoriteItem;
+	private ImageView mBookBig;
+	private ImageView mBookSmall1;
+	private ImageView mBookSmall2;
+	
+	private ImageLoader imageLoader = ImageLoader.getInstance();
+
 
 	public BookcaseGridCard(Context context, MyTagFragment bookcaseFragment) {
-		super(context, R.layout.book_card_view_inner_content);
+		super(context, R.layout.booklist_cover);
 		mBookcase = bookcaseFragment;
 	}
 
@@ -85,8 +85,8 @@ public class BookcaseGridCard extends Card {
 
 		addCardHeader(header);
 
-		GplayGridThumb thumbnail = new GplayGridThumb(getContext());
-		thumbnail.setExternalUsage(true);
+//		GplayGridThumb thumbnail = new GplayGridThumb(getContext());
+//		thumbnail.setExternalUsage(true);
 		
 		//CardThumbnail thumbnail = new CardThumbnail(getContext());
 		/*
@@ -100,7 +100,7 @@ public class BookcaseGridCard extends Card {
 		
 		//Drawable drawable = new BitmapDrawable(Config.book_cover);
 		//thumbnail.setDrawableResource(drawable.get);
-		addCardThumbnail(thumbnail);
+		//addCardThumbnail(thumbnail);
 		
 		
 		setOnClickListener(new OnCardClickListener() {
@@ -156,13 +156,19 @@ public class BookcaseGridCard extends Card {
 	@Override
 	public void setupInnerViewElements(ViewGroup parent, View view) {
 
+		mBookBig = (ImageView) view.findViewById(R.id.book_big); 
+		mBookSmall1 = (ImageView) view.findViewById(R.id.book_small1); 
+		mBookSmall2 = (ImageView) view.findViewById(R.id.book_small2); 
+		
+		showReading();
+		
 		/*
 		 * TextView title = (TextView) view
 		 * .findViewById(R.id.carddemo_gplay_main_inner_title);
 		 */
 		// title.setText(totalRecord + " " + totalFavorite + privateOrPublic);
 
-		view.setVisibility(View.GONE);
+		//view.setVisibility(View.GONE);
 //		TextView subtitle = (TextView) view
 //				.findViewById(R.id.carddemo_gplay_main_inner_subtitle);
 
@@ -170,6 +176,74 @@ public class BookcaseGridCard extends Card {
 
 	}
 
+	
+	private void showReading() {
+		
+//		Map<String, Object> mapParam = new HashMap<String, Object>();
+//		mapParam.put("cycle", "i");
+//		mapParam.put("favi", "1");
+		
+		ReqUtil.send("bukrBooks/faviGroup/listBooks/" + mFavoriteItem.mFgID, null, new COIMCallListener() {
+			@Override
+			public void onSuccess(JSONObject result) {
+				Log.i(LOG_TAG, "success: "+result);
+				JSONArray jsonBooks  = Assist.getList(result);
+				
+				for(int i = 0; i < jsonBooks.length(); i++)  {
+					JSONObject jsonBook;
+					
+					try {
+						jsonBook = (JSONObject) jsonBooks.get(i);
+
+						//String bkID = jsonBook.getString("bkID");
+						String iconUrl = BukrUtlis.getBookIconUrl(jsonBook.getString("icon"));
+						//String title = jsonBook.getString("title");
+						//String author = jsonBook.getString("author");
+						//boolean isFavi = true;  //jsonBook.getInt("isFavi") == 1 ? true : false;
+						
+//						Log.i(LOG_TAG, "bkID: " + bkID)
+						Log.i(LOG_TAG, "iconUrl: " + iconUrl);
+//						Log.i(LOG_TAG, "title: " + title);
+//						Log.i(LOG_TAG, "author: " + author);
+						
+						
+						
+						switch (i) {
+						case 0:
+							imageLoader.displayImage(iconUrl, mBookBig, Config.OPTIONS, null);
+							break;
+
+						case 1:
+							imageLoader.displayImage(iconUrl, mBookSmall1, Config.OPTIONS, null);
+							break;
+
+						case 2:
+							imageLoader.displayImage(iconUrl, mBookSmall2, Config.OPTIONS, null);
+							break;
+
+						default:
+							break;
+						}
+						
+						
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+					
+				}
+				
+			}
+			
+			@Override
+			public void onFail(HttpResponse response, Exception exception) {
+				Log.i(LOG_TAG, "fail: "+ exception.getLocalizedMessage());
+				
+			}
+		});
+		
+	}
+
+	
 	class BookGridCardHeader extends CardHeader {
 
 		public BookGridCardHeader(Context context) {
@@ -194,39 +268,39 @@ public class BookcaseGridCard extends Card {
 		}
 	}
 
-	class GplayGridThumb extends CardThumbnail {
-		private ImageLoader imageLoader = ImageLoader.getInstance();
-
-		public GplayGridThumb(Context context) {
-			super(context);
-		}
-
-		@Override
-		public void setupInnerViewElements(ViewGroup parent, View viewImage) {
-
-			//applyBitmap(viewImage, Config.book_cover);
-			
-			((ImageView) viewImage).setImageBitmap(Config.book_cover);
-			
-			//String url;
-			//url = "";//mBookItem.getIconURI().trim();
-			//imageLoader.displayImage(url, (ImageView) viewImage, Config.OPTIONS, null);
-			
-			
-			// viewImage.getLayoutParams().width = 196;
-			// viewImage.getLayoutParams().height = 196;
-
-		}
-		
-//		@Override
-//		public boolean applyBitmap(View imageView, Bitmap bitmap) {
-//			Bitmap temp = bitmap;
-//			if (Config.book_cover != null) {
-//				temp = Config.book_cover;
-//			}
-//			return super.applyBitmap(imageView, temp);
+//	class GplayGridThumb extends CardThumbnail {
+//		private ImageLoader imageLoader = ImageLoader.getInstance();
+//
+//		public GplayGridThumb(Context context) {
+//			super(context);
 //		}
-	}
+//
+//		@Override
+//		public void setupInnerViewElements(ViewGroup parent, View viewImage) {
+//
+//			//applyBitmap(viewImage, Config.book_cover);
+//			
+//			((ImageView) viewImage).setImageBitmap(Config.book_cover);
+//			
+//			//String url;
+//			//url = "";//mBookItem.getIconURI().trim();
+//			//imageLoader.displayImage(url, (ImageView) viewImage, Config.OPTIONS, null);
+//			
+//			
+//			// viewImage.getLayoutParams().width = 196;
+//			// viewImage.getLayoutParams().height = 196;
+//
+//		}
+//		
+////		@Override
+////		public boolean applyBitmap(View imageView, Bitmap bitmap) {
+////			Bitmap temp = bitmap;
+////			if (Config.book_cover != null) {
+////				temp = Config.book_cover;
+////			}
+////			return super.applyBitmap(imageView, temp);
+////		}
+//	}
 
 	public void setFavoriteItem(FavoriteItem favoriteItem) {
 		mFavoriteItem = favoriteItem;

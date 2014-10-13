@@ -4,5 +4,5 @@
     xmlns:card="http://schemas.android.com/apk/res-auto"
     android:id="@+id/list_cardId"
     android:layout_width="match_parent"
-    android:layout_height="222dp"
+    android:layout_height="230dp"
     card:card_layout_resourceID="@layout/book_favorite_card_view_layout" />

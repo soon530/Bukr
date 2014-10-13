@@ -14,11 +14,18 @@
         android:background="@drawable/card_selector"
         android:orientation="vertical" >
 
-        <it.gmariotti.cardslib.library.view.component.CardThumbnailView
+        <FrameLayout
+            android:id="@+id/card_main_content_layout"
+            style="@style/Birth.card.content_outer_layout"
+            android:layout_width="match_parent"
+            android:layout_height="188dp" />
+
+        <!--
+             <it.gmariotti.cardslib.library.view.component.CardThumbnailView
             android:id="@+id/card_thumbnail_layout"
             android:layout_width="match_parent"
             android:layout_height="172dp"
-            card:card_thumbnail_layout_resourceID="@layout/book_card_view_thumbnail_layout" />
+            card:card_thumbnail_layout_resourceID="@layout/book_card_view_thumbnail_layout" />        -->
 
         <it.gmariotti.cardslib.library.view.component.CardHeaderView
             android:id="@+id/card_header_layout"
@@ -28,16 +35,12 @@
 
         <!-- Main Content View -->
 
-        <FrameLayout
-            android:id="@+id/card_main_content_layout"
-            style="@style/Birth.card.content_outer_layout"
-            android:layout_width="match_parent"
-            android:layout_height="8dp" />
     </LinearLayout>
 
     <!--
          Compound view for Shadow
-           If you want to customize this element use attr card:card_shadow_layout_resourceID    -->
+           If you want to customize this element use attr card:card_shadow_layout_resourceID
+    -->
 
     <it.gmariotti.cardslib.library.view.component.CardShadowView
         android:id="@+id/card_shadow_layout"

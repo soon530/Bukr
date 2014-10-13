@@ -8,9 +8,11 @@
 
     <ImageView
         android:id="@+id/book_big"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/book_case_big" />
+        android:layout_width="90dp"
+        android:layout_height="172dp"
+        android:src="@drawable/book_case_big"
+        android:scaleType="fitXY"
+         />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -19,18 +21,22 @@
 
         <ImageView
             android:id="@+id/book_small1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="55dp"
+            android:layout_height="82dp"
             android:layout_marginBottom="8dp"
             android:layout_marginLeft="8dp"
-            android:src="@drawable/book_case_small" />
+            android:src="@drawable/book_case_small" 
+	        android:scaleType="fitXY"
+            />
 
         <ImageView
             android:id="@+id/book_small2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="55dp"
+            android:layout_height="82dp"
             android:layout_marginLeft="8dp"
-            android:src="@drawable/book_case_small" />
+            android:src="@drawable/book_case_small"
+            android:scaleType="fitXY"
+             />
     </LinearLayout>
 
 </LinearLayout>
