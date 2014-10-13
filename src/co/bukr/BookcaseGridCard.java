@@ -49,7 +49,7 @@ public class BookcaseGridCard extends Card {
 
 		CardHeader header = new BookGridCardHeader(getContext());
 		header.setButtonOverflowVisible(true);
-		int popupMenuLayout = R.menu.popup_add; 
+		int popupMenuLayout = R.menu.popup_favorite; 
 
 		header.setPopupMenu(popupMenuLayout,
 				new CardHeader.OnClickCardHeaderPopupMenuListener() {
@@ -59,6 +59,8 @@ public class BookcaseGridCard extends Card {
 						switch (id) {
 						//case R.id.add:
 						case R.id.edit:
+							
+							mBookcase.showInputDialog(mFavoriteItem);
 //							Config.bkID = mBookItem.mBkID;
 //							Intent intentTag = new Intent();
 //							intentTag.setClass(getContext(), TagActivity.class);
@@ -102,6 +104,8 @@ public class BookcaseGridCard extends Card {
 			}
 		});
 	}
+	
+	
 
 	private void delFavorite() {
 		

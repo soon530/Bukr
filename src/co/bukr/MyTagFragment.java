@@ -6,6 +6,8 @@ import it.gmariotti.cardslib.library.view.CardGridView;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.http.HttpResponse;
 import org.json.JSONArray;
@@ -13,25 +15,21 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.graphics.drawable.ColorDrawable;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 
 import com.coimotion.csdk.common.COIMCallListener;
-import com.coimotion.csdk.common.COIMException;
 import com.coimotion.csdk.util.Assist;
 import com.coimotion.csdk.util.ReqUtil;
 import com.felipecsl.abslistviewhelper.library.AbsListViewHelper;
@@ -168,6 +166,66 @@ public class MyTagFragment extends Fragment  {
 
 	}
 	
+	protected void showInputDialog(final FavoriteItem favoriteItem) {
+
+		// get prompts.xml view
+		LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+		View promptView = layoutInflater.inflate(R.layout.input_dialog, null);
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+				getActivity());
+		alertDialogBuilder.setView(promptView);
+
+		final EditText editText = (EditText) promptView
+				.findViewById(R.id.edittext);
+		editText.setText(favoriteItem.mTitle);
+		// setup a dialog window
+		alertDialogBuilder
+				.setCancelable(false)
+				.setTitle("請輸入書單名稱")
+				.setPositiveButton("確認", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						//resultText.setText("Hello, " + editText.getText());
+						//addTag(editText.getText().toString());
+						//showTags();
+						editFavorite(editText.getText().toString(), favoriteItem);
+					}
+				})
+				.setNegativeButton("取消",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
+
+		// create an alert dialog
+		AlertDialog alert = alertDialogBuilder.create();
+		alert.show();
+
+	}
+
+	private void editFavorite(String title, FavoriteItem favorite) {
+		Map<String, Object> mapParam = new HashMap<String, Object>();
+		mapParam.put("title", title);
+
+		ReqUtil.send("bukrBooks/faviGroup/update/"+ favorite.mFgID, null, new COIMCallListener() {
+
+			@Override
+			public void onSuccess(JSONObject result) {
+				Log.i(LOG_TAG, "success: "+result);
+				MyTagFragment.this.showTags();
+			}
+			
+			@Override
+			public void onFail(HttpResponse response, Exception exception) {
+				Log.i(LOG_TAG, "fail: "+ exception.getLocalizedMessage());
+				
+			}
+		});
+		
+	}
+
+	
+
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
