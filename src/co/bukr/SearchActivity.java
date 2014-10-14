@@ -39,6 +39,10 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 	private SearchView mSearchView;
 	//private ArrayList<Card> mBookCards = new ArrayList<Card>();
 	private CardGridView mGridView;
+
+	private String mKeyWork = "";
+	ArrayList<Card> bookCards = new ArrayList<Card>();
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -158,17 +162,25 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 
 	@Override
 	public boolean onQueryTextSubmit(String keyWord) {
-
+		mKeyWork = keyWord;
 		searchBook(keyWord);
 		mSearchView.clearFocus();
 		return false;
 	}
 	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		
+		if (!mKeyWork.isEmpty()) {
+			searchBook(mKeyWork);
+		}
+		
+	}
 	
 	
 	private void searchBook(String keyWord) {
-		final ArrayList<Card> bookCards = new ArrayList<Card>();
-
+		bookCards.clear();
 		Map<String, Object> mapParam = new HashMap<String, Object>();
 		mapParam.put("_ps", "12");
 		//mapParam.put("pubName", keyWord);
@@ -196,16 +208,17 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 								jsonBook = (JSONObject) jsonBooks.get(i);
 								//Log.i(LOG_TAG, "book: " + jsonBook);
 
-								Log.i(LOG_TAG, "bkID: " + jsonBook.getString("bkID"));
-								//Log.i(LOG_TAG, "iconURI: " + jsonBook.getString("iconURI"));
-								Log.i(LOG_TAG, "title: " + jsonBook.getString("title"));
-								
 								String bkID = jsonBook.getString("bkID");
 								String iconURI = BukrUtlis.getBookIconUrl(jsonBook.getString("icon"));
 								String title = jsonBook.getString("title");
 								String author = jsonBook.getString("author");
 								boolean isFavi =  jsonBook.getInt("isFavi") == 1 ? true : false;
-								
+
+								Log.i(LOG_TAG, "bkID: " + bkID);
+								//Log.i(LOG_TAG, "iconURI: " + jsonBook.getString("iconURI"));
+								Log.i(LOG_TAG, "title: " + title);
+								Log.i(LOG_TAG, "isFavi: " + isFavi);
+
 								BookGridCard bookCard = new BookGridCard(getBaseContext());
 								bookCard.setBookItem(new BookItem(bkID, iconURI, title, author, isFavi));
 								bookCard.init();

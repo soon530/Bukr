@@ -90,8 +90,13 @@ public class WritingFragment extends Fragment implements OnRefreshListener{
 	
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
-		showReading(false);
 		super.onViewCreated(view, savedInstanceState);
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		showReading(false);
 	}
 
 	@Override
@@ -120,7 +125,8 @@ public class WritingFragment extends Fragment implements OnRefreshListener{
 	}
 
 	private void showReading(final boolean isRefresh) {
-		
+		mBookCards.clear();
+
 		Map<String, Object> mapParam = new HashMap<String, Object>();
 		mapParam.put("order", "i");
 		mapParam.put("favi", "1");
@@ -221,7 +227,6 @@ public class WritingFragment extends Fragment implements OnRefreshListener{
 	
 	@Override
 	public void onRefreshStarted(View view) {
-		mBookCards.clear();
 		showReading(true);
 	}
 

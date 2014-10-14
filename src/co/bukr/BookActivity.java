@@ -95,7 +95,13 @@ public class BookActivity extends Activity implements OnClickListener  {
 			}
 		});
 		
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
 		getFavorite();
+		
 	}
 	
 	private void getFavorite() {

@@ -94,7 +94,8 @@ public class ReadingFragment extends Fragment implements OnRefreshListener {
 	}
 
 	private void showReading(final boolean isRefresh) {
-		
+		mBookCards.clear();
+
 		Map<String, Object> mapParam = new HashMap<String, Object>();
 		mapParam.put("cycle", "i");
 		mapParam.put("favi", "1");
@@ -172,10 +173,16 @@ public class ReadingFragment extends Fragment implements OnRefreshListener {
 	
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
-		showReading(false);
+		//showReading(false);
 		//isLoginFB();
 		//showUserProfile();
 		super.onViewCreated(view, savedInstanceState);
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		showReading(false);
 	}
 
 	private void isLoginFB() {
@@ -256,7 +263,6 @@ public class ReadingFragment extends Fragment implements OnRefreshListener {
 
 	@Override
 	public void onRefreshStarted(View view) {
-		mBookCards.clear();
 		showReading(true);
 	}
 

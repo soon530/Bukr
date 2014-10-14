@@ -149,8 +149,9 @@ public class LoginActivity extends Activity implements OnClickListener {
 
 			@Override
 			public void onSuccess(JSONObject result) {
-				Log.i(LOG_TAG, "result: " + result);
-				goToHome();
+				Log.i(LOG_TAG, "loginBukrFB() result: " + result);
+				showUserProfile();
+//				goToHome();
 			}
 
 			@Override
@@ -161,6 +162,24 @@ public class LoginActivity extends Activity implements OnClickListener {
 		});
 
 	}
+	
+	private void showUserProfile() {
+		
+		ReqUtil.send("core/user/profile", null, new COIMCallListener() {
+			@Override
+			public void onSuccess(JSONObject result) {
+				Log.i(LOG_TAG, "showUserProfile() success: "+result);
+			}
+			
+			@Override
+			public void onFail(HttpResponse response, Exception exception) {
+				Log.i(LOG_TAG, "fail: "+ exception.getLocalizedMessage());
+				
+			}
+		});
+		
+	}
+
 
 	private void loginBukr() {
 		Map<String, Object> mapParam = new HashMap<String, Object>();

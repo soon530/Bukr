@@ -89,8 +89,6 @@ public class BooklistActivity extends Activity {
 
 	      mBooklistName.setText(Config.my_favorite_title);
 		
-		showReading(false);
-		
 		
 		
 		 View bookCoverView = getLayoutInflater().inflate(R.layout.booklist_cover, null, false);
@@ -103,6 +101,12 @@ public class BooklistActivity extends Activity {
 
 	}
 	
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		showReading(false);
+	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -120,7 +124,7 @@ public class BooklistActivity extends Activity {
 	}
 
 	private void showReading(final boolean isRefresh) {
-		
+		mBookCards.clear();
 //		Map<String, Object> mapParam = new HashMap<String, Object>();
 //		mapParam.put("cycle", "i");
 //		mapParam.put("favi", "1");
