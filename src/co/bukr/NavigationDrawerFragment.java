@@ -3,6 +3,8 @@ package co.bukr;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.coimotion.csdk.util.Assist;
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
@@ -109,8 +111,13 @@ public class NavigationDrawerFragment extends Fragment {
 			@Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 
-				if (position == 0)
+				if (position == 0) //首面圖
 					return;
+				
+				if (position == 4) { //購物車
+					Assist.showToast(getActivity(), "[購物車] 功能開發中...");				
+					return;
+				}
 				
             	DrawerItemHolder holder = (DrawerItemHolder) view.getTag(); 
             	
