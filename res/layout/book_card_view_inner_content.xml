@@ -9,11 +9,13 @@
     <TextView
         android:id="@+id/carddemo_gplay_main_inner_subtitle"
         android:layout_width="wrap_content"
-        android:layout_height="26dp"
-        android:layout_marginBottom="10dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
         android:layout_marginLeft="5dp"
         android:alpha="0.6"
         android:text="Eason"
+        android:lines="2"
         android:textColor="@android:color/black"
         android:textSize="12sp" />
 
