@@ -50,6 +50,7 @@ public class BookActivity extends Activity implements OnClickListener  {
 	private MenuItem mReading;
 	private ImageView mBookComment;
 	private ArrayList<String> mBooklists = new ArrayList<String>();
+	private ImageView mAddShoppingCard;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +93,15 @@ public class BookActivity extends Activity implements OnClickListener  {
 				Intent intentReading = new Intent();
 				intentReading.setClass(BookActivity.this, BookCommentActivity.class);
 				startActivity(intentReading);
+			}
+		});
+		
+		mAddShoppingCard = (ImageView) findViewById(R.id.add_shopping_car);
+		mAddShoppingCard.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Assist.showToast(BookActivity.this, "[加入購物車] 功能開發中...");				
 			}
 		});
 		
