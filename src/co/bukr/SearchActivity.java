@@ -182,7 +182,7 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 	private void searchBook(String keyWord) {
 		bookCards.clear();
 		Map<String, Object> mapParam = new HashMap<String, Object>();
-		mapParam.put("_ps", "12");
+		mapParam.put("_ps", "33");
 		//mapParam.put("pubName", keyWord);
 		mapParam.put("kw", keyWord);
 		mapParam.put("favi", "1");
