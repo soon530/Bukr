@@ -99,6 +99,7 @@ public class ReadingFragment extends Fragment implements OnRefreshListener {
 		Map<String, Object> mapParam = new HashMap<String, Object>();
 		mapParam.put("cycle", "i");
 		mapParam.put("favi", "1");
+		mapParam.put("_ps", "12");
 		
 		ReqUtil.send("bukrBooks/book/whatsHot", mapParam, new COIMCallListener() {
 			@Override
