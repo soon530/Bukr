@@ -93,21 +93,34 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp" >
+                    >
+
+                    <ImageView
+                        android:id="@+id/add_favorite"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="8dp"
+                        android:padding="0dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/save_button" />
 
                     <ImageView
                         android:id="@+id/add_shopping_car"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="64dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="8dp"
                         android:src="@drawable/add_shooping_car" />
 
                     <ImageView
                         android:id="@+id/book_comment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="16dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="8dp"
                         android:src="@drawable/book_comment" />
+
                 </LinearLayout>
 
                 <TextView
@@ -145,18 +158,10 @@
                 android:layout_height="176dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="64dp"
-                android:scaleType="fitXY" />
+                android:scaleType="fitXY"
+                 />
         </FrameLayout>
 
-        <ImageView
-            android:id="@+id/add_favorite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="340dp"
-            android:padding="0dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/save_button" />
     </FrameLayout>
 
 </ScrollView>
