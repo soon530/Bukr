@@ -68,8 +68,7 @@ public class DrawerAdapter extends ArrayAdapter<DrawerItem> {
 
 		if (position == 4 || position == 5)
 			drawerHolder.icon.setVisibility(View.GONE);
-		
-		
+				
 		return view;
 	}
 

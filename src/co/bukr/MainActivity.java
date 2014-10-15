@@ -71,8 +71,8 @@ public class MainActivity extends Activity implements
 			break;
 
 		case 6:
-			fragment = SettingFragment.newInstance(number);
-			break;
+			//fragment = SettingFragment.newInstance(number);
+			//break;
 
 		case 7:
 			fragment = AboutMeFragment.newInstance(number);
@@ -101,8 +101,8 @@ public class MainActivity extends Activity implements
 			mTitle = getString(R.string.title_shopping_car);
 			break;
 		case 6:
-			mTitle = getString(R.string.title_setting);
-			break;
+			//mTitle = getString(R.string.title_setting);
+			//break;
 		case 7:
 			mTitle = getString(R.string.title_about_me);
 			break;

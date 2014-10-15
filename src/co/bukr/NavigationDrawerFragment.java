@@ -152,7 +152,7 @@ public class NavigationDrawerFragment extends Fragment {
 		dataList.add(new DrawerItem(getString(R.string.title_writing), R.drawable.writing, R.drawable.writing_color));
 		dataList.add(new DrawerItem(getString(R.string.title_bookcase), R.drawable.bookcase, R.drawable.bookcase_color));
 		dataList.add(new DrawerItem(getString(R.string.title_shopping_car), R.drawable.shapping_car, R.drawable.shapping_car_color));
-		dataList.add(new DrawerItem(getString(R.string.title_setting), R.drawable.ic_launcher, R.drawable.ic_launcher));
+		//dataList.add(new DrawerItem(getString(R.string.title_setting), R.drawable.ic_launcher, R.drawable.ic_launcher));
 		dataList.add(new DrawerItem(getString(R.string.title_about_me), R.drawable.ic_launcher, R.drawable.ic_launcher));
 		mAdapter = new DrawerAdapter(getActivity(), R.layout.drawer_item, dataList);
 		
