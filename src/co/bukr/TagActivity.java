@@ -13,11 +13,14 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.drawable.ColorDrawable;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -51,7 +54,9 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		getActionBar().setDisplayHomeAsUpEnabled(true);
+		getActionBar().setIcon(
+				   new ColorDrawable(getResources().getColor(android.R.color.transparent)));
+		getActionBar().setDisplayHomeAsUpEnabled(false);
 		setContentView(R.layout.searchview_filter);
 		
 		
@@ -377,16 +382,22 @@ public class TagActivity extends Activity implements OnQueryTextListener {
         return true;
 	}
 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.add, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
 
 		switch (id) {
-		case android.R.id.home:
+		case R.id.add:
 			finish();
 			break;
-
+			
 		default:
 			break;
 		}
