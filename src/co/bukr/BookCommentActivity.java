@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.coimotion.csdk.common.COIMCallListener;
@@ -36,7 +37,7 @@ public class BookCommentActivity extends Activity {
 	private TextView mContent;
 	private CardListView mListView;
 
-	private Button mAdd;
+	private ImageView mAdd;
 	private EditText mBody;
 
 	@Override
@@ -46,8 +47,8 @@ public class BookCommentActivity extends Activity {
 		getActionBar().setTitle("觀看書評");
 		setContentView(R.layout.book_card_list);
 		mListView = (CardListView) findViewById(R.id.book_card_list);
-		mAdd = (Button) findViewById(R.id.add);
-		mBody = (EditText) findViewById(R.id.comment);
+		mAdd = (ImageView) findViewById(R.id.add);
+		//mBody = (EditText) findViewById(R.id.comment);
 		
 		showComments();
 		
@@ -55,7 +56,7 @@ public class BookCommentActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				addComment();
+				//addComment();
 			}
 
 		});
@@ -128,13 +129,14 @@ public class BookCommentActivity extends Activity {
 								String ucID = jsonBook.getString("ucID");
 								String body = jsonBook.getString("body");
 								String mdTime = jsonBook.getString("mdTime");
+								String dspName = jsonBook.getString("dspName");
 
 								Log.i(LOG_TAG, "ucID: " + ucID);
 								Log.i(LOG_TAG, "body: " + body);
 								Log.i(LOG_TAG, "mdTime: " + mdTime);
 
 								BookListCard bookCard = new BookListCard(getBaseContext(), BookCommentActivity.this);
-								bookCard.setCommentItem(new CommentItem(ucID, body, mdTime));
+								bookCard.setCommentItem(new CommentItem(ucID, body, mdTime, dspName));
 								bookCard.init();
 								bookCards.add(bookCard);
 

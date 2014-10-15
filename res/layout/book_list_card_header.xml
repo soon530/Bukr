@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- This is the InnerContent of Header -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" 
+    android:layout_margin="8dp">
+
+    <!--
+         This is the base Inner View inside a CardHeader.
+         You can customize it with your layout xml file and your CardHeader.
+         You can popolate your elements with CardHeader#setupInnerViewElements(android.view.ViewGroup, android.view.View) method
+    -->
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/profile_pic" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical" 
+        android:layout_marginLeft="8dp">
+
+        <TextView
+            android:id="@+id/card_header_inner_simple_title"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="我是名字"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/card_header_date"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="我是日期"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+</LinearLayout>

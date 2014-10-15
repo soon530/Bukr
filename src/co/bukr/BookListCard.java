@@ -155,7 +155,7 @@ public class BookListCard extends Card {
 	class BookGridCardHeader extends CardHeader {
 
 		public BookGridCardHeader(Context context) {
-			this(context, R.layout.inner_base_header);
+			this(context, R.layout.book_list_card_header);
 		}
 
 		public BookGridCardHeader(Context context, int innerLayout) {
@@ -170,8 +170,14 @@ public class BookListCard extends Card {
 						.findViewById(R.id.card_header_inner_simple_title);
 
 				if (textView != null) {
-					textView.setText("Vic \n" + mCommentItem.mMdTime.substring(0, 10));
+					textView.setText(mCommentItem.mDspName);
 				}
+
+				TextView cardHeaderDate = (TextView) view
+						.findViewById(R.id.card_header_date);
+				cardHeaderDate.setText(mCommentItem.mMdTime.substring(0, 10));
+
+			
 			}
 		}
 	}
