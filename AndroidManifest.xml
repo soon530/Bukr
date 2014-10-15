@@ -70,6 +70,11 @@
             android:name=".BookCommentActivity"
             android:label="觀看評論" >
         </activity>
-    </application>
+        <activity
+            android:windowSoftInputMode="stateAlwaysVisible"
+            android:name=".AddCommentActivity"
+            android:label="撰寫書評" >
+        </activity>
+        </application>
 
 </manifest>

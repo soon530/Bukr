@@ -14,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -32,7 +33,7 @@ import com.coimotion.csdk.util.Assist;
 import com.coimotion.csdk.util.ReqUtil;
 
 public class BookCommentActivity extends Activity {
-	private final static String LOG_TAG = "SearchActivity";
+	private final static String LOG_TAG = "BookCommentActivity";
 
 	private TextView mContent;
 	private CardListView mListView;
@@ -50,13 +51,17 @@ public class BookCommentActivity extends Activity {
 		mAdd = (ImageView) findViewById(R.id.add);
 		//mBody = (EditText) findViewById(R.id.comment);
 		
-		showComments();
 		
 		mAdd.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				//addComment();
+				
+				Intent intentReading = new Intent();
+				intentReading.setClass(BookCommentActivity.this, AddCommentActivity.class);
+				startActivity(intentReading);
+
 			}
 
 		});
@@ -65,38 +70,10 @@ public class BookCommentActivity extends Activity {
 		//mContent.setText(Html.fromHtml(Config.content));
 	}
 	
-	private void addComment() {
-		
-		Map<String, Object> mapParam = new HashMap<String, Object>();
-		mapParam.put("title", "title");
-		mapParam.put("body", mBody.getText());
-		//mapParam.put("kw", keyWord);
-
-		ReqUtil.send("bukrBooks/comment/create/" + Config.bkID, mapParam,
-				new COIMCallListener() {
-
-
-					@Override
-					public void onSuccess(JSONObject result) {
-						mBody.setText("");
-						Log.i(LOG_TAG, "success: " + result);
-
-						JSONArray jsonBooks  = Assist.getList(result);
-						
-						showComments();
-				
-					}
-					
-
-					@Override
-					public void onFail(HttpResponse response,
-							Exception exception) {
-						Log.i(LOG_TAG,
-								"fail: " + exception.getLocalizedMessage());
-
-					}
-				});
-
+	@Override
+	protected void onResume() {
+		showComments();
+		super.onResume();
 	}
 
 	
