@@ -162,6 +162,7 @@ public class BookCommentActivity extends Activity {
 								String body = jsonBook.getString("body");
 								String mdTime = jsonBook.getString("mdTime");
 								String dspName = jsonBook.getString("dspName");
+								String psnID = jsonBook.getString("psnID");
 								
 								String iconURI = "http";
 								if (!jsonBook.isNull("iconURI")) {
@@ -174,7 +175,7 @@ public class BookCommentActivity extends Activity {
 								
 
 								BookListCard bookCard = new BookListCard(getBaseContext(), BookCommentActivity.this);
-								bookCard.setCommentItem(new CommentItem(ucID, body, mdTime, dspName, iconURI));
+								bookCard.setCommentItem(new CommentItem(ucID, body, mdTime, dspName, iconURI, psnID));
 								bookCard.init();
 								bookCards.add(bookCard);
 
@@ -228,5 +229,44 @@ public class BookCommentActivity extends Activity {
 
 		return super.onOptionsItemSelected(item);
 	}
+	
+	
+	protected void showDelDialog() {
+
+		// get prompts.xml view
+		//LayoutInflater layoutInflater = LayoutInflater.from(this);
+		//View promptView = layoutInflater.inflate(R.layout.input_dialog, null);
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+		//alertDialogBuilder.setView(promptView);
+
+		//final EditText editText = (EditText) promptView.findViewById(R.id.edittext);
+		// setup a dialog window
+		alertDialogBuilder
+				.setCancelable(false)
+				.setTitle("取消收藏")
+				.setMessage("將會取消此書的所有收藏")
+				.setPositiveButton("確認", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						delComment();
+					}
+				})
+				.setNegativeButton("取消",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
+
+		// create an alert dialog
+		AlertDialog alert = alertDialogBuilder.create();
+		alert.show();
+
+	}
+
+
+	protected void delComment() {
+		
+	}
+
 
 }

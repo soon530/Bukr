@@ -182,7 +182,13 @@ public class LoginActivity extends Activity implements OnClickListener {
 				JSONObject jsonBook = Assist.getValue(result);
 				Log.i(LOG_TAG, "success: " + jsonBook);
 				try {
-				
+					
+					if (!jsonBook.isNull("psnID")) {
+						pref.edit().putString("psnID", jsonBook.getString("psnID")).commit();
+					} else {
+						pref.edit().putString("psnID", "-1").commit();
+					}
+					
 					if (!jsonBook.isNull("dspName")) {
 							pref.edit().putString("dspName", jsonBook.getString("dspName")).commit();
 					} else {

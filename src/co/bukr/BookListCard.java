@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,23 +52,30 @@ public class BookListCard extends Card {
 
 	public void init() {
 		CardHeader header = new BookGridCardHeader(getContext());
-//		header.setButtonOverflowVisible(true);
+		
+		SharedPreferences pref = getContext().getSharedPreferences("bukr", 0);
 
-//		header.setPopupMenu(R.menu.popup_edit,
-//				new CardHeader.OnClickCardHeaderPopupMenuListener() {
-//					@Override
-//					public void onMenuItemClick(BaseCard card, MenuItem item) {
-//						int id = item.getItemId();
-//						switch (id) {
-//						case R.id.card_edit:
-//							addFavorite();
-//							break;
-//						default:
-//							break;
-//						}
-//					}
-//				});
+		if (mCommentItem.mPsnID.equals(pref.getString("psnID", "-1"))) {
+		
+		header.setButtonOverflowVisible(true);
 
+		header.setPopupMenu(R.menu.popup_comment,
+				new CardHeader.OnClickCardHeaderPopupMenuListener() {
+					@Override
+					public void onMenuItemClick(BaseCard card, MenuItem item) {
+						int id = item.getItemId();
+						switch (id) {
+						case R.id.del:
+							delComment();
+							//addFavorite();
+							break;
+						default:
+							break;
+						}
+					}
+				});
+		}
+		
 		addCardHeader(header);
 
 //		GplayGridThumb thumbnail = new GplayGridThumb(getContext());
@@ -75,15 +83,15 @@ public class BookListCard extends Card {
 //
 //		addCardThumbnail(thumbnail);
 
-		setOnLongClickListener(new OnLongCardClickListener() {
-			
-			@Override
-			public boolean onLongClick(Card card, View view) {
-				delComment();
-				return true;
-			}
-
-		});
+//		setOnLongClickListener(new OnLongCardClickListener() {
+//			
+//			@Override
+//			public boolean onLongClick(Card card, View view) {
+//				delComment();
+//				return true;
+//			}
+//
+//		});
 
 		
 		
@@ -107,7 +115,7 @@ public class BookListCard extends Card {
 
 	private void delComment() {
 
-		ReqUtil.send("books/comment/delete/" + mCommentItem.mUcID , null,
+		ReqUtil.send(Config.BukrData + "/comment/delete/" + mCommentItem.mUcID , null,
 				new COIMCallListener() {
 
 
