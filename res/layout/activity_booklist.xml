@@ -54,7 +54,7 @@
             android:alpha="0.8"
             android:gravity="center"
             android:scaleType="fitXY"
-            android:src="@drawable/my_favorite_cover" />
+            android:src="@drawable/large5_compressor" />
 
         <LinearLayout
             android:layout_width="match_parent"
