@@ -143,7 +143,7 @@ public class BooklistActivity extends Activity {
 
 						String bkID = jsonBook.getString("bkID");
 						String iconUrl = "http";
-						if (jsonBook.isNull("icon")) {
+						if (!jsonBook.isNull("icon")) {
 							iconUrl = BukrUtlis.getBookIconUrl(jsonBook.getString("icon"));
 						}
 						String title = jsonBook.getString("title");
