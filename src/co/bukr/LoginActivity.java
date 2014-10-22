@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.http.HttpResponse;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -57,6 +58,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 	private EditText mSignupDialogEmail;
 	
 	SharedPreferences pref;
+	private String mFgID;
 
 	@Override
 	public void onBackPressed() {
@@ -154,9 +156,10 @@ public class LoginActivity extends Activity implements OnClickListener {
 			public void onSuccess(JSONObject result) {
 				Log.i(LOG_TAG, "loginBukrFB() result: " + result);
 				pref.edit().putBoolean("login", true).commit();
-
 				showUserProfile();
-				goToHome();
+				
+				CreatRootId();
+				//goToHome();
 			}
 
 			@Override
@@ -228,7 +231,9 @@ public class LoginActivity extends Activity implements OnClickListener {
 					Log.i(LOG_TAG, "success\n" + result);
 					mLoginDialog.dismiss();
 					pref.edit().putBoolean("login", true).commit();
-					goToHome();
+					showUserProfile();
+					CreatRootId();
+					//goToHome();
 
 				} else {
 					Assist.showAlert(LoginActivity.this, Assist.getMessage(result));
@@ -264,7 +269,10 @@ public class LoginActivity extends Activity implements OnClickListener {
 				if (Assist.getErrCode(result) == 0) {
 					Log.i(LOG_TAG, "success\n" + result);
 					mSignupDialog.dismiss();
-					goToHome();
+					showUserProfile();
+					CreatRootId();
+					
+					//goToHome();
 
 				} else {
 					Assist.showAlert(LoginActivity.this, Assist.getMessage(result));
@@ -312,6 +320,99 @@ public class LoginActivity extends Activity implements OnClickListener {
 //		// return super.onOptionsItemSelected(item);
 //		return true;
 //	}
+
+	
+
+	private void CreatRootId() {
+		ReqUtil.send(Config.BukrData+"/faviGroup/list", null, new COIMCallListener() {
+
+			@Override
+			public void onSuccess(JSONObject result) {
+				Log.i(LOG_TAG, "success: "+result);
+				
+				mFgID = "-1";
+				
+				JSONArray jsonBooks  = Assist.getList(result);
+				for(int i = 0; i < jsonBooks.length(); i++)  {
+					JSONObject jsonBook;
+					
+					try {
+						jsonBook = (JSONObject) jsonBooks.get(i);
+						
+						mFgID = jsonBook.getString("fgID");
+						Log.i(LOG_TAG, "fgID: " + mFgID);
+						
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+					
+				}
+				
+				isCreatRootIDOrNot();
+				
+			}
+			
+			
+			public void onFail(HttpResponse response, Exception exception) {
+				Log.i(LOG_TAG, "fail: "+ exception.getLocalizedMessage());
+				
+			}
+		});
+
+	}
+
+
+	protected void isCreatRootIDOrNot() {
+
+		if (mFgID.equals("-1")) { //沒有rootID，所以要自動建一個
+			addFirstTag();
+			
+		}else { // 有FgID，所以存起來就好
+			pref.edit().putString("rootId", mFgID).commit();
+			Config.root = mFgID;
+		}
+		
+		Log.i(LOG_TAG, "fgID root: " + Config.root);
+
+		
+		goToHome();
+	}
+
+
+	private void addFirstTag() {
+		Map<String, Object> mapParam = new HashMap<String, Object>();
+		mapParam.put("title", "所有藏書");
+		//mapParam.put("descTx", "用來收藏自己的書");
+		mapParam.put("share", "0");
+
+		
+		ReqUtil.send(Config.BukrData+"/faviGroup/create", mapParam, new COIMCallListener() {
+
+
+			@Override
+			public void onSuccess(JSONObject result) {
+				Log.i(LOG_TAG, "success: "+result);
+				JSONObject jsonBook = Assist.getValue(result);
+
+				try {
+					pref.edit().putString("rootId", jsonBook.getString("id")).commit();
+					Config.root = jsonBook.getString("id");
+
+					//goToHome();
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			
+			public void onFail(HttpResponse response, Exception exception) {
+				Log.i(LOG_TAG, "fail: "+ exception.getLocalizedMessage());
+				
+			}
+		});
+
+	}
 
 	
 }
