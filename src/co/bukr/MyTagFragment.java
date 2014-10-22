@@ -19,6 +19,7 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -55,6 +56,8 @@ public class MyTagFragment extends Fragment {
 
 	private ImageLoader imageLoader = ImageLoader.getInstance();
 	private TextView mName;
+	private SharedPreferences mPref;
+	private String mRootId;
 
 	public static Fragment newInstance(int sectionNumber) {
 		MyTagFragment fragment = new MyTagFragment();
@@ -75,6 +78,9 @@ public class MyTagFragment extends Fragment {
 
 		// getActionBar().setDisplayHomeAsUpEnabled(true);
 		// setContentView(R.layout.searchview_filter);
+
+		mPref = getActivity().getApplication().getSharedPreferences("bukr", 0);
+		mRootId = mPref.getString("rootId", "-1");
 
 	}
 
@@ -132,7 +138,13 @@ public class MyTagFragment extends Fragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		//mCover.setImageBitmap(Config.book_cover);
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
 		showTags();
+
 	}
 
 	public static Bitmap convertViewToBitmap(View view){
@@ -163,7 +175,7 @@ public class MyTagFragment extends Fragment {
 
 	public void showTags() {
 
-		ReqUtil.send(Config.BukrData+"/faviGroup/list", null, new COIMCallListener() {
+		ReqUtil.send(Config.BukrData+"/faviGroup/list/" + mRootId , null, new COIMCallListener() {
 
 			@Override
 			public void onSuccess(JSONObject result) {
