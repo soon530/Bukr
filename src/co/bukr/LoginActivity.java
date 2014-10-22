@@ -369,10 +369,10 @@ public class LoginActivity extends Activity implements OnClickListener {
 			
 		}else { // 有FgID，所以存起來就好
 			pref.edit().putString("rootId", mFgID).commit();
-			Config.root = mFgID;
+			//Config.root = mFgID;
 		}
 		
-		Log.i(LOG_TAG, "fgID root: " + Config.root);
+		//Log.i(LOG_TAG, "fgID root: " + Config.root);
 
 		
 		goToHome();
@@ -396,7 +396,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 
 				try {
 					pref.edit().putString("rootId", jsonBook.getString("id")).commit();
-					Config.root = jsonBook.getString("id");
+					//Config.root = jsonBook.getString("id");
 
 					//goToHome();
 				} catch (JSONException e) {

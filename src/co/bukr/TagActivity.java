@@ -425,7 +425,7 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 		Map<String, Object> mapParam = new HashMap<String, Object>();
 		mapParam.put("bkID", Config.bkID);
 
-		ReqUtil.send(Config.BukrData+"/faviGroup/addBook/" + Config.root, mapParam, new COIMCallListener() {
+		ReqUtil.send(Config.BukrData+"/faviGroup/addBook/" + mRootId, mapParam, new COIMCallListener() {
 
 
 			@Override
