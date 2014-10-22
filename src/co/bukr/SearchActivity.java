@@ -210,7 +210,7 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 
 								String bkID = jsonBook.getString("bkID");
 								String iconURI = "http";
-								if (jsonBook.isNull("icon")) {
+								if (!jsonBook.isNull("icon")) {
 									iconURI = BukrUtlis.getBookIconUrl(jsonBook.getString("icon"));
 								}
 								
