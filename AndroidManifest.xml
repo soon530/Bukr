@@ -18,19 +18,19 @@
         android:theme="@style/AppTheme" >
         <meta-data
             android:name="coim_app_key"
-            android:value="ab2b2c86-cd6e-a51a-a800-b56fb9fefd3b" />
+            android:value="ef072a5d-c1ab-682a-617a-9699f6762d7d" />
         <meta-data
             android:name="coim_app_code"
-            android:value="BukrTW" />
+            android:value="bukruat" />
         <meta-data
             android:name="coim_debug"
             android:value="true" />
         <meta-data
             android:name="coim_fb_app_id"
-            android:value="\ 1459466694315536" />
+            android:value="\ 344328739029238" />
         <meta-data
             android:name="coim_test_server"
-            android:value="true" />
+            android:value="false" />
 
         <activity
             android:name=".MainActivity"
