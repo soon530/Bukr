@@ -14,7 +14,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -41,6 +44,8 @@ public class BookCommentActivity extends Activity {
 	private ImageView mAdd;
 	private EditText mBody;
 
+	private SharedPreferences mPref;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -58,16 +63,66 @@ public class BookCommentActivity extends Activity {
 			public void onClick(View v) {
 				//addComment();
 				
-				Intent intentReading = new Intent();
-				intentReading.setClass(BookCommentActivity.this, AddCommentActivity.class);
-				startActivity(intentReading);
+				if (mPref.getBoolean("login", false) == false) {
+					showLoginAgainDialog();
+					//goLogin();
+				} else {
 
+				
+				
+					Intent intentReading = new Intent();
+					intentReading.setClass(BookCommentActivity.this, AddCommentActivity.class);
+					startActivity(intentReading);
+				}
 			}
 
 		});
 		
+		mPref = getApplication().getSharedPreferences("bukr", 0);
+
 		//mContent = (TextView) findViewById(R.id.content);
 		//mContent.setText(Html.fromHtml(Config.content));
+	}
+	
+	
+	private void showLoginAgainDialog() {
+		// get prompts.xml view
+		//LayoutInflater layoutInflater = LayoutInflater.from(this);
+		//View promptView = layoutInflater.inflate(R.layout.input_dialog, null);
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+		//alertDialogBuilder.setView(promptView);
+
+		//final EditText editText = (EditText) promptView.findViewById(R.id.edittext);
+		// setup a dialog window
+		alertDialogBuilder
+				.setCancelable(false)
+				.setTitle("提醒一下")
+				.setMessage("這個功能只有會員才能使用，要現在註冊/登入嗎？")
+				.setPositiveButton("登入", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+
+						goLogin();
+					}
+				})
+				.setNegativeButton("知道了",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
+
+		// create an alert dialog
+		AlertDialog alert = alertDialogBuilder.create();
+		alert.show();
+		
+	}
+
+	private void goLogin() {
+
+		Intent intent = new Intent();
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		intent.setClass(getBaseContext(), LoginActivity.class);
+		startActivity(intent);
 	}
 	
 	@Override
