@@ -80,12 +80,12 @@ public class BookCommentActivity extends Activity {
 	void showComments() {
 		final ArrayList<Card> bookCards = new ArrayList<Card>();
 
-		//Map<String, Object> mapParam = new HashMap<String, Object>();
-		//mapParam.put("_ps", "12");
+		Map<String, Object> mapParam = new HashMap<String, Object>();
+		mapParam.put("icon", "1");
 		//mapParam.put("pubName", keyWord);
 		//mapParam.put("kw", keyWord);
 		
-		ReqUtil.send(Config.BukrData + "/comment/list/" + Config.bkID, null,
+		ReqUtil.send(Config.BukrData + "/comment/list/" + Config.bkID, mapParam,
 				new COIMCallListener() {
 
 
@@ -107,13 +107,19 @@ public class BookCommentActivity extends Activity {
 								String body = jsonBook.getString("body");
 								String mdTime = jsonBook.getString("mdTime");
 								String dspName = jsonBook.getString("dspName");
-
+								
+								String iconURI = "http";
+								if (!jsonBook.isNull("iconURI")) {
+									iconURI = jsonBook.getString("iconURI");
+								}
+								
 								Log.i(LOG_TAG, "ucID: " + ucID);
 								Log.i(LOG_TAG, "body: " + body);
 								Log.i(LOG_TAG, "mdTime: " + mdTime);
+								
 
 								BookListCard bookCard = new BookListCard(getBaseContext(), BookCommentActivity.this);
-								bookCard.setCommentItem(new CommentItem(ucID, body, mdTime, dspName));
+								bookCard.setCommentItem(new CommentItem(ucID, body, mdTime, dspName, iconURI));
 								bookCard.init();
 								bookCards.add(bookCard);
 

@@ -37,6 +37,8 @@ public class BookListCard extends Card {
 
 	private BookCommentActivity mbookCommentActivity;
 
+	private ImageLoader imageLoader = ImageLoader.getInstance();
+
 	public BookListCard(Context context, BookCommentActivity bookCommentActivity) {
 		super(context, R.layout.carddemo_cursor_inner_content);
 		mbookCommentActivity = bookCommentActivity;
@@ -166,6 +168,13 @@ public class BookListCard extends Card {
 		public void setupInnerViewElements(ViewGroup parent, View view) {
 
 			if (view != null) {
+				ImageView icon = (ImageView) view.findViewById(R.id.icon);
+				imageLoader.displayImage(
+						mCommentItem.mIconURI,
+						icon, Config.OPTIONS_ICON, null);
+
+				
+				
 				TextView textView = (TextView) view
 						.findViewById(R.id.card_header_inner_simple_title);
 

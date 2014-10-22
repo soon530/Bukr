@@ -21,7 +21,7 @@ public class Config {
 	.cacheInMemory(true)
 	.cacheOnDisc(true)
 	.displayer(new RoundedBitmapDisplayer(1000))
-	.showImageOnFail(R.drawable.image_on_fail)
+	.showImageOnFail(R.drawable.profile_pic)
 	.bitmapConfig(Bitmap.Config.RGB_565)
 	//.showImageOnLoading(R.drawable.photo_mother_loading)
 	.build();
