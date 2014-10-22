@@ -134,13 +134,15 @@ public class BookActivity extends Activity implements OnClickListener  {
 					mAddFavorite.setImageResource(R.drawable.save_button);
 					mHasAdd = false;
 					//編輯收藏要換字
-					mEdit.setTitle("加入收藏");
+					if (mEdit!=null)
+						mEdit.setTitle("加入收藏");
 
 				} else {
 					mAddFavorite.setImageResource(R.drawable.done_button);
 					mHasAdd = true;
 					//編輯收藏要換字
-					mEdit.setTitle("編輯收藏");
+					if (mEdit!=null)
+						mEdit.setTitle("編輯收藏");
 				}
 
 				//這本書已加入的「書單」有那些？先存起來，方便等一下全部取消用
