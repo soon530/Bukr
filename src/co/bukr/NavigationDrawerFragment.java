@@ -7,7 +7,10 @@ import com.coimotion.csdk.util.Assist;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -71,6 +74,8 @@ public class NavigationDrawerFragment extends Fragment {
 	public static DrawerItemHolder mOldHolder;
 	private int mOldPosition = 1;
 
+	private SharedPreferences mPref;
+
     public NavigationDrawerFragment() {
     }
 
@@ -90,6 +95,9 @@ public class NavigationDrawerFragment extends Fragment {
 
         // Select either the default item (0) or the last selected item.
         selectItem(mCurrentSelectedPosition);
+        
+		mPref = getActivity().getApplication().getSharedPreferences("bukr", 0);
+
     }
 
     @Override
@@ -113,11 +121,24 @@ public class NavigationDrawerFragment extends Fragment {
                 
 				if (position == 0) //首面圖
 					return;
+
+				
+				if (position == 3)  {//我的收藏
+					
+					if (mPref.getBoolean("login", false) == false) {
+						showLoginAgainDialog();
+						return;
+						//goLogin();
+					} else {
+
+					}
+				}
 				
 				if (position == 4) { //購物車
 					Assist.showToast(getActivity(), "[購物車] 功能開發中...");				
 					return;
 				}
+				
 				
             	DrawerItemHolder holder = (DrawerItemHolder) view.getTag(); 
             	
@@ -163,6 +184,47 @@ public class NavigationDrawerFragment extends Fragment {
         return mDrawerListView;
     }
 
+	private void showLoginAgainDialog() {
+		// get prompts.xml view
+		//LayoutInflater layoutInflater = LayoutInflater.from(this);
+		//View promptView = layoutInflater.inflate(R.layout.input_dialog, null);
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+		//alertDialogBuilder.setView(promptView);
+
+		//final EditText editText = (EditText) promptView.findViewById(R.id.edittext);
+		// setup a dialog window
+		alertDialogBuilder
+				.setCancelable(false)
+				.setTitle("提醒一下")
+				.setMessage("這個功能只有會員才能使用，要現在註冊/登入嗎？")
+				.setPositiveButton("登入", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+
+						goLogin();
+					}
+				})
+				.setNegativeButton("知道了",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
+
+		// create an alert dialog
+		AlertDialog alert = alertDialogBuilder.create();
+		alert.show();
+		
+	}
+
+	private void goLogin() {
+
+		Intent intent = new Intent();
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		intent.setClass(getActivity(), LoginActivity.class);
+		startActivity(intent);
+	}
+
+    
     public boolean isDrawerOpen() {
         return mDrawerLayout != null && mDrawerLayout.isDrawerOpen(mFragmentContainerView);
     }
