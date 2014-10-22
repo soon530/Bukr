@@ -348,9 +348,15 @@ public class BookActivity extends Activity implements OnClickListener  {
 //			Assist.showToast(BookActivity.this, "分享功能開發...");
 //			break;
 		case R.id.action_edit:
-			Intent intentTag = new Intent();
-			intentTag.setClass(this, TagActivity.class);
-			startActivity(intentTag);
+			
+			if (mPref.getBoolean("login", false) == false) {
+				showLoginAgainDialog();
+			} else {
+			
+				Intent intentTag = new Intent();
+				intentTag.setClass(this, TagActivity.class);
+				startActivity(intentTag);
+			}
 			break;
 
 		default:
