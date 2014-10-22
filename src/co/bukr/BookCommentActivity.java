@@ -81,7 +81,7 @@ public class BookCommentActivity extends Activity {
 		final ArrayList<Card> bookCards = new ArrayList<Card>();
 
 		Map<String, Object> mapParam = new HashMap<String, Object>();
-		mapParam.put("icon", "1");
+		//mapParam.put("icon", "1");
 		//mapParam.put("pubName", keyWord);
 		//mapParam.put("kw", keyWord);
 		
