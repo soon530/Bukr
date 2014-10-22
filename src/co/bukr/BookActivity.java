@@ -53,6 +53,7 @@ public class BookActivity extends Activity implements OnClickListener  {
 	private ArrayList<String> mBooklists = new ArrayList<String>();
 	private ImageView mAddShoppingCard;
 	private SharedPreferences mPref;
+	private MenuItem mEdit;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -132,9 +133,14 @@ public class BookActivity extends Activity implements OnClickListener  {
 				if ( jsonBooks.length() == 0 /*Assist.getErrCode(result) == 0*/) {
 					mAddFavorite.setImageResource(R.drawable.save_button);
 					mHasAdd = false;
+					//編輯收藏要換字
+					mEdit.setTitle("加入收藏");
+
 				} else {
 					mAddFavorite.setImageResource(R.drawable.done_button);
 					mHasAdd = true;
+					//編輯收藏要換字
+					mEdit.setTitle("編輯收藏");
 				}
 
 				//這本書已加入的「書單」有那些？先存起來，方便等一下全部取消用
@@ -146,14 +152,13 @@ public class BookActivity extends Activity implements OnClickListener  {
 						Log.i(LOG_TAG, "title: " + jsonBook.getString("fgID"));
 						
 						String fgID = jsonBook.getString("fgID");
-						mBooklists .add(fgID);
+						mBooklists.add(fgID);
 						
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
 					
 				}
-
 				
 			}
 			
@@ -264,6 +269,7 @@ public class BookActivity extends Activity implements OnClickListener  {
 		
 		mHasAdd = false;
 		mAddFavorite.setImageResource(R.drawable.save_button);
+		mEdit.setTitle("加入收藏");
 
 	}
 	
@@ -309,6 +315,11 @@ public class BookActivity extends Activity implements OnClickListener  {
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.book, menu);
 		mReading = menu.findItem(R.id.action_reading);
+		
+		//if (mEdit == null) {
+			mEdit =	menu.findItem(R.id.action_edit);
+		//}
+		
 		
 		showBookDetail();
 
