@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.http.HttpResponse;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
@@ -173,6 +174,30 @@ public class LoginActivity extends Activity implements OnClickListener {
 			@Override
 			public void onSuccess(JSONObject result) {
 				Log.i(LOG_TAG, "showUserProfile() success: "+result);
+				
+				
+				JSONObject jsonBook = Assist.getValue(result);
+				Log.i(LOG_TAG, "success: " + jsonBook);
+				try {
+				
+					if (!jsonBook.isNull("dspName")) {
+							pref.edit().putString("dspName", jsonBook.getString("dspName")).commit();
+					} else {
+						pref.edit().putString("dspName", "匿名").commit();
+					}
+					
+					if (!jsonBook.isNull("iconURI")) {
+						pref.edit().putString("iconURI", jsonBook.getString("iconURI")).commit();
+					} else {
+						pref.edit().putString("iconURI", "").commit();
+					}
+					
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				
 			}
 			
 			@Override

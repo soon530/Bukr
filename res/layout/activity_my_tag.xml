@@ -64,9 +64,9 @@
 
             <ImageView
                 android:id="@+id/icon"
-                android:layout_width="78dp"
-                android:layout_height="78dp"
-                android:scaleType="fitXY"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:scaleType="centerInside"
                 android:src="@drawable/profile_pic" />
 
             <TextView

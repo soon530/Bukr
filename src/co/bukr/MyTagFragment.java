@@ -32,11 +32,13 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.coimotion.csdk.common.COIMCallListener;
 import com.coimotion.csdk.util.Assist;
 import com.coimotion.csdk.util.ReqUtil;
 import com.felipecsl.abslistviewhelper.library.AbsListViewHelper;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class MyTagFragment extends Fragment {
 	private final static String LOG_TAG = "MyTagActivity";
@@ -49,6 +51,10 @@ public class MyTagFragment extends Fragment {
 	private ArrayList<Card> mBookCards = new ArrayList<Card>();
 	private CardGridArrayAdapter mCardArrayAdapter;
 	private ImageView mCover;
+	private ImageView mIcon;
+
+	private ImageLoader imageLoader = ImageLoader.getInstance();
+	private TextView mName;
 
 	public static Fragment newInstance(int sectionNumber) {
 		MyTagFragment fragment = new MyTagFragment();
@@ -105,6 +111,19 @@ public class MyTagFragment extends Fragment {
 
 		helper = new AbsListViewHelper(mListView, savedInstanceState)
 				.setHeaderView(mHeaderView);
+		
+		
+		mIcon = (ImageView) rootView.findViewById(R.id.icon);
+		
+		String url = getActivity().getApplication().getSharedPreferences("bukr", 0).getString("iconURI", "http");
+		
+		imageLoader.displayImage(
+				url,
+				mIcon, Config.OPTIONS_ICON, null);
+		
+		mName = (TextView) rootView.findViewById(R.id.name);
+		String name = getActivity().getApplication().getSharedPreferences("bukr", 0).getString("dspName", "N/A");
+		mName.setText(name);
 
 		return rootView;
 	}

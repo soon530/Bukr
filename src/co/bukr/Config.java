@@ -3,6 +3,7 @@ package co.bukr;
 import android.graphics.Bitmap;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 
 public class Config {
@@ -15,6 +16,18 @@ public class Config {
 	//.showImageOnLoading(R.drawable.photo_mother_loading)
 	.build();
 
+	public static final DisplayImageOptions OPTIONS_ICON 
+	= new DisplayImageOptions.Builder()
+	.cacheInMemory(true)
+	.cacheOnDisc(true)
+	.displayer(new RoundedBitmapDisplayer(1000))
+	.showImageOnFail(R.drawable.image_on_fail)
+	.bitmapConfig(Bitmap.Config.RGB_565)
+	//.showImageOnLoading(R.drawable.photo_mother_loading)
+	.build();
+
+	
+	
 	public static String bkID = ""; 
 	public static String content = "";
 	public static String fgID="";
