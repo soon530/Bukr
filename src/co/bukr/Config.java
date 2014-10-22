@@ -19,9 +19,13 @@ public class Config {
 	public static String content = "";
 	public static String fgID="";
 	public static String COIM_APP_KEY = "ef072a5d-c1ab-682a-617a-9699f6762d7d";
+	public static String COIM_SERVER_URL = "bukruat.coimapi.tw";
 	public static String my_favorite_title="";
 	public static Bitmap book_cover = null;
 	public static String book0 = "";
 	public static String book1 = "";
 	public static String book2 = "";
+	public static String BukrData = "bukruat";
+	public static String CoimtionData = "book";
+	
 }

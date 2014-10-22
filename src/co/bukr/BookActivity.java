@@ -118,7 +118,7 @@ public class BookActivity extends Activity implements OnClickListener  {
 		//Map<String, Object> mapParam = new HashMap<String, Object>();
 		//mapParam.put("bkID", Config.bkID);
 
-		ReqUtil.send("bukrBooks/faviGroup/contains/"+Config.bkID, null, new COIMCallListener() {
+		ReqUtil.send(Config.BukrData+"/faviGroup/contains/"+Config.bkID, null, new COIMCallListener() {
 
 			@Override
 			public void onSuccess(JSONObject result) {
@@ -222,7 +222,7 @@ public class BookActivity extends Activity implements OnClickListener  {
 		Map<String, Object> mapParam = new HashMap<String, Object>();
 		mapParam.put("bkID", Config.bkID);
 
-		ReqUtil.send("bukrBooks/faviGroup/rmBook/"+ fgID, mapParam, new COIMCallListener() {
+		ReqUtil.send(Config.BukrData + "/faviGroup/rmBook/"+ fgID, mapParam, new COIMCallListener() {
 			
 
 			@Override
@@ -250,35 +250,6 @@ public class BookActivity extends Activity implements OnClickListener  {
 		Intent intentTag = new Intent();
 		intentTag.setClass(this, TagActivity.class);
 		startActivity(intentTag);
-		
-//		Map<String, Object> mapParam = new HashMap<String, Object>();
-//		mapParam.put("bkID", Config.bkID);
-//
-//		ReqUtil.send("Bookcase/tag/addBook/3", mapParam, new COIMCallListener() {
-//			
-//
-//			@Override
-//			public void onSuccess(JSONObject result) {
-//				Log.i(LOG_TAG, "success: "+result);
-//				//JSONArray jsonBooks  = Assist.getList(result);
-//				
-//				if (Assist.getErrCode(result) == 0) {
-//					Assist.showToast(getBaseContext(), "加入收藏成功!");
-//					mAddFavorite.setImageResource(R.drawable.done_button);
-//					mHasAdd = true;
-//
-//				} else {
-//					Assist.showToast(getBaseContext(), "書櫃中已有此本書!");
-//				}
-//			}
-//			
-//			@Override
-//			public void onFail(HttpResponse response, Exception exception) {
-//				Log.i(LOG_TAG, "fail: "+ exception.getLocalizedMessage());
-//				
-//			}
-//		});
-		
 	}
 
 
@@ -332,10 +303,10 @@ public class BookActivity extends Activity implements OnClickListener  {
 		Map<String, Object> mapParam = new HashMap<String, Object>();
 		mapParam.put("record", "1");
 		mapParam.put("info", "1");
-		mapParam.put("waCode", "bukrBooks");
+		mapParam.put("waCode", "bukruat");
 
 		//public data
-		ReqUtil.send("twBook/book/info/" + Config.bkID, mapParam,
+		ReqUtil.send(Config.CoimtionData + "/book/info/" + Config.bkID, mapParam,
 				new COIMCallListener() {
 
 					//private BooksAdapter adapter;
@@ -351,13 +322,22 @@ public class BookActivity extends Activity implements OnClickListener  {
 							
 
 							//String bkID = jsonBook.getString("bksID");
-							String icon = jsonBook.getString("icon");
+							String icon = "http";
+							if (!jsonBook.isNull("icon")) {
+								icon = jsonBook.getString("icon");
+							}
 							String title = jsonBook.getString("title");
 							String author = jsonBook.getString("author");
 							String publisher = jsonBook.getString("publisher");
 							String price = jsonBook.getString("price");
 							String sellPrice = getSellPrice(jsonBook.getInt("price"));
-							String bnAbstract = jsonBook.getString("bnAbstract");
+							
+							
+							String bnAbstract = "";
+							if (!jsonBook.isNull("bnAbstract") ) {
+								bnAbstract = jsonBook.getString("bnAbstract");
+							}
+							
 							String bnExerpt = "";
 							if (!jsonBook.isNull("bnExcerpt")) {
 								bnExerpt = jsonBook.getString("bnExcerpt");

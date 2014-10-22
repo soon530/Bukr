@@ -72,7 +72,7 @@ public class AddCommentActivity extends Activity {
 		mapParam.put("body", mNote.getText());
 		//mapParam.put("kw", keyWord);
 
-		ReqUtil.send("bukrBooks/comment/create/" + Config.bkID, mapParam,
+		ReqUtil.send(Config.BukrData + "/comment/create/" + Config.bkID, mapParam,
 				new COIMCallListener() {
 
 

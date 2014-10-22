@@ -129,7 +129,7 @@ public class BooklistActivity extends Activity {
 //		mapParam.put("cycle", "i");
 //		mapParam.put("favi", "1");
 		
-		ReqUtil.send("bukrBooks/faviGroup/listBooks/" + Config.fgID, null, new COIMCallListener() {
+		ReqUtil.send( Config.BukrData+"/faviGroup/listBooks/" + Config.fgID, null, new COIMCallListener() {
 			@Override
 			public void onSuccess(JSONObject result) {
 				Log.i(LOG_TAG, "success: "+result);
@@ -142,7 +142,10 @@ public class BooklistActivity extends Activity {
 						jsonBook = (JSONObject) jsonBooks.get(i);
 
 						String bkID = jsonBook.getString("bkID");
-						String iconUrl = BukrUtlis.getBookIconUrl(jsonBook.getString("icon"));
+						String iconUrl = "http";
+						if (jsonBook.isNull("icon")) {
+							iconUrl = BukrUtlis.getBookIconUrl(jsonBook.getString("icon"));
+						}
 						String title = jsonBook.getString("title");
 						String author = jsonBook.getString("author");
 						boolean isFavi = true;  //jsonBook.getInt("isFavi") == 1 ? true : false;

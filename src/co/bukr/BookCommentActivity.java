@@ -85,7 +85,7 @@ public class BookCommentActivity extends Activity {
 		//mapParam.put("pubName", keyWord);
 		//mapParam.put("kw", keyWord);
 		
-		ReqUtil.send("bukrBooks/comment/list/" + Config.bkID, null,
+		ReqUtil.send(Config.BukrData + "/comment/list/" + Config.bkID, null,
 				new COIMCallListener() {
 
 

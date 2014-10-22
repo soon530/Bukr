@@ -144,7 +144,7 @@ public class MyTagFragment extends Fragment {
 
 	public void showTags() {
 
-		ReqUtil.send("bukrBooks/faviGroup/list", null, new COIMCallListener() {
+		ReqUtil.send(Config.BukrData+"/faviGroup/list", null, new COIMCallListener() {
 
 			@Override
 			public void onSuccess(JSONObject result) {
@@ -236,7 +236,7 @@ public class MyTagFragment extends Fragment {
 		Map<String, Object> mapParam = new HashMap<String, Object>();
 		mapParam.put("title", title);
 
-		ReqUtil.send("bukrBooks/faviGroup/update/" + favorite.mFgID, mapParam,
+		ReqUtil.send(Config.BukrData+"/faviGroup/update/" + favorite.mFgID, mapParam,
 				new COIMCallListener() {
 
 					@Override
@@ -292,7 +292,7 @@ public class MyTagFragment extends Fragment {
 		// Map<String, Object> mapParam = new HashMap<String, Object>();
 		// mapParam.put("title", title);
 
-		ReqUtil.send("bukrBooks/faviGroup/remove/" + favoriteItem.mFgID, null,
+		ReqUtil.send(Config.BukrData + "/faviGroup/remove/" + favoriteItem.mFgID, null,
 				new COIMCallListener() {
 
 					@Override

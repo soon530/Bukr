@@ -183,7 +183,7 @@ public class BookcaseGridCard extends Card {
 //		mapParam.put("cycle", "i");
 //		mapParam.put("favi", "1");
 		
-		ReqUtil.send("bukrBooks/faviGroup/listBooks/" + mFavoriteItem.mFgID, null, new COIMCallListener() {
+		ReqUtil.send(Config.BukrData + "/faviGroup/listBooks/" + mFavoriteItem.mFgID, null, new COIMCallListener() {
 			@Override
 			public void onSuccess(JSONObject result) {
 				Log.i(LOG_TAG, "success: "+result);

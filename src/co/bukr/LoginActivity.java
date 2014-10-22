@@ -151,7 +151,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 			public void onSuccess(JSONObject result) {
 				Log.i(LOG_TAG, "loginBukrFB() result: " + result);
 				showUserProfile();
-//				goToHome();
+				goToHome();
 			}
 
 			@Override

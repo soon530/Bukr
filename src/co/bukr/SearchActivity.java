@@ -105,7 +105,7 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 	private void scanBook(final String scanContent) {
 		Map<String, Object> mapParam = new HashMap<String, Object>();
 		mapParam.put("ISBN", scanContent);
-		ReqUtil.send("twBook/book/search", mapParam,
+		ReqUtil.send(Config.CoimtionData+"/book/search", mapParam,
 				new COIMCallListener() {
 					@Override
 					public void onSuccess(JSONObject result) {
@@ -187,7 +187,7 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 		mapParam.put("kw", keyWord);
 		mapParam.put("favi", "1");
 		
-		ReqUtil.send("twBook/book/search", mapParam,
+		ReqUtil.send(Config.CoimtionData+"/book/search", mapParam,
 				new COIMCallListener() {
 
 
@@ -209,7 +209,11 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 								//Log.i(LOG_TAG, "book: " + jsonBook);
 
 								String bkID = jsonBook.getString("bkID");
-								String iconURI = BukrUtlis.getBookIconUrl(jsonBook.getString("icon"));
+								String iconURI = "http";
+								if (jsonBook.isNull("icon")) {
+									iconURI = BukrUtlis.getBookIconUrl(jsonBook.getString("icon"));
+								}
+								
 								String title = jsonBook.getString("title");
 								String author = jsonBook.getString("author");
 								boolean isFavi =  jsonBook.getInt("isFavi") == 1 ? true : false;

@@ -7,7 +7,7 @@ public class BukrUtlis {
 	static String getBookIconUrl(String icon) {
 		String uri = new Uri.Builder()
 				.scheme("http")
-				.authority("bukrtw.skinapi.com")
+				.authority(Config.COIM_SERVER_URL)
 				.appendPath("books")
 				.appendPath("auxi")
 				.appendPath("node")

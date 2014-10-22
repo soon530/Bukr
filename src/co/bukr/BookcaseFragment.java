@@ -144,7 +144,7 @@ public class BookcaseFragment extends Fragment implements OnRefreshListener, OnQ
 		//mapParam.put("descTx", "用來收藏自己的書");
 		//mapParam.put("share", "1");
 
-		ReqUtil.send("bukrBooks/faviGroup/listBooks/" + Config.fgID, null, new COIMCallListener() {
+		ReqUtil.send(Config.BukrData+"/faviGroup/listBooks/" + Config.fgID, null, new COIMCallListener() {
 
 			@Override
 			public void onSuccess(JSONObject result) {
@@ -160,7 +160,11 @@ public class BookcaseFragment extends Fragment implements OnRefreshListener, OnQ
 
 						
 						String bkID = jsonBook.getString("bkID");
-						String iconURI = BukrUtlis.getBookIconUrl(jsonBook.getString("icon"));
+						
+						String iconURI = "http";
+						if (!jsonBook.isNull("icon")) {
+							BukrUtlis.getBookIconUrl(jsonBook.getString("icon"));
+						}
 						String title = jsonBook.getString("title");
 						String author = jsonBook.getString("author");
 						boolean isFavi = true; //jsonBook.getInt("isFavi") == 1 ? true : false;

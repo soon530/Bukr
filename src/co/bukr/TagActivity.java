@@ -161,7 +161,7 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 
     private void getBookTags() {
     	mBookTags = "";
-		ReqUtil.send("bukrBooks/faviGroup/contains/" + Config.bkID, null, new COIMCallListener() {
+		ReqUtil.send(Config.BukrData+"/faviGroup/contains/" + Config.bkID, null, new COIMCallListener() {
 
 
 			@Override
@@ -220,7 +220,7 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 		Map<String, Object> mapParam = new HashMap<String, Object>();
 		mapParam.put("bkID", Config.bkID);
 
-		ReqUtil.send("bukrBooks/faviGroup/rmBook/" + fgID, mapParam, new COIMCallListener() {
+		ReqUtil.send(Config.BukrData+"/faviGroup/rmBook/" + fgID, mapParam, new COIMCallListener() {
 
 
 			@Override
@@ -241,7 +241,7 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 		Map<String, Object> mapParam = new HashMap<String, Object>();
 		mapParam.put("bkID", Config.bkID);
 
-		ReqUtil.send("bukrBooks/faviGroup/addBook/" + fgID, mapParam, new COIMCallListener() {
+		ReqUtil.send(Config.BukrData+"/faviGroup/addBook/" + fgID, mapParam, new COIMCallListener() {
 
 
 			@Override
@@ -273,7 +273,7 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 		//mapParam.put("descTx", "用來收藏自己的書");
 		//mapParam.put("share", "1");
 
-		ReqUtil.send("bukrBooks/faviGroup/list", null, new COIMCallListener() {
+		ReqUtil.send(Config.BukrData+"/faviGroup/list", null, new COIMCallListener() {
 
 
 			@Override
@@ -317,7 +317,7 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 	
 	private void delTag(String fgID) {
 		
-		ReqUtil.send("bukrBooks/faviGroup/remove/" + fgID, null, new COIMCallListener() {
+		ReqUtil.send(Config.BukrData+"/faviGroup/remove/" + fgID, null, new COIMCallListener() {
 
 
 			@Override
@@ -351,7 +351,7 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 		mapParam.put("share", "0");
 
 		
-		ReqUtil.send("bukrBooks/faviGroup/create", mapParam, new COIMCallListener() {
+		ReqUtil.send(Config.BukrData+"/faviGroup/create", mapParam, new COIMCallListener() {
 
 
 			@Override
