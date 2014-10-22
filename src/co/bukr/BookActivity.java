@@ -13,6 +13,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Html;
@@ -51,6 +52,7 @@ public class BookActivity extends Activity implements OnClickListener  {
 	private ImageView mBookComment;
 	private ArrayList<String> mBooklists = new ArrayList<String>();
 	private ImageView mAddShoppingCard;
+	private SharedPreferences mPref;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +106,8 @@ public class BookActivity extends Activity implements OnClickListener  {
 				Assist.showToast(BookActivity.this, "[加入購物車] 功能開發中...");				
 			}
 		});
+		
+		mPref = getApplication().getSharedPreferences("bukr", 0);
 		
 	}
 	
@@ -164,13 +168,59 @@ public class BookActivity extends Activity implements OnClickListener  {
 
 	@Override
 	public void onClick(View v) {
-		
-		if (mHasAdd) {
-			showDelDialog();
+		if (mPref.getBoolean("login", false) == false) {
+			showLoginAgainDialog();
+			//goLogin();
 		} else {
-			addFavorite();
+		
+			if (mHasAdd) {
+				showDelDialog();
+			} else {
+				addFavorite();
+			}
 		}
 	}
+
+	private void showLoginAgainDialog() {
+		// get prompts.xml view
+		//LayoutInflater layoutInflater = LayoutInflater.from(this);
+		//View promptView = layoutInflater.inflate(R.layout.input_dialog, null);
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+		//alertDialogBuilder.setView(promptView);
+
+		//final EditText editText = (EditText) promptView.findViewById(R.id.edittext);
+		// setup a dialog window
+		alertDialogBuilder
+				.setCancelable(false)
+				.setTitle("提醒一下")
+				.setMessage("這個功能只有會員才能使用，要現在註冊/登入嗎？")
+				.setPositiveButton("登入", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+
+						goLogin();
+					}
+				})
+				.setNegativeButton("知道了",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
+
+		// create an alert dialog
+		AlertDialog alert = alertDialogBuilder.create();
+		alert.show();
+		
+	}
+
+	private void goLogin() {
+
+		Intent intent = new Intent();
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		intent.setClass(getBaseContext(), LoginActivity.class);
+		startActivity(intent);
+	}
+
 	
 	
 	protected void showDelDialog() {
@@ -390,8 +440,9 @@ public class BookActivity extends Activity implements OnClickListener  {
 	}
 
 	private String getSellPrice(int price) {
-		int sellPrice = (int) (price * 0.9);
-		return String.valueOf(sellPrice);
+		//int sellPrice = (int) (price * 0.9);
+		//return String.valueOf(sellPrice);
+		return "N/A";
 	}
 
 }
