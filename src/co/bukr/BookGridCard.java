@@ -14,8 +14,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -62,9 +65,12 @@ public class BookGridCard extends Card {
 						switch (id) {
 						case R.id.add:
 						case R.id.edit:
-
-							addFavorite();
-							
+							SharedPreferences pref = getContext().getSharedPreferences("bukr", 0);
+							if (pref.getBoolean("login", false) == false) {
+								showLoginAgainDialog();
+							} else {
+								addFavorite();
+							}
 							break;
 						default:
 							break;
@@ -200,4 +206,45 @@ public class BookGridCard extends Card {
 	public void setBookItem(BookItem bookItem) {
 		mBookItem = bookItem;
 	}
+	
+	void showLoginAgainDialog() {
+		// get prompts.xml view
+		//LayoutInflater layoutInflater = LayoutInflater.from(this);
+		//View promptView = layoutInflater.inflate(R.layout.input_dialog, null);
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
+		//alertDialogBuilder.setView(promptView);
+
+		//final EditText editText = (EditText) promptView.findViewById(R.id.edittext);
+		// setup a dialog window
+		alertDialogBuilder
+				.setCancelable(false)
+				.setTitle("提醒一下")
+				.setMessage("這個功能只有會員才能使用，要現在註冊/登入嗎？")
+				.setPositiveButton("登入", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+
+						goLogin();
+					}
+				})
+				.setNegativeButton("知道了",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
+
+		// create an alert dialog
+		AlertDialog alert = alertDialogBuilder.create();
+		alert.show();
+		
+	}
+
+	void goLogin() {
+
+		Intent intent = new Intent();
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		intent.setClass(getContext(), LoginActivity.class);
+		getContext().startActivity(intent);
+	}
+
 }

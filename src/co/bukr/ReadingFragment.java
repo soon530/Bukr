@@ -17,7 +17,9 @@ import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -269,5 +271,7 @@ public class ReadingFragment extends Fragment implements OnRefreshListener {
 	public void onRefreshStarted(View view) {
 		showReading(true);
 	}
+
+	
 
 }
