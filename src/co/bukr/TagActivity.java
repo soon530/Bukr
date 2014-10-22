@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.nfc.Tag;
 import android.os.Bundle;
@@ -49,6 +50,8 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 	private TextView mBookTagsShow;
 	private String mBookTags;
 	private ImageView mAddToBooklist;
+	private SharedPreferences mPref;
+	private String mRootId;
 
 
 	@Override
@@ -84,7 +87,6 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 				} else {
 					addBook(fgID);					
 				}
-				getBookTags();
 				
 //				String fgID = mFgID.get(position);
 //				Log.i(LOG_TAG, "mBookTags:" + mBookTags + ", mTags.get():" + mTags.get(position) + ", contains:" + mBookTags.contains(mTags.get(position)));
@@ -120,8 +122,15 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 				showInputDialog();
 			}
 		});
-		
+
+		mPref = getApplication().getSharedPreferences("bukr", 0);
+		mRootId = mPref.getString("rootId", "-1");
+		Log.i(LOG_TAG, "mRootID: "+ mRootId);
+
+        
 		showTags();
+		
+
 	}
 	
 	protected void showInputDialog() {
@@ -143,7 +152,7 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 					public void onClick(DialogInterface dialog, int id) {
 						//resultText.setText("Hello, " + editText.getText());
 						addTag(editText.getText().toString());
-						showTags();
+						//showTags();
 					}
 				})
 				.setNegativeButton("取消",
@@ -226,7 +235,8 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 			@Override
 			public void onSuccess(JSONObject result) {
 				Log.i(LOG_TAG, "success: "+result);
-				
+				getBookTags();
+
 			}
 			
 			public void onFail(HttpResponse response, Exception exception) {
@@ -247,7 +257,8 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 			@Override
 			public void onSuccess(JSONObject result) {
 				Log.i(LOG_TAG, "success: "+result);
-				
+				getBookTags();
+	
 			}
 			
 			public void onFail(HttpResponse response, Exception exception) {
@@ -273,13 +284,14 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 		//mapParam.put("descTx", "用來收藏自己的書");
 		//mapParam.put("share", "1");
 
-		ReqUtil.send(Config.BukrData+"/faviGroup/list", null, new COIMCallListener() {
+		ReqUtil.send(Config.BukrData+"/faviGroup/list/" + mRootId, null, new COIMCallListener() {
 
 
 			@Override
 			public void onSuccess(JSONObject result) {
 				Log.i(LOG_TAG, "success: "+result);
 				mTags.clear();
+				mFgID.clear();
 				JSONArray jsonBooks  = Assist.getList(result);
 				for(int i = 0; i < jsonBooks.length(); i++)  {
 					JSONObject jsonBook;
@@ -301,7 +313,7 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 				//Collections.reverse(mFgID);
 				mAdapter = new ArrayAdapter<String>(TagActivity.this, R.layout.row_booklist, R.id.checkBox1 , mTags);
 		        mListView.setAdapter(mAdapter);
-		        mListView.setTextFilterEnabled(true);
+		        //mListView.setTextFilterEnabled(true);
 		        //打勾勾
 		        getBookTags();
 			}
@@ -351,14 +363,14 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 		mapParam.put("share", "0");
 
 		
-		ReqUtil.send(Config.BukrData+"/faviGroup/create", mapParam, new COIMCallListener() {
+		ReqUtil.send(Config.BukrData+"/faviGroup/create/"+ mRootId, mapParam, new COIMCallListener() {
 
 
 			@Override
 			public void onSuccess(JSONObject result) {
 				Log.i(LOG_TAG, "success: "+result);
 				
-				mListView.clearTextFilter();
+				//mListView.clearTextFilter();
 				showTags();
 				
 			}
@@ -371,6 +383,8 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 		});
 
 	}
+	
+	
 
 	@Override
 	public boolean onQueryTextChange(String newText) {
@@ -395,7 +409,7 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 
 		switch (id) {
 		case R.id.add:
-			finish();
+			addBookToFirstTag();
 			break;
 			
 		default:
@@ -405,6 +419,29 @@ public class TagActivity extends Activity implements OnQueryTextListener {
 		return super.onOptionsItemSelected(item);
 	}
 
+
+
+	private void addBookToFirstTag() {
+		Map<String, Object> mapParam = new HashMap<String, Object>();
+		mapParam.put("bkID", Config.bkID);
+
+		ReqUtil.send(Config.BukrData+"/faviGroup/addBook/" + Config.root, mapParam, new COIMCallListener() {
+
+
+			@Override
+			public void onSuccess(JSONObject result) {
+				Log.i(LOG_TAG, "success: "+result);
+				finish();
 	
+			}
+			
+			public void onFail(HttpResponse response, Exception exception) {
+				Log.i(LOG_TAG, "fail: "+ exception.getLocalizedMessage());
+				
+			}
+		});
+
+	}
+
 
 }
