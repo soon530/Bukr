@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -53,6 +54,8 @@ public class LoginActivity extends Activity implements OnClickListener {
 	private ImageView mSignupDialogLogin;
 	private EditText mSignupDialogAgain;
 	private EditText mSignupDialogEmail;
+	
+	SharedPreferences pref;
 
 	@Override
 	public void onBackPressed() {
@@ -70,6 +73,11 @@ public class LoginActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		pref = getApplication().getSharedPreferences("bukr", 0);
+		if (pref.getBoolean("login", false) == true) {
+			goToHome();
+		}
+		
 		setContentView(R.layout.activity_login2);
 
 		mLogin = (ImageButton) findViewById(R.id.login_login);
@@ -150,6 +158,8 @@ public class LoginActivity extends Activity implements OnClickListener {
 			@Override
 			public void onSuccess(JSONObject result) {
 				Log.i(LOG_TAG, "loginBukrFB() result: " + result);
+				pref.edit().putBoolean("login", true).commit();
+
 				showUserProfile();
 				goToHome();
 			}
@@ -198,6 +208,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 				if (Assist.getErrCode(result) == 0) {
 					Log.i(LOG_TAG, "success\n" + result);
 					mLoginDialog.dismiss();
+					pref.edit().putBoolean("login", true).commit();
 					goToHome();
 
 				} else {
@@ -253,6 +264,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 	}
 
 	private void goToHome() {
+
 		Intent intent = new Intent();
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		intent.setClass(LoginActivity.this, MainActivity.class);
