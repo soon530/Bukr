@@ -125,11 +125,11 @@ public class BooklistActivity extends Activity {
 
 	private void showReading(final boolean isRefresh) {
 		mBookCards.clear();
-//		Map<String, Object> mapParam = new HashMap<String, Object>();
-//		mapParam.put("cycle", "i");
+		Map<String, Object> mapParam = new HashMap<String, Object>();
+		mapParam.put("_ps", "500");
 //		mapParam.put("favi", "1");
 		
-		ReqUtil.send( Config.BukrData+"/faviGroup/listBooks/" + Config.fgID, null, new COIMCallListener() {
+		ReqUtil.send( Config.BukrData+"/faviGroup/listBooks/" + Config.fgID, mapParam, new COIMCallListener() {
 			@Override
 			public void onSuccess(JSONObject result) {
 				Log.i(LOG_TAG, "success: "+result);
