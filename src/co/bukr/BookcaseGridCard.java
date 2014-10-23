@@ -183,8 +183,8 @@ public class BookcaseGridCard extends Card {
 	
 	private void showReading() {
 		
-//		Map<String, Object> mapParam = new HashMap<String, Object>();
-//		mapParam.put("cycle", "i");
+		Map<String, Object> mapParam = new HashMap<String, Object>();
+		mapParam.put("_ps", "3");
 //		mapParam.put("favi", "1");
 		
 		ReqUtil.send(Config.BukrData + "/faviGroup/listBooks/" + mFavoriteItem.mFgID, null, new COIMCallListener() {
