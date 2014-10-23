@@ -16,10 +16,12 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.MergeCursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -64,7 +66,9 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 		mSearchView.onActionViewExpanded();
 		Log.i(LOG_TAG, "SearchView width: "+mSearchView.getWidth());
 		// 先寫死，之後再用density去算
-		mSearchView.setMaxWidth(500);
+		DisplayMetrics metrics = getResources().getDisplayMetrics();
+		int withDpi = (int) (metrics.density * 280f);
+		mSearchView.setMaxWidth(withDpi);
 		//customizeSearchIcon();
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -186,6 +190,7 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 		//mapParam.put("pubName", keyWord);
 		mapParam.put("kw", keyWord);
 		mapParam.put("favi", "1");
+		mapParam.put("waCode", "bukruat");
 		
 		ReqUtil.send(Config.CoimtionData+"/book/search", mapParam,
 				new COIMCallListener() {
