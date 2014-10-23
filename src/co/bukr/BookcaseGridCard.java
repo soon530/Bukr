@@ -14,6 +14,7 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -51,6 +52,9 @@ public class BookcaseGridCard extends Card {
 	public void init() {
 
 		CardHeader header = new BookGridCardHeader(getContext());
+		
+		SharedPreferences pref = getContext().getSharedPreferences("bukr", 0);
+		if (!mFavoriteItem.mFgID.equals(pref.getString("rootId", "-1"))) {
 		header.setButtonOverflowVisible(true);
 		int popupMenuLayout = R.menu.popup_favorite; 
 
@@ -82,7 +86,7 @@ public class BookcaseGridCard extends Card {
 					}
 
 				});
-
+		}
 		addCardHeader(header);
 
 //		GplayGridThumb thumbnail = new GplayGridThumb(getContext());
