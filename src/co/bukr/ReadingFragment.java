@@ -22,6 +22,7 @@ import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,6 +46,9 @@ public class ReadingFragment extends Fragment implements OnRefreshListener {
 	private ArrayList<Card> mBookCards = new ArrayList<Card>();
 	private CardGridView mGirdView;
 	private PullToRefreshLayout mPullToRefreshLayout;
+
+
+	private AsyncTask<String, Integer, String> mTask;
 
 	public static ReadingFragment newInstance(int sectionNumber) {
 		ReadingFragment fragment = new ReadingFragment();
@@ -103,7 +107,7 @@ public class ReadingFragment extends Fragment implements OnRefreshListener {
 		mapParam.put("favi", "1");
 		mapParam.put("_ps", "33");
 		
-		ReqUtil.send(Config.BukrData+"/book/whatsHot", mapParam, new COIMCallListener() {
+		mTask = ReqUtil.send(Config.BukrData+"/book/whatsHot", mapParam, new COIMCallListener() {
 			@Override
 			public void onSuccess(JSONObject result) {
 				Log.i(LOG_TAG, "success: "+result);
@@ -208,22 +212,22 @@ public class ReadingFragment extends Fragment implements OnRefreshListener {
 		});
 	}
 
-	private void showUserProfile() {
-			
-		ReqUtil.send("core/user/profile", null, new COIMCallListener() {
-			@Override
-			public void onSuccess(JSONObject result) {
-				Log.i(LOG_TAG, "showUserProfile() success: "+result);
-			}
-			
-			@Override
-			public void onFail(HttpResponse response, Exception exception) {
-				Log.i(LOG_TAG, "fail: "+ exception.getLocalizedMessage());
-				
-			}
-		});
-		
-	}
+//	private void showUserProfile() {
+//			
+//		ReqUtil.send("core/user/profile", null, new COIMCallListener() {
+//			@Override
+//			public void onSuccess(JSONObject result) {
+//				Log.i(LOG_TAG, "showUserProfile() success: "+result);
+//			}
+//			
+//			@Override
+//			public void onFail(HttpResponse response, Exception exception) {
+//				Log.i(LOG_TAG, "fail: "+ exception.getLocalizedMessage());
+//				
+//			}
+//		});
+//		
+//	}
 
 	// TODO: Rename method, update argument and hook method into UI event
 /*	public void onButtonPressed(Uri uri) {
@@ -272,6 +276,13 @@ public class ReadingFragment extends Fragment implements OnRefreshListener {
 		showReading(true);
 	}
 
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		if (mTask!=null) {
+			mTask.cancel(true);
+		}
 	
+	}
 
 }

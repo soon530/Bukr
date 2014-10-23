@@ -22,6 +22,7 @@ import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import android.app.Activity;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.content.Intent;
@@ -42,6 +43,9 @@ public class WritingFragment extends Fragment implements OnRefreshListener{
 	private ArrayList<Card> mBookCards = new ArrayList<Card>();
 	private CardGridView mGirdView;
 	private PullToRefreshLayout mPullToRefreshLayout;
+
+
+	private AsyncTask<String, Integer, String> mTask;
 
 	public static WritingFragment newInstance(int sectionNumber) {
 		WritingFragment fragment = new WritingFragment();
@@ -132,7 +136,7 @@ public class WritingFragment extends Fragment implements OnRefreshListener{
 		mapParam.put("favi", "1");
 		mapParam.put("_ps", "33");
 
-		ReqUtil.send(Config.BukrData+"/book/lastCommented", mapParam, new COIMCallListener() {
+		mTask = ReqUtil.send(Config.BukrData+"/book/lastCommented", mapParam, new COIMCallListener() {
 			@Override
 			public void onSuccess(JSONObject result) {
 				Log.i(LOG_TAG, "success: "+result);
@@ -236,6 +240,14 @@ public class WritingFragment extends Fragment implements OnRefreshListener{
 		showReading(true);
 	}
 
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		if (mTask!=null) {
+			mTask.cancel(true);
+		}
+	}
 }
 
 
