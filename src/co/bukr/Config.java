@@ -12,7 +12,7 @@ public class Config {
 	.cacheInMemory(true)
 	.cacheOnDisc(true)
 	.displayer(new SimpleBitmapDisplayer())
-	.showImageOnFail(R.drawable.image_on_fail)
+	.showImageOnFail(R.drawable.book_back)
 	//.showImageOnLoading(R.drawable.photo_mother_loading)
 	.build();
 
