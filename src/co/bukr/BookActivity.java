@@ -421,10 +421,15 @@ public class BookActivity extends Activity implements OnClickListener  {
 							Log.i(LOG_TAG, "sellPrice: " + sellPrice);
 							Log.i(LOG_TAG, "bnExerpt: " + bnExerpt);
 							
-
+							
+							if (icon.equals("http")) {
+								mImageItem.setVisibility(View.GONE);
+							} else {
 							imageLoader.displayImage(
 									BukrUtlis.getBookIconUrl(icon),
 									mImageItem, Config.OPTIONS, null);
+							}
+							
 							mTitle.setText(title);
 							mAuthor.setText(author );
 							mPublisher.setText(publisher );
