@@ -262,7 +262,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 		mapParam.put("email", mSignupDialogEmail.getText().toString());
 		mapParam.put("passwd", mSignupDialogPassword.getText().toString());
 		mapParam.put("passwd2", mSignupDialogAgain.getText().toString());
-
+		mapParam.put("dspName", mSignupDialogName.getText().toString());
 		
 		pDialog = ProgressDialog.show(LoginActivity.this, "", "註冊中…", true);
 
@@ -275,6 +275,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 				if (Assist.getErrCode(result) == 0) {
 					Log.i(LOG_TAG, "success\n" + result);
 					mSignupDialog.dismiss();
+					pref.edit().putBoolean("login", true).commit();
 					showUserProfile();
 					CreatRootId();
 					
