@@ -103,17 +103,17 @@ public class MyTagFragment extends Fragment {
 		
 		mListView = (CardGridView) rootView.findViewById(R.id.list_view);
 
-		mListView.setOnItemClickListener(new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-
-				Config.fgID = mFgID.get(position);
-
-				goBookcase();
-			}
-		});
+//		mListView.setOnItemClickListener(new OnItemClickListener() {
+//
+//			@Override
+//			public void onItemClick(AdapterView<?> parent, View view,
+//					int position, long id) {
+//
+//				Config.fgID = mFgID.get(position);
+//
+//				goBookcase();
+//			}
+//		});
 
 		helper = new AbsListViewHelper(mListView, savedInstanceState)
 				.setHeaderView(mHeaderView);
@@ -144,6 +144,7 @@ public class MyTagFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 		showTags();
+		//showAllBooks();
 
 	}
 
@@ -174,14 +175,23 @@ public class MyTagFragment extends Fragment {
 	}
 
 	public void showTags() {
+		Log.i(LOG_TAG, "showTags mRootId: " + mRootId);
 
 		ReqUtil.send(Config.BukrData+"/faviGroup/list/" + mRootId , null, new COIMCallListener() {
 
 			@Override
 			public void onSuccess(JSONObject result) {
-				Log.i(LOG_TAG, "success: " + result);
+				//Log.i(LOG_TAG, "success: " + result);
+				
 				mTags.clear();
 				mBookCards.clear();
+
+				//先把所有的藏書加入
+				BookcaseGridCard firstBookCard = new BookcaseGridCard(getActivity(), MyTagFragment.this);
+				firstBookCard.setFavoriteItem(new FavoriteItem(mRootId, "所有的藏書"));
+				firstBookCard.init();
+				mBookCards.add(firstBookCard);
+
 				JSONArray jsonBooks = Assist.getList(result);
 				for (int i = 0; i < jsonBooks.length(); i++) {
 					JSONObject jsonBook;
@@ -194,6 +204,9 @@ public class MyTagFragment extends Fragment {
 						String fgID = jsonBook.getString("fgID");
 						mTags.add(title);
 						mFgID.add(fgID);
+						
+						Log.i(LOG_TAG, "showTags fdID: " + fgID);
+
 
 						BookcaseGridCard bookCard = new BookcaseGridCard(
 								getActivity(), MyTagFragment.this);
@@ -225,6 +238,61 @@ public class MyTagFragment extends Fragment {
 		});
 
 	}
+	
+	
+	public void showAllBooks() {
+		Log.i(LOG_TAG, "showTags mRootId: " + mRootId);
+
+		ReqUtil.send(Config.BukrData+"/faviGroup/list", null, new COIMCallListener() {
+
+			@Override
+			public void onSuccess(JSONObject result) {
+				//Log.i(LOG_TAG, "success: " + result);
+				
+				mTags.clear();
+				mBookCards.clear();
+				JSONArray jsonBooks = Assist.getList(result);
+				for (int i = 0; i < jsonBooks.length(); i++) {
+					JSONObject jsonBook;
+
+					try {
+						jsonBook = (JSONObject) jsonBooks.get(i);
+						Log.i(LOG_TAG, "title: " + jsonBook.getString("title"));
+
+						String title = jsonBook.getString("title");
+						String fgID = jsonBook.getString("fgID");
+						mTags.add(title);
+						mFgID.add(fgID);
+						
+						Log.i(LOG_TAG, "showTags fdID: " + fgID);
+
+
+						BookcaseGridCard bookCard = new BookcaseGridCard(
+								getActivity(), MyTagFragment.this);
+						bookCard.setFavoriteItem(new FavoriteItem(fgID, title));
+						bookCard.init();
+						mBookCards.add(bookCard);
+
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+
+				}
+
+				mCardArrayAdapter = new CardGridArrayAdapter(getActivity(),
+						mBookCards);
+				mListView.setAdapter(mCardArrayAdapter);
+
+			}
+
+			public void onFail(HttpResponse response, Exception exception) {
+				Log.i(LOG_TAG, "fail: " + exception.getLocalizedMessage());
+
+			}
+		});
+
+	}
+
 
 	protected void showInputDialog(final FavoriteItem favoriteItem) {
 
