@@ -159,7 +159,7 @@ public class BookcaseGridCard extends Card {
 		mBookBig = (ImageView) view.findViewById(R.id.book_big); 
 		mBookSmall1 = (ImageView) view.findViewById(R.id.book_small1); 
 		mBookSmall2 = (ImageView) view.findViewById(R.id.book_small2); 
-		
+				
 		showReading();
 		
 		/*
@@ -188,6 +188,7 @@ public class BookcaseGridCard extends Card {
 			public void onSuccess(JSONObject result) {
 				Log.i(LOG_TAG, "success: "+result);
 				JSONArray jsonBooks  = Assist.getList(result);
+			
 				
 				for(int i = 0; i < jsonBooks.length(); i++)  {
 					JSONObject jsonBook;
@@ -196,7 +197,13 @@ public class BookcaseGridCard extends Card {
 						jsonBook = (JSONObject) jsonBooks.get(i);
 
 						//String bkID = jsonBook.getString("bkID");
-						String iconUrl = BukrUtlis.getBookIconUrl(jsonBook.getString("icon"));
+						String iconUrl = "http";
+						if (!jsonBook.isNull("icon")) {
+							iconUrl = BukrUtlis.getBookIconUrl(jsonBook.getString("icon"));
+						}
+
+						
+						//String iconUrl = BukrUtlis.getBookIconUrl(jsonBook.getString("icon"));
 						//String title = jsonBook.getString("title");
 						//String author = jsonBook.getString("author");
 						//boolean isFavi = true;  //jsonBook.getInt("isFavi") == 1 ? true : false;
@@ -210,15 +217,27 @@ public class BookcaseGridCard extends Card {
 						
 						switch (i) {
 						case 0:
-							imageLoader.displayImage(iconUrl, mBookBig, Config.OPTIONS, null);
+							if (iconUrl.equals("http")) {
+								mBookBig.setImageResource(R.drawable.image_on_fail);
+							} else {
+								imageLoader.displayImage(iconUrl, mBookBig, Config.OPTIONS, null);
+							}
 							break;
 
 						case 1:
-							imageLoader.displayImage(iconUrl, mBookSmall1, Config.OPTIONS, null);
+							if (iconUrl.equals("http")) {
+								mBookSmall1.setImageResource(R.drawable.image_on_fail);
+							} else {
+								imageLoader.displayImage(iconUrl, mBookSmall1, Config.OPTIONS, null);
+							}
 							break;
 
 						case 2:
-							imageLoader.displayImage(iconUrl, mBookSmall2, Config.OPTIONS, null);
+							if (iconUrl.equals("http")) {
+								mBookSmall2.setImageResource(R.drawable.image_on_fail);
+							} else {
+								imageLoader.displayImage(iconUrl, mBookSmall2, Config.OPTIONS, null);
+							}
 							break;
 
 						default:
@@ -230,6 +249,18 @@ public class BookcaseGridCard extends Card {
 						e.printStackTrace();
 					}
 					
+				}
+
+				
+				if (jsonBooks.length() == 0) {
+					mBookBig.setImageResource(R.drawable.image_on_fail);
+					mBookSmall1.setImageResource(R.drawable.image_on_fail);
+					mBookSmall2.setImageResource(R.drawable.image_on_fail);
+				} if (jsonBooks.length() == 1) {
+					mBookSmall1.setImageResource(R.drawable.image_on_fail);
+					mBookSmall2.setImageResource(R.drawable.image_on_fail);
+				} if (jsonBooks.length() == 2) {
+					mBookSmall2.setImageResource(R.drawable.image_on_fail);
 				}
 				
 			}
