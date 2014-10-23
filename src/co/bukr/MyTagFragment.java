@@ -123,9 +123,14 @@ public class MyTagFragment extends Fragment {
 		
 		String url = getActivity().getApplication().getSharedPreferences("bukr", 0).getString("iconURI", "http");
 		
-		imageLoader.displayImage(
-				url,
-				mIcon, Config.OPTIONS, null);
+		if (url.equals("http")) {
+			
+		} else {
+			
+//			imageLoader.displayImage(
+//					url,
+//					mIcon, Config.OPTIONS, null);
+		}
 		
 		mName = (TextView) rootView.findViewById(R.id.name);
 		String name = getActivity().getApplication().getSharedPreferences("bukr", 0).getString("dspName", "N/A");
