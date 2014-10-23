@@ -387,7 +387,7 @@ public class LoginActivity extends Activity implements OnClickListener {
 
 	private void addFirstTag() {
 		Map<String, Object> mapParam = new HashMap<String, Object>();
-		mapParam.put("title", "所有藏書");
+		mapParam.put("title", "所有的藏書");
 		//mapParam.put("descTx", "用來收藏自己的書");
 		mapParam.put("share", "0");
 
