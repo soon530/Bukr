@@ -151,7 +151,7 @@ public class WritingFragment extends Fragment implements OnRefreshListener{
 						
 						String bkID = jsonBook.getString("bkID");
 						
-						String iconUrl = "";
+						String iconUrl = "http";
 						if (!jsonBook.isNull("icon")) {
 							iconUrl = BukrUtlis.getBookIconUrl(jsonBook.getString("icon"));
 						}
