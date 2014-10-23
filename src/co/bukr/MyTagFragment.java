@@ -125,7 +125,7 @@ public class MyTagFragment extends Fragment {
 		
 		imageLoader.displayImage(
 				url,
-				mIcon, Config.OPTIONS_ICON, null);
+				mIcon, Config.OPTIONS, null);
 		
 		mName = (TextView) rootView.findViewById(R.id.name);
 		String name = getActivity().getApplication().getSharedPreferences("bukr", 0).getString("dspName", "N/A");

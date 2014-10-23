@@ -179,7 +179,7 @@ public class BookListCard extends Card {
 				ImageView icon = (ImageView) view.findViewById(R.id.icon);
 				imageLoader.displayImage(
 						mCommentItem.mIconURI,
-						icon, Config.OPTIONS_ICON, null);
+						icon, Config.OPTIONS, null);
 
 				
 				

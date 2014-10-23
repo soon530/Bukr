@@ -14,10 +14,11 @@
          You can popolate your elements with CardHeader#setupInnerViewElements(android.view.ViewGroup, android.view.View) method
     -->
 
-    <ImageView
+    <co.bukr.RoundedImageView
         android:id="@+id/icon"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:scaleType="fitXY"
         android:src="@drawable/profile_pic" />
 
     <LinearLayout
