@@ -340,7 +340,14 @@ public class LoginActivity extends Activity implements OnClickListener {
 				mFgID = "-1";
 				
 				JSONArray jsonBooks  = Assist.getList(result);
-				for(int i = 0; i < jsonBooks.length(); i++)  {
+				
+				int size = jsonBooks.length();
+				
+				if (size>0) {
+					size =1;
+				}
+				
+				for(int i = 0; i < size; i++)  {
 					JSONObject jsonBook;
 					
 					try {
