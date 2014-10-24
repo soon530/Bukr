@@ -111,7 +111,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="8dp"
+                        android:layout_marginLeft="0dp"
+                        android:layout_weight="1"
                         android:src="@drawable/add_shooping_car" />
 
                     <ImageView
@@ -119,7 +120,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_weight="1"
                         android:src="@drawable/book_comment" />
 
                 </LinearLayout>
