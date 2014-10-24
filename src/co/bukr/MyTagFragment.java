@@ -52,7 +52,7 @@ public class MyTagFragment extends Fragment {
 	private ArrayList<Card> mBookCards = new ArrayList<Card>();
 	private CardGridArrayAdapter mCardArrayAdapter;
 	private ImageView mCover;
-	private ImageView mIcon;
+	private RoundedImageView mIcon;
 
 	private ImageLoader imageLoader = ImageLoader.getInstance();
 	private TextView mName;
@@ -119,17 +119,18 @@ public class MyTagFragment extends Fragment {
 				.setHeaderView(mHeaderView);
 		
 		
-		mIcon = (ImageView) rootView.findViewById(R.id.icon);
+		mIcon = (RoundedImageView) rootView.findViewById(R.id.icon);
 		
 		String url = getActivity().getApplication().getSharedPreferences("bukr", 0).getString("iconURI", "http");
+		Log.i(LOG_TAG, "background: " + url);
 		
-		if (url.equals("http")) {
+		if (url.equals("")) {
 			
 		} else {
 			
-//			imageLoader.displayImage(
-//					url,
-//					mIcon, Config.OPTIONS, null);
+			imageLoader.displayImage(
+					url,
+					mIcon, Config.OPTIONS, null);
 		}
 		
 		mName = (TextView) rootView.findViewById(R.id.name);
