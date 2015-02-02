@@ -372,7 +372,7 @@ public class BookActivity extends Activity implements OnClickListener  {
 		Map<String, Object> mapParam = new HashMap<String, Object>();
 		mapParam.put("record", "1");
 		mapParam.put("info", "1");
-		mapParam.put("waCode", "bukruat");
+		mapParam.put("waCode", Config.WA_CODE);
 
 		//public data
 		ReqUtil.send(Config.CoimtionData + "/book/info/" + Config.bkID, mapParam,

@@ -18,10 +18,10 @@
         android:theme="@style/AppTheme" >
         <meta-data
             android:name="coim_app_key"
-            android:value="ef072a5d-c1ab-682a-617a-9699f6762d7d" />
+            android:value="206a7379-8a22-d654-240e-26783313863c" />
         <meta-data
             android:name="coim_app_code"
-            android:value="bukruat" />
+            android:value="bukrprod" />
         <meta-data
             android:name="coim_debug"
             android:value="true" />

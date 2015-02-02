@@ -25,20 +25,21 @@ public class Config {
 	.bitmapConfig(Bitmap.Config.RGB_565)
 	//.showImageOnLoading(R.drawable.photo_mother_loading)
 	.build();
-
-	
 	
 	public static String bkID = ""; 
 	public static String content = "";
 	public static String fgID="";
-	public static String COIM_APP_KEY = "ef072a5d-c1ab-682a-617a-9699f6762d7d";
-	public static String COIM_SERVER_URL = "bukruat.coimapi.tw";
+	// for image download
+	public static String COIM_APP_KEY = "206a7379-8a22-d654-240e-26783313863c";
+	public static String COIM_SERVER_URL = "bukrprod.coimapi.tw";
+	
 	public static String my_favorite_title="";
 	public static Bitmap book_cover = null;
 	public static String book0 = "";
 	public static String book1 = "";
 	public static String book2 = "";
-	public static String BukrData = "bukruat";
+	public static String BukrData = "bukrprod";
 	public static String CoimtionData = "book";
+	public static String WA_CODE = "bukrprod";
 	
 }

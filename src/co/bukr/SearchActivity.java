@@ -190,7 +190,7 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 		//mapParam.put("pubName", keyWord);
 		mapParam.put("kw", keyWord);
 		mapParam.put("favi", "1");
-		mapParam.put("waCode", "bukruat");
+		mapParam.put("waCode", Config.WA_CODE);
 		
 		ReqUtil.send(Config.CoimtionData+"/book/search", mapParam,
 				new COIMCallListener() {
