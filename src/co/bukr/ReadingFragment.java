@@ -183,7 +183,7 @@ public class ReadingFragment extends Fragment implements OnRefreshListener {
 	
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
-		//showReading(false);
+		showReading(false);
 		//isLoginFB();
 		//showUserProfile();
 		super.onViewCreated(view, savedInstanceState);
@@ -192,7 +192,7 @@ public class ReadingFragment extends Fragment implements OnRefreshListener {
 	@Override
 	public void onResume() {
 		super.onResume();
-		showReading(false);
+		//showReading(false);
 	}
 
 	private void isLoginFB() {

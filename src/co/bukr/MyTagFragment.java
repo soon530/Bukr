@@ -81,7 +81,8 @@ public class MyTagFragment extends Fragment {
 
 		mPref = getActivity().getApplication().getSharedPreferences("bukr", 0);
 		mRootId = mPref.getString("rootId", "-1");
-
+		
+		showTags();
 	}
 
 	@Override
@@ -149,7 +150,6 @@ public class MyTagFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		showTags();
 		//showAllBooks();
 
 	}

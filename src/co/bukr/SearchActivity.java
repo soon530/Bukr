@@ -52,7 +52,11 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		setContentView(R.layout.book_card_grid);
 		mGridView = (CardGridView) findViewById(R.id.book_card_grid);
-		
+	
+		if (!mKeyWork.isEmpty()) {
+			searchBook(mKeyWork);
+		}
+
 	}
 	
 	@Override
@@ -176,9 +180,6 @@ public class SearchActivity extends Activity implements OnQueryTextListener {
 	protected void onResume() {
 		super.onResume();
 		
-		if (!mKeyWork.isEmpty()) {
-			searchBook(mKeyWork);
-		}
 		
 	}
 	

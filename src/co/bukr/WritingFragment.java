@@ -63,6 +63,7 @@ public class WritingFragment extends Fragment implements OnRefreshListener{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
+		showReading(false);
 
 //		if (getArguments() != null) {
 //			mParam1 = getArguments().getString(ARG_PARAM1);
@@ -100,7 +101,7 @@ public class WritingFragment extends Fragment implements OnRefreshListener{
 	@Override
 	public void onResume() {
 		super.onResume();
-		showReading(false);
+		//showReading(false);
 	}
 
 	@Override
